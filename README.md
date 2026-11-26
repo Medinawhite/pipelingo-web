@@ -24,6 +24,10 @@ npm run validate   # validar el contenido
 npm run build      # web estática en dist/
 ```
 
+### Empezar en otra unidad
+
+Ahora la web empieza en **GitHub Actions**: `.env` tiene `VITE_START_UNIT=actions`, y GitHub y Docker cuentan como superadas. Para empezar desde el principio, deja la variable vacía. También puedes poner otra unidad (`docker`, `ghcr`…).
+
 ## Estructura
 
 ```

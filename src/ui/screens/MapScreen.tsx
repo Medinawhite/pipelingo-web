@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type Ref } from "react";
 import { Link } from "react-router-dom";
 import type { CurriculumUnit } from "../../content/types";
 import { nextLesson, type UnitProgress } from "../../domain/progression";
@@ -17,7 +17,7 @@ export function MapScreen() {
   useEffect(() => {
     if (!scrolledOnce && currentRef.current) {
       scrolledOnce = true;
-      currentRef.current.scrollIntoView({ block: "center" });
+      currentRef.current.scrollIntoView({ block: "start" });
     }
   }, []);
 
@@ -33,9 +33,7 @@ export function MapScreen() {
               const up = map.units[journey.units.indexOf(unit)];
               return (
                 <div key={unit.id} style={{ display: "contents" }}>
-                  <div ref={up.status === "current" ? currentRef : undefined} style={{ display: "contents" }}>
-                    <UnitNode unit={unit} up={up} />
-                  </div>
+                  <UnitNode unit={unit} up={up} itemRef={up.status === "current" ? currentRef : undefined} />
                   {unit.bridge && (
                     <div className="map-item">
                       <div className="diamond-wrap" aria-hidden="true">
@@ -78,14 +76,14 @@ export function MapScreen() {
   );
 }
 
-function UnitNode({ unit, up }: { unit: CurriculumUnit; up: UnitProgress }) {
+function UnitNode({ unit, up, itemRef }: { unit: CurriculumUnit; up: UnitProgress; itemRef?: Ref<HTMLDivElement> }) {
   const playable = up.status === "current" || up.status === "done";
   const pct = up.totalTests ? Math.round((up.passedTests / up.totalTests) * 100) : 0;
   const next = nextLesson(up);
   const labCount = unit.lessons.reduce((n, l) => n + content.labs(LEVEL, unit.id, l.id).length, 0);
   const statusLabel = { done: "hecha", current: "actual", available: "disponible", locked: "bloqueada", coming_soon: S.comingSoon }[up.status];
   return (
-    <div className="map-item">
+    <div className="map-item" ref={itemRef} style={{ scrollMarginTop: 80 }}>
       <div className={`node ${up.status === "coming_soon" ? "locked" : up.status}`} role="img" aria-label={`${unit.title}: ${statusLabel}`}>
         {up.status === "done" && <Check size={20} />}
         {(up.status === "locked" || up.status === "coming_soon") && <Lock size={18} />}

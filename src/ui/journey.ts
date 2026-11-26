@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { bundledContent, type ContentRepository } from "../content/repository";
 import type { CurriculumPhase, CurriculumUnit } from "../content/types";
-import { computeProgress, type MapProgress, type UnitOutline } from "../domain/progression";
+import { computeProgress, unitsBefore, type MapProgress, type UnitOutline } from "../domain/progression";
 import { passedSet } from "../state/progress";
 import { useProgress } from "../state/store";
 
@@ -47,7 +47,17 @@ function buildJourney(): Journey {
 
 export const journey = buildJourney();
 
+/**
+ * Where the journey starts (VITE_START_UNIT, see .env). Earlier units count as passed; nothing is
+ * written to the saved progress, so removing the setting restores the full path.
+ */
+export const START_UNIT: string | undefined = import.meta.env.VITE_START_UNIT || undefined;
+const startSkipped = unitsBefore(journey.outlines, START_UNIT);
+
 export function useMap(): MapProgress {
   const p = useProgress();
-  return useMemo(() => computeProgress(journey.outlines, passedSet(p), new Set(p.skippedUnits)), [p]);
+  return useMemo(
+    () => computeProgress(journey.outlines, passedSet(p), new Set([...startSkipped, ...p.skippedUnits])),
+    [p],
+  );
 }

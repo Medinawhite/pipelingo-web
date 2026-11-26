@@ -28,7 +28,7 @@ Puntos en los que la especificación era ambigua o dejaba hueco. En cada uno se 
 19. **Test de acceso.** No se implementa: Mid y Senior aparecen en el registro con "Test de acceso · 20 preguntas" y "Próximamente".
 20. **Lecciones desde el mapa.** La tarjeta de cada unidad jugable lista sus lecciones; `continuar →` abre la primera disponible.
 21. **Puentes y jefes.** Se dibujan en el mapa siempre con "Próximamente", porque no tienen contenido.
-22. **Mapa abierto en la unidad actual.** Al entrar, el mapa se desplaza una vez hasta la unidad actual.
+22. **Mapa abierto en la unidad actual.** Al entrar, el mapa se desplaza una vez hasta la tarjeta de la unidad actual.
 
 ## Propias de la web
 
@@ -42,7 +42,7 @@ Puntos en los que la especificación era ambigua o dejaba hueco. En cada uno se 
 30. **Objetivos.** En terminal van en orden y una vez conseguidos se quedan, porque el estado cambia (el contenedor del objetivo 2 se borra en el 6). En el editor, los objetivos de texto se comprueban en directo y los de `run` quedan conseguidos al ejecutar.
 31. **Persistencia.** El progreso va en `localStorage` (`pipelingo.progress.v1`), con lo mismo que guarda Android más los labs completados. El texto de cada lab de editor también se guarda.
 32. **Reiniciar progreso.** Siempre disponible en el *Perfil*, con confirmación: no hay cuentas y los datos son solo de ese navegador.
-33. **Sin modo de inicio en Actions.** El recorrido empieza en la lección piloto de Docker.
+33. **Empezar en GitHub Actions.** `VITE_START_UNIT=actions` en `.env`: el recorrido empieza en Actions y las unidades anteriores (GitHub y Docker) cuentan como superadas, igual que con un test de salto aprobado. No se guarda nada en el progreso: se calcula al dibujar el mapa, así que vaciar la variable devuelve el recorrido completo. Se aplica también a la web publicada, porque la web se está probando con Actions. Es el equivalente a `START_UNIT` de la build de debug de Android.
 34. **Rutas con `#`.** `HashRouter`, para funcionar en GitHub Pages y en cualquier hosting estático sin reescrituras.
 35. **Ligaduras desactivadas.** JetBrains Mono convierte `--` y `->` en ligaduras; en comandos tiene que verse lo que se escribe.
 36. **Enter en el editor.** Tras una línea que acaba en `:`, Enter sangra dos espacios; si no, mantiene la sangría.

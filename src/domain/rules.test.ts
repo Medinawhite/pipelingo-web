@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { computeProgress, nextLesson, pathToNextLevelPercent, testKey, type UnitOutline } from "./progression";
+import { computeProgress, nextLesson, pathToNextLevelPercent, testKey, unitsBefore, type UnitOutline } from "./progression";
 import { prepare, reviewForTest5, shuffleAvoiding } from "./quizBuilder";
 import {
   applyReviewAnswer,
@@ -123,6 +123,16 @@ describe("progression", () => {
     expect(p.units[1].status).toBe("done");
     expect(p.units[1].skipTestAvailable).toBe(false);
     expect(p.units[2].status).toBe("current");
+  });
+
+  it("starts at a given unit: earlier units count as passed", () => {
+    expect(unitsBefore(units, "actions")).toEqual(["github", "docker"]);
+    expect(unitsBefore(units, "github")).toEqual([]);
+    expect(unitsBefore(units, undefined)).toEqual([]);
+    expect(unitsBefore(units, "nope")).toEqual([]);
+    const p = computeProgress(units, new Set(), new Set(unitsBefore(units, "actions")));
+    expect(p.units.map((u) => u.status)).toEqual(["done", "done", "current"]);
+    expect(nextLesson(p.units[2])?.lessonId).toBe("a1");
   });
 
   it("computes the path to Mid over every test in the curriculum", () => {

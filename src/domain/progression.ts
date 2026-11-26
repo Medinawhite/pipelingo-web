@@ -102,6 +102,15 @@ export function computeProgress(
   };
 }
 
+/**
+ * Units before `startUnitId`, in curriculum order: they count as passed, like a passed skip test.
+ * Empty, missing or unknown ids start at the beginning.
+ */
+export function unitsBefore(units: UnitOutline[], startUnitId: string | undefined): string[] {
+  const index = units.findIndex((u) => u.id === startUnitId);
+  return index <= 0 ? [] : units.slice(0, index).map((u) => u.id);
+}
+
 /** "Camino a Mid": share of all the curriculum's tests that are passed. */
 export const pathToNextLevelPercent = (p: MapProgress) => percent(p.passedTests, p.totalTests);
 
