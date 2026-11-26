@@ -1,0 +1,272 @@
+{
+  "level": "junior",
+  "unit": "actions",
+  "lesson": "secrets-y-permisos",
+  "test": 1,
+  "title": "Reconocer",
+  "questions": [
+    {
+      "id": "actions.secrets-y-permisos.p1.q01",
+      "type": "multiple_choice",
+      "prompt": "¿Dónde se crean los secrets de GitHub Actions?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Settings → Secrets and variables → Actions"
+        },
+        {
+          "id": "b",
+          "text": "En el propio YAML del workflow",
+          "why": "Quedarían a la vista de cualquiera con acceso al repo."
+        },
+        {
+          "id": "c",
+          "text": "En un archivo .env subido al repo",
+          "why": "Lo verían todos los que lean el repo."
+        }
+      ],
+      "answer": "a",
+      "explanation": "GitHub los guarda cifrados y solo los entrega a los workflows cuando se ejecutan.",
+      "tags": [
+        "secrets"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.secrets-y-permisos.p1.q02",
+      "type": "multiple_choice",
+      "prompt": "¿Cómo lees el secret API_KEY en un workflow?",
+      "options": [
+        {
+          "id": "a",
+          "text": "${{ secrets.API_KEY }}"
+        },
+        {
+          "id": "b",
+          "text": "$API_KEY directamente",
+          "why": "Primero hay que pasarlo a env."
+        },
+        {
+          "id": "c",
+          "text": "${{ env.API_KEY }}",
+          "why": "Solo existe si lo has puesto antes en env."
+        }
+      ],
+      "answer": "a",
+      "explanation": "El contexto secrets da acceso a cada secret por su nombre.",
+      "tags": [
+        "secrets"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.secrets-y-permisos.p1.q03",
+      "type": "true_false",
+      "prompt": "GitHub oculta los secrets en los logs mostrándolos como ***.",
+      "answer": true,
+      "explanation": "Si un secret aparece en la salida tal cual, GitHub lo enmascara.",
+      "tags": [
+        "secrets",
+        "logs"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.secrets-y-permisos.p1.q04",
+      "type": "multiple_choice",
+      "prompt": "¿Qué es el GITHUB_TOKEN?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Un token que GitHub crea en cada job para actuar sobre el repo"
+        },
+        {
+          "id": "b",
+          "text": "Tu contraseña de GitHub",
+          "why": "Nunca se usa tu contraseña."
+        },
+        {
+          "id": "c",
+          "text": "Un secret que tienes que crear tú",
+          "why": "Lo crea GitHub automáticamente."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Sirve para hacer checkout, publicar en GHCR o comentar en PR sin crear credenciales.",
+      "tags": [
+        "GITHUB_TOKEN"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.secrets-y-permisos.p1.q05",
+      "type": "true_false",
+      "prompt": "El GITHUB_TOKEN caduca cuando termina el job.",
+      "answer": true,
+      "explanation": "Vive lo que dura el job. Aunque se filtrara, dejaría de servir enseguida.",
+      "tags": [
+        "GITHUB_TOKEN"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.secrets-y-permisos.p1.q06",
+      "type": "multiple_choice",
+      "prompt": "¿Para qué sirve el bloque permissions?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Para decidir qué puede hacer el GITHUB_TOKEN"
+        },
+        {
+          "id": "b",
+          "text": "Para decidir quién ve el repo",
+          "why": "Eso se gestiona en Settings."
+        },
+        {
+          "id": "c",
+          "text": "Para crear secrets",
+          "why": "Los secrets se crean en Settings."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Puedes ponerlo a nivel de workflow o de job.",
+      "tags": [
+        "permissions"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.secrets-y-permisos.p1.q07",
+      "type": "multiple_choice",
+      "prompt": "¿Qué permiso necesita el token para publicar imágenes en GHCR?",
+      "options": [
+        {
+          "id": "a",
+          "text": "packages: write"
+        },
+        {
+          "id": "b",
+          "text": "contents: write",
+          "why": "Es para modificar el código del repo."
+        },
+        {
+          "id": "c",
+          "text": "actions: write",
+          "why": "Es para gestionar workflows."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Los paquetes, incluidas las imágenes de GHCR, tienen su propio permiso.",
+      "tags": [
+        "permissions",
+        "ghcr"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.secrets-y-permisos.p1.q08",
+      "type": "multiple_choice",
+      "prompt": "¿Dónde guardas un dato no sensible, como el nombre del registro?",
+      "options": [
+        {
+          "id": "a",
+          "text": "En variables (vars)"
+        },
+        {
+          "id": "b",
+          "text": "En secrets",
+          "why": "Se puede, pero vars es para lo no sensible y se ve en claro."
+        },
+        {
+          "id": "c",
+          "text": "Repetido en cada workflow",
+          "why": "Mejor en un solo sitio."
+        }
+      ],
+      "answer": "a",
+      "explanation": "vars guarda configuración. secrets, solo lo que no debe verse.",
+      "tags": [
+        "vars"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.secrets-y-permisos.p1.q09",
+      "type": "true_false",
+      "prompt": "Una vez guardado, puedes volver a ver el valor de un secret desde la web.",
+      "answer": false,
+      "explanation": "Solo puedes reemplazarlo o borrarlo. Así nadie con acceso a la web puede copiarlo.",
+      "tags": [
+        "secrets"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.secrets-y-permisos.p1.q10",
+      "type": "multiple_choice",
+      "prompt": "¿Cómo lees la variable REGISTRY guardada en vars?",
+      "options": [
+        {
+          "id": "a",
+          "text": "${{ vars.REGISTRY }}"
+        },
+        {
+          "id": "b",
+          "text": "${{ secrets.REGISTRY }}",
+          "why": "vars y secrets son contextos distintos."
+        },
+        {
+          "id": "c",
+          "text": "$REGISTRY",
+          "why": "Solo existe si la pasas a env."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Igual que secrets, pero con el contexto vars.",
+      "tags": [
+        "vars"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.secrets-y-permisos.p1.q11",
+      "type": "true_false",
+      "prompt": "Puedes crear un secret llamado GITHUB_DEPLOY.",
+      "answer": false,
+      "explanation": "Los nombres no pueden empezar por GITHUB_: ese prefijo está reservado.",
+      "tags": [
+        "secrets"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.secrets-y-permisos.p1.q12",
+      "type": "multiple_choice",
+      "prompt": "¿Qué es el principio de mínimo privilegio?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Dar solo los permisos necesarios"
+        },
+        {
+          "id": "b",
+          "text": "Dar todos los permisos por si acaso",
+          "why": "Si algo se compromete, el daño es máximo."
+        },
+        {
+          "id": "c",
+          "text": "No dar ningún permiso nunca",
+          "why": "Entonces nada funcionaría."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Si un paso se ve comprometido, solo puede hacer lo poco que le diste.",
+      "tags": [
+        "permissions",
+        "seguridad"
+      ],
+      "difficulty": 1
+    }
+  ]
+}

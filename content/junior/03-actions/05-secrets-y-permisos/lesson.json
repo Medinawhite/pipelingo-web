@@ -1,0 +1,8 @@
+{
+  "level": "junior",
+  "unit": "actions",
+  "lesson": "secrets-y-permisos",
+  "order": 5,
+  "title": "Secrets y permisos",
+  "goal": "Guardar credenciales con secrets y dar al GITHUB_TOKEN solo los permisos necesarios."
+}

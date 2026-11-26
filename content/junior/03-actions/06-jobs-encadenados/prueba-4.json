@@ -1,0 +1,230 @@
+{
+  "level": "junior",
+  "unit": "actions",
+  "lesson": "jobs-encadenados",
+  "test": 4,
+  "title": "Depurar",
+  "questions": [
+    {
+      "id": "actions.jobs-encadenados.p4.q01",
+      "type": "find_error",
+      "prompt": "deploy no espera a build. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "jobs:\n  build:\n    runs-on: ubuntu-latest\n  deploy:\n    need: build\n    runs-on: ubuntu-latest"
+      },
+      "answer": [
+        5
+      ],
+      "fix": "    needs: build",
+      "explanation": "La clave es needs, en plural.",
+      "tags": [
+        "needs"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.jobs-encadenados.p4.q02",
+      "type": "find_error",
+      "prompt": "GitHub dice que hay un ciclo entre jobs. ¿Qué línea lo provoca?",
+      "code": {
+        "lang": "yaml",
+        "content": "jobs:\n  test:\n    needs: deploy\n  deploy:\n    needs: test"
+      },
+      "answer": [
+        3
+      ],
+      "fix": "Quitar needs: deploy: test no debe esperar a deploy",
+      "explanation": "Si cada uno espera al otro, ninguno arranca. El orden va en un solo sentido.",
+      "tags": [
+        "needs"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.jobs-encadenados.p4.q03",
+      "type": "find_error",
+      "prompt": "setup-node recibe un valor vacío. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "strategy:\n  matrix:\n    node: [18, 20]\nsteps:\n  - uses: actions/setup-node@v4\n    with:\n      node-version: ${{ node }}"
+      },
+      "answer": [
+        7
+      ],
+      "fix": "      node-version: ${{ matrix.node }}",
+      "explanation": "El valor vive en el contexto matrix: ${{ matrix.node }}.",
+      "tags": [
+        "matrix"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.jobs-encadenados.p4.q04",
+      "type": "find_error",
+      "prompt": "El job test no encuentra el artefacto. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "# job build\n- uses: actions/upload-artifact@v4\n  with:\n    name: apk\n    path: app/build/outputs/apk/\n# job test\n- uses: actions/download-artifact@v4\n  with:\n    name: app-apk"
+      },
+      "answer": [
+        9
+      ],
+      "fix": "    name: apk",
+      "explanation": "El nombre al descargar tiene que ser el mismo que al subir.",
+      "tags": [
+        "artefactos"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.jobs-encadenados.p4.q05",
+      "type": "find_error",
+      "prompt": "Cambias las dependencias y se sigue restaurando la caché vieja. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "- uses: actions/cache@v4\n  with:\n    path: ~/.npm\n    key: npm-cache"
+      },
+      "answer": [
+        4
+      ],
+      "fix": "    key: npm-${{ hashFiles('**/package-lock.json') }}",
+      "explanation": "Una key fija nunca cambia. Con hashFiles, la key cambia cuando cambia el lockfile.",
+      "tags": [
+        "cache"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.jobs-encadenados.p4.q06",
+      "type": "find_error",
+      "prompt": "deploy imprime vacío. ¿Debajo de qué línea falta declarar las salidas del job build?",
+      "code": {
+        "lang": "yaml",
+        "content": "jobs:\n  build:\n    runs-on: ubuntu-latest\n    steps:\n      - id: meta\n        run: echo \"tag=1.0\" >> $GITHUB_OUTPUT\n  deploy:\n    needs: build\n    runs-on: ubuntu-latest\n    steps:\n      - run: echo ${{ needs.build.outputs.tag }}"
+      },
+      "answer": [
+        3
+      ],
+      "fix": "    outputs:\n      tag: ${{ steps.meta.outputs.tag }}",
+      "explanation": "Las salidas de un step no salen del job solas: el job tiene que declararlas en outputs.",
+      "tags": [
+        "outputs",
+        "needs"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.jobs-encadenados.p4.q07",
+      "type": "find_error",
+      "prompt": "deploy se ejecuta aunque fallen los tests. ¿Qué línea sobra?",
+      "code": {
+        "lang": "yaml",
+        "content": "deploy:\n  needs: test\n  if: always()\n  runs-on: ubuntu-latest"
+      },
+      "answer": [
+        3
+      ],
+      "fix": "Quitar if: always()",
+      "explanation": "always() hace que el job corra pase lo que pase. En un despliegue eso es peligroso.",
+      "tags": [
+        "needs",
+        "funciones"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.jobs-encadenados.p4.q08",
+      "type": "find_error",
+      "prompt": "A veces test no encuentra el artefacto. ¿Debajo de qué línea falta algo?",
+      "code": {
+        "lang": "yaml",
+        "content": "jobs:\n  build:\n    runs-on: ubuntu-latest\n  test:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/download-artifact@v4\n        with:\n          name: apk"
+      },
+      "answer": [
+        4
+      ],
+      "fix": "    needs: build",
+      "explanation": "Sin needs, test arranca a la vez que build, antes de que el artefacto exista.",
+      "tags": [
+        "needs",
+        "artefactos"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.jobs-encadenados.p4.q09",
+      "type": "find_error",
+      "prompt": "GitHub no reconoce la matrix. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "test:\n  runs-on: ubuntu-latest\n  matrix:\n    node: [18, 20]"
+      },
+      "answer": [
+        3
+      ],
+      "fix": "  strategy:\n    matrix:",
+      "explanation": "matrix va dentro de strategy. Directamente en el job no es válida.",
+      "tags": [
+        "matrix"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.jobs-encadenados.p4.q10",
+      "type": "find_error",
+      "prompt": "upload-artifact no sabe qué subir. ¿Debajo de qué línea falta algo?",
+      "code": {
+        "lang": "yaml",
+        "content": "- uses: actions/upload-artifact@v4\n  with:\n    name: apk"
+      },
+      "answer": [
+        3
+      ],
+      "fix": "    path: app/build/outputs/apk/",
+      "explanation": "path indica qué archivos o carpetas se suben. Sin él no hay nada que guardar.",
+      "tags": [
+        "artefactos"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.jobs-encadenados.p4.q11",
+      "type": "find_error",
+      "prompt": "GitHub dice que el job «build, test» no existe. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "deploy:\n  needs: build, test\n  runs-on: ubuntu-latest"
+      },
+      "answer": [
+        2
+      ],
+      "fix": "  needs: [build, test]",
+      "explanation": "Sin corchetes, YAML lo lee como un solo texto. Para varios jobs, usa una lista.",
+      "tags": [
+        "needs",
+        "yaml"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.jobs-encadenados.p4.q12",
+      "type": "find_error",
+      "prompt": "Todas las combinaciones de la matrix corren en Ubuntu. ¿Qué línea cambiarías?",
+      "code": {
+        "lang": "yaml",
+        "content": "strategy:\n  matrix:\n    os: [ubuntu-latest, windows-latest]\nruns-on: ubuntu-latest"
+      },
+      "answer": [
+        4
+      ],
+      "fix": "runs-on: ${{ matrix.os }}",
+      "explanation": "Para que cada copia use su sistema, runs-on tiene que leer el valor de la matrix.",
+      "tags": [
+        "matrix",
+        "runs-on"
+      ],
+      "difficulty": 2
+    }
+  ]
+}

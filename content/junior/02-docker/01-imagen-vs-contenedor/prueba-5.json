@@ -1,0 +1,175 @@
+{
+  "level": "junior",
+  "unit": "docker",
+  "lesson": "imagen-vs-contenedor",
+  "test": 5,
+  "title": "Dominar",
+  "questions": [
+    {
+      "id": "docker.imagen-vs-contenedor.p5.q01",
+      "type": "order_steps",
+      "prompt": "Ordena los pasos para ver nginx en tu navegador partiendo de cero.",
+      "steps": [
+        { "id": "s1", "text": "docker pull nginx" },
+        { "id": "s2", "text": "docker run -d --name web -p 8080:80 nginx" },
+        { "id": "s3", "text": "docker ps para comprobar que está Up" },
+        { "id": "s4", "text": "Abrir http://localhost:8080" }
+      ],
+      "answer": ["s1", "s2", "s3", "s4"],
+      "explanation": "Descargar, arrancar publicando el puerto, comprobar y probar. Este mismo orden lo seguirá después el pipeline.",
+      "tags": ["pull", "run", "ps", "puertos"],
+      "difficulty": 2
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p5.q02",
+      "type": "order_steps",
+      "prompt": "Ordena los pasos para eliminar el contenedor web y la imagen nginx.",
+      "steps": [
+        { "id": "s1", "text": "docker ps para localizar el contenedor" },
+        { "id": "s2", "text": "docker stop web" },
+        { "id": "s3", "text": "docker rm web" },
+        { "id": "s4", "text": "docker rmi nginx" }
+      ],
+      "answer": ["s1", "s2", "s3", "s4"],
+      "explanation": "Primero se detiene el contenedor, después se borra y, cuando ninguno la usa, se borra la imagen.",
+      "tags": ["stop", "rm", "rmi"],
+      "difficulty": 2
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p5.q03",
+      "type": "order_steps",
+      "prompt": "web corre con nginx:1.26. Ordena los pasos para pasarlo a nginx:1.27.",
+      "steps": [
+        { "id": "s1", "text": "docker pull nginx:1.27" },
+        { "id": "s2", "text": "docker stop web" },
+        { "id": "s3", "text": "docker rm web" },
+        { "id": "s4", "text": "docker run -d --name web -p 8080:80 nginx:1.27" }
+      ],
+      "answer": ["s1", "s2", "s3", "s4"],
+      "acceptAlso": [["s2", "s3", "s1", "s4"], ["s2", "s1", "s3", "s4"]],
+      "explanation": "Un contenedor no cambia de imagen: se recrea. Descargar primero reduce el tiempo que la web está caída.",
+      "tags": ["tags", "stop", "rm", "run"],
+      "difficulty": 3
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p5.q04",
+      "type": "order_steps",
+      "prompt": "El contenedor api se cae nada más arrancar. Ordena los pasos para investigarlo.",
+      "steps": [
+        { "id": "s1", "text": "docker ps -a para ver su estado" },
+        { "id": "s2", "text": "docker logs api para leer el error" },
+        { "id": "s3", "text": "Corregir la causa del error" },
+        { "id": "s4", "text": "docker start api y comprobar con docker ps" }
+      ],
+      "answer": ["s1", "s2", "s3", "s4"],
+      "explanation": "Estado, logs, corrección y prueba: es el bucle básico de depuración, en Docker y después en OpenShift.",
+      "tags": ["ps", "logs", "start"],
+      "difficulty": 2
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p5.q05",
+      "type": "multiple_choice",
+      "prompt": "Un compañero dice: \"He descargado la imagen nueva, pero el contenedor sigue con la versión vieja\". ¿Qué le falta?",
+      "options": [
+        { "id": "a", "text": "Hacer docker restart", "why": "restart reinicia el contenedor con su misma imagen de siempre." },
+        { "id": "b", "text": "Recrear el contenedor con la imagen nueva" },
+        { "id": "c", "text": "Revisar docker logs", "why": "Los logs no cambian la imagen que usa el contenedor." }
+      ],
+      "answer": "b",
+      "explanation": "La imagen de un contenedor se fija al crearlo. Para usar otra versión: rm del viejo y run del nuevo.",
+      "tags": ["imagen", "contenedor", "tags"],
+      "difficulty": 3
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p5.q06",
+      "type": "fill_command",
+      "prompt": "Arranca nginx 1.27 en segundo plano, con nombre web y el puerto 8080 de tu máquina apuntando al 80.",
+      "template": "docker run {{b1}} --name web -p {{b2}} nginx:1.27",
+      "blanks": { "b1": ["-d", "--detach"], "b2": ["8080:80"] },
+      "explanation": "Este es el comando completo de un servicio típico: segundo plano, nombre, puerto y versión fija.",
+      "tags": ["run", "detach", "puertos", "tags"],
+      "difficulty": 3
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p5.q07",
+      "type": "find_error",
+      "prompt": "Docker intenta descargar una imagen que no existe. ¿Qué línea tiene el error?",
+      "code": { "lang": "bash", "content": "docker pull nginx:1.27\ndocker run -d --name web -p 8080:80 nginx:1.72" },
+      "answer": [2],
+      "fix": "docker run -d --name web -p 8080:80 nginx:1.27",
+      "explanation": "El tag de run no coincide con el descargado: Docker busca nginx:1.72, que no existe. Revisa siempre el tag.",
+      "tags": ["tags"],
+      "difficulty": 2
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p5.q08",
+      "type": "true_false",
+      "prompt": "docker restart web arranca el contenedor con la versión más reciente de su imagen.",
+      "answer": false,
+      "explanation": "restart para y arranca el mismo contenedor, con la misma imagen. Cambiar de versión exige recrearlo.",
+      "tags": ["restart", "imagen"],
+      "difficulty": 2
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p5.q09",
+      "type": "multiple_choice",
+      "prompt": "El contenedor web está en marcha. ¿Qué secuencia lo elimina por completo?",
+      "options": [
+        { "id": "a", "text": "docker rmi web", "why": "rmi borra imágenes, y web es un contenedor." },
+        { "id": "b", "text": "docker stop web", "why": "Solo lo detiene: seguiría en docker ps -a." },
+        { "id": "c", "text": "docker stop web y después docker rm web" }
+      ],
+      "answer": "c",
+      "explanation": "stop lo detiene y rm lo elimina. Comprueba con docker ps -a que ya no aparece.",
+      "tags": ["stop", "rm"],
+      "difficulty": 2
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p5.q10",
+      "type": "match",
+      "prompt": "Empareja cada pregunta con el comando que la responde.",
+      "pairs": [
+        { "left": "¿Está corriendo?", "right": "docker ps" },
+        { "left": "¿Por qué se ha caído?", "right": "docker logs" },
+        { "left": "¿Qué hay dentro?", "right": "docker exec -it web sh" },
+        { "left": "¿Qué imágenes tengo?", "right": "docker images" }
+      ],
+      "explanation": "Estas cuatro preguntas resuelven casi cualquier problema con un contenedor.",
+      "tags": ["ps", "logs", "exec", "images"],
+      "difficulty": 2
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p5.q11",
+      "type": "multiple_choice",
+      "prompt": "Tu app guarda datos dentro del contenedor y lo borras con docker rm. ¿Qué pasa con esos datos?",
+      "options": [
+        { "id": "a", "text": "Se pierden" },
+        { "id": "b", "text": "Se guardan en la imagen", "why": "La imagen es de solo lectura; el contenedor no la modifica." },
+        { "id": "c", "text": "Se suben al registro", "why": "Nada se sube sin un docker push." }
+      ],
+      "answer": "a",
+      "explanation": "Lo escrito en un contenedor muere con él. Para conservar datos se usan volúmenes, que verás más adelante.",
+      "tags": ["contenedor", "datos"],
+      "difficulty": 2
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p5.q12",
+      "type": "true_false",
+      "prompt": "Dos contenedores creados de la misma imagen ven los archivos que modifica el otro.",
+      "answer": false,
+      "explanation": "Cada contenedor tiene su propia capa de escritura. Comparten la imagen, pero no los cambios.",
+      "tags": ["contenedor", "capas"],
+      "difficulty": 3
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p5.q13",
+      "type": "fill_command",
+      "prompt": "Detén y borra el contenedor web, que está en marcha, con un único comando.",
+      "template": "docker rm {{b1}} web",
+      "blanks": { "b1": ["-f", "--force"] },
+      "explanation": "-f para el contenedor y lo borra de golpe. Es cómodo, pero no deja terminar a la app de forma ordenada.",
+      "tags": ["rm"],
+      "difficulty": 3
+    }
+  ]
+}

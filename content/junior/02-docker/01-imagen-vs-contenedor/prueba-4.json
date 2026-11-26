@@ -1,0 +1,152 @@
+{
+  "level": "junior",
+  "unit": "docker",
+  "lesson": "imagen-vs-contenedor",
+  "test": 4,
+  "title": "Depurar",
+  "questions": [
+    {
+      "id": "docker.imagen-vs-contenedor.p4.q01",
+      "type": "find_error",
+      "prompt": "El contenedor tarea se ejecutó, pero no aparece en la lista. ¿Qué línea hay que cambiar?",
+      "code": { "lang": "bash", "content": "docker run --name tarea alpine echo hecho\ndocker ps" },
+      "answer": [2],
+      "fix": "docker ps -a",
+      "explanation": "El contenedor hizo su tarea y terminó. Está parado, y docker ps sin -a solo lista los que corren.",
+      "tags": ["ps"],
+      "difficulty": 1
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p4.q02",
+      "type": "find_error",
+      "prompt": "Quieres volver a arrancar el contenedor web. ¿Qué línea devuelve el error?",
+      "code": { "lang": "bash", "content": "docker stop web\ndocker run web" },
+      "answer": [2],
+      "fix": "docker start web",
+      "explanation": "run espera el nombre de una imagen, y web es un contenedor. Para reanudar uno parado se usa start.",
+      "tags": ["start", "run"],
+      "difficulty": 2
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p4.q03",
+      "type": "find_error",
+      "prompt": "No puedes abrir la web en localhost:8080. ¿Qué línea hay que corregir?",
+      "code": { "lang": "bash", "content": "docker run -d --name web nginx\ncurl http://localhost:8080" },
+      "answer": [1],
+      "fix": "docker run -d --name web -p 8080:80 nginx",
+      "explanation": "Sin -p el puerto del contenedor no se publica en tu máquina: nginx corre, pero nadie de fuera llega a él.",
+      "tags": ["puertos"],
+      "difficulty": 2
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p4.q04",
+      "type": "find_error",
+      "prompt": "nginx escucha en el puerto 80, pero en localhost:8080 no responde. ¿Qué línea está mal?",
+      "code": { "lang": "bash", "content": "docker run -d --name web -p 80:8080 nginx\ncurl http://localhost:8080" },
+      "answer": [1],
+      "fix": "docker run -d --name web -p 8080:80 nginx",
+      "explanation": "El orden es host:contenedor. Aquí se publicó el 80 de tu máquina hacia un 8080 del contenedor en el que no escucha nadie.",
+      "tags": ["puertos"],
+      "difficulty": 2
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p4.q05",
+      "type": "find_error",
+      "prompt": "Docker responde: \"Conflict. The container name /web is already in use\". ¿Qué línea lo provoca?",
+      "code": { "lang": "bash", "content": "docker run -d --name web nginx\ndocker stop web\ndocker run -d --name web nginx" },
+      "answer": [3],
+      "fix": "docker start web",
+      "explanation": "Un contenedor parado sigue existiendo y conserva su nombre. O lo reanudas con start, o lo borras antes con rm.",
+      "tags": ["name", "start", "rm"],
+      "difficulty": 2
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p4.q06",
+      "type": "find_error",
+      "prompt": "Docker responde: \"cannot remove container: container is running\". ¿Qué línea lo provoca?",
+      "code": { "lang": "bash", "content": "docker run -d --name web nginx\ndocker rm web" },
+      "answer": [2],
+      "fix": "docker stop web && docker rm web",
+      "explanation": "No se borra un contenedor en marcha: primero se detiene. rm -f lo fuerza, pero úsalo sabiendo lo que haces.",
+      "tags": ["rm", "stop"],
+      "difficulty": 2
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p4.q07",
+      "type": "find_error",
+      "prompt": "Quieres borrar la imagen nginx. ¿Qué línea no hace lo que esperas?",
+      "code": { "lang": "bash", "content": "docker stop web\ndocker rm web\ndocker rm nginx" },
+      "answer": [3],
+      "fix": "docker rmi nginx",
+      "explanation": "rm borra contenedores y rmi borra imágenes. La imagen solo se puede borrar cuando ningún contenedor la usa.",
+      "tags": ["rmi", "rm"],
+      "difficulty": 2
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p4.q08",
+      "type": "find_error",
+      "prompt": "La terminal se queda llena de logs de nginx y no puedes escribir más comandos. ¿Qué línea hay que cambiar?",
+      "code": { "lang": "bash", "content": "docker run --name web -p 8080:80 nginx\ndocker ps" },
+      "answer": [1],
+      "fix": "docker run -d --name web -p 8080:80 nginx",
+      "explanation": "Sin -d el contenedor ocupa tu terminal. Con -d corre en segundo plano y sus logs los ves cuando quieras.",
+      "tags": ["run", "detach"],
+      "difficulty": 1
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p4.q09",
+      "type": "find_error",
+      "prompt": "Quieres ver los logs en directo, pero el comando termina enseguida. ¿Qué línea hay que cambiar?",
+      "code": { "lang": "bash", "content": "docker run -d --name web nginx\ndocker logs web" },
+      "answer": [2],
+      "fix": "docker logs -f web",
+      "explanation": "Sin -f, logs muestra lo que hay hasta ahora y sale. Con -f se queda esperando mensajes nuevos.",
+      "tags": ["logs"],
+      "difficulty": 1
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p4.q10",
+      "type": "find_error",
+      "prompt": "Docker responde: \"pull access denied for nginx-1.27\". ¿Qué línea está mal?",
+      "code": { "lang": "bash", "content": "docker run -d --name web nginx-1.27\ndocker ps" },
+      "answer": [1],
+      "fix": "docker run -d --name web nginx:1.27",
+      "explanation": "El tag va detrás de dos puntos. Con un guion, Docker busca una imagen distinta llamada nginx-1.27, que no existe.",
+      "tags": ["tags"],
+      "difficulty": 2
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p4.q11",
+      "type": "find_error",
+      "prompt": "Docker responde: \"container is not running\". ¿Qué línea devuelve el error?",
+      "code": { "lang": "bash", "content": "docker run -d --name web nginx\ndocker stop web\ndocker exec -it web sh" },
+      "answer": [3],
+      "fix": "docker start web && docker exec -it web sh",
+      "explanation": "exec solo funciona en contenedores en marcha. Si está parado, arráncalo antes con start.",
+      "tags": ["exec", "start"],
+      "difficulty": 2
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p4.q12",
+      "type": "find_error",
+      "prompt": "Esperabas ver el contenedor corriendo, pero docker ps sale vacío. ¿Qué línea lo explica?",
+      "code": { "lang": "bash", "content": "docker run -d alpine\ndocker ps" },
+      "answer": [1],
+      "fix": "docker run -d alpine sleep 3600",
+      "explanation": "Un contenedor vive mientras vive su proceso principal. alpine sin comando arranca un shell que termina al momento.",
+      "tags": ["run", "proceso"],
+      "difficulty": 3
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p4.q13",
+      "type": "find_error",
+      "prompt": "Docker responde: \"port is already allocated\". ¿Qué línea lo provoca?",
+      "code": { "lang": "bash", "content": "docker run -d --name web1 -p 8080:80 nginx\ndocker run -d --name web2 -p 8080:80 nginx" },
+      "answer": [2],
+      "fix": "docker run -d --name web2 -p 8081:80 nginx",
+      "explanation": "Cada puerto de tu máquina solo lo puede usar un contenedor a la vez. El puerto interno 80 sí puede repetirse.",
+      "tags": ["puertos"],
+      "difficulty": 2
+    }
+  ]
+}

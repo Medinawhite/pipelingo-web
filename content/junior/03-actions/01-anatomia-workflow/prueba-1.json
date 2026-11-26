@@ -1,0 +1,276 @@
+{
+  "level": "junior",
+  "unit": "actions",
+  "lesson": "anatomia-workflow",
+  "test": 1,
+  "title": "Reconocer",
+  "questions": [
+    {
+      "id": "actions.anatomia-workflow.p1.q01",
+      "type": "multiple_choice",
+      "prompt": "¿En qué carpeta del repo tienen que estar los workflows?",
+      "options": [
+        {
+          "id": "a",
+          "text": ".github/workflows/"
+        },
+        {
+          "id": "b",
+          "text": "workflows/ en la raíz",
+          "why": "GitHub solo lee la carpeta .github/workflows."
+        },
+        {
+          "id": "c",
+          "text": ".github/actions/",
+          "why": "Ahí suelen ir actions propias, no workflows."
+        }
+      ],
+      "answer": "a",
+      "explanation": "GitHub busca archivos .yml o .yaml dentro de .github/workflows. Fuera de ahí no se ejecutan.",
+      "tags": [
+        "workflow",
+        "estructura"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.anatomia-workflow.p1.q02",
+      "type": "true_false",
+      "prompt": "Un workflow de GitHub Actions es un archivo YAML.",
+      "answer": true,
+      "explanation": "Cada workflow es un archivo .yml o .yaml en .github/workflows. Un repo puede tener varios.",
+      "tags": [
+        "workflow",
+        "yaml"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.anatomia-workflow.p1.q03",
+      "type": "multiple_choice",
+      "prompt": "¿Qué es un job?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Un grupo de steps que se ejecutan en el mismo runner"
+        },
+        {
+          "id": "b",
+          "text": "Un comando suelto",
+          "why": "Eso es un step."
+        },
+        {
+          "id": "c",
+          "text": "El archivo YAML entero",
+          "why": "Eso es el workflow."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Un workflow tiene uno o varios jobs. Cada job corre en su propia máquina y ejecuta sus steps.",
+      "tags": [
+        "job"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.anatomia-workflow.p1.q04",
+      "type": "multiple_choice",
+      "prompt": "¿Qué es un step?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Una tarea dentro de un job: un comando o una action"
+        },
+        {
+          "id": "b",
+          "text": "La máquina que ejecuta el trabajo",
+          "why": "Eso es el runner."
+        },
+        {
+          "id": "c",
+          "text": "El evento que lanza el workflow",
+          "why": "Eso se define en on."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Los steps son las piezas más pequeñas: cada uno ejecuta un comando con run o una action con uses.",
+      "tags": [
+        "step"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.anatomia-workflow.p1.q05",
+      "type": "multiple_choice",
+      "prompt": "¿Qué indica runs-on en un job?",
+      "options": [
+        {
+          "id": "a",
+          "text": "En qué máquina (runner) se ejecuta"
+        },
+        {
+          "id": "b",
+          "text": "Cuándo se ejecuta",
+          "why": "Eso lo decide on."
+        },
+        {
+          "id": "c",
+          "text": "En qué lenguaje está la app",
+          "why": "El runner no depende del lenguaje."
+        }
+      ],
+      "answer": "a",
+      "explanation": "runs-on elige el runner: por ejemplo ubuntu-latest, una máquina Linux que pone GitHub.",
+      "tags": [
+        "runs-on",
+        "runner"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.anatomia-workflow.p1.q06",
+      "type": "true_false",
+      "prompt": "Los steps de un mismo job se ejecutan en orden, uno detrás de otro.",
+      "answer": true,
+      "explanation": "Dentro de un job el orden es el del archivo. Si un step falla, los siguientes se saltan.",
+      "tags": [
+        "step"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.anatomia-workflow.p1.q07",
+      "type": "true_false",
+      "prompt": "Por defecto, los jobs de un workflow se ejecutan uno detrás de otro.",
+      "answer": false,
+      "explanation": "Por defecto corren en paralelo, cada uno en su runner. Para encadenarlos se usa needs.",
+      "tags": [
+        "job",
+        "needs"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.anatomia-workflow.p1.q08",
+      "type": "multiple_choice",
+      "prompt": "¿Qué clave define cuándo se ejecuta el workflow?",
+      "options": [
+        {
+          "id": "a",
+          "text": "on"
+        },
+        {
+          "id": "b",
+          "text": "when",
+          "why": "No existe en Actions."
+        },
+        {
+          "id": "c",
+          "text": "trigger",
+          "why": "No existe: el evento se declara en on."
+        }
+      ],
+      "answer": "a",
+      "explanation": "on lista los eventos que lanzan el workflow: push, pull_request, un horario, un botón manual...",
+      "tags": [
+        "on",
+        "triggers"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.anatomia-workflow.p1.q09",
+      "type": "multiple_choice",
+      "prompt": "¿Qué hace run en un step?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Ejecuta comandos de shell"
+        },
+        {
+          "id": "b",
+          "text": "Ejecuta una action ya hecha",
+          "why": "Eso es uses."
+        },
+        {
+          "id": "c",
+          "text": "Elige el runner",
+          "why": "Eso es runs-on."
+        }
+      ],
+      "answer": "a",
+      "explanation": "run ejecuta en la shell del runner lo que escribas, igual que en tu terminal.",
+      "tags": [
+        "run"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.anatomia-workflow.p1.q10",
+      "type": "multiple_choice",
+      "prompt": "¿Qué hace uses en un step?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Ejecuta una action ya hecha"
+        },
+        {
+          "id": "b",
+          "text": "Ejecuta comandos de shell",
+          "why": "Eso es run."
+        },
+        {
+          "id": "c",
+          "text": "Importa otro repo entero",
+          "why": "Solo trae la action indicada."
+        }
+      ],
+      "answer": "a",
+      "explanation": "uses reutiliza una action, por ejemplo actions/checkout@v4, en vez de escribir el script tú.",
+      "tags": [
+        "uses",
+        "actions"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.anatomia-workflow.p1.q11",
+      "type": "true_false",
+      "prompt": "ubuntu-latest es un runner que pone GitHub.",
+      "answer": true,
+      "explanation": "Es una máquina limpia que GitHub crea para cada job y destruye al terminar.",
+      "tags": [
+        "runner"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.anatomia-workflow.p1.q12",
+      "type": "multiple_choice",
+      "prompt": "¿Para qué sirve name en un step?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Para mostrar una etiqueta legible en los logs"
+        },
+        {
+          "id": "b",
+          "text": "Para referenciarlo desde otros steps",
+          "why": "Para eso se usa id."
+        },
+        {
+          "id": "c",
+          "text": "Es obligatorio para que funcione",
+          "why": "Es opcional."
+        }
+      ],
+      "answer": "a",
+      "explanation": "name solo cambia cómo aparece el step en la pestaña Actions. Sin name, GitHub muestra el comando.",
+      "tags": [
+        "step",
+        "name"
+      ],
+      "difficulty": 1
+    }
+  ]
+}

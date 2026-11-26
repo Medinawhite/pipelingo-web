@@ -1,0 +1,55 @@
+{
+  "level": "junior",
+  "unit": "actions",
+  "lesson": "usar-actions",
+  "lab": 1,
+  "kind": "editor",
+  "title": "Actions con versión",
+  "intro": "Este job usa checkout sin versión y confía en el Node que traiga el runner. Fija las versiones y aprovecha la caché de npm.",
+  "outro": "Una action se fija con @versión y se configura con with. setup-node con node-version y cache hace el build reproducible y más rápido.",
+  "file": {
+    "path": ".github/workflows/ci.yml",
+    "lang": "yaml",
+    "starter": "name: CI\non: push\n\njobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout\n      - run: npm ci\n      - run: npm test\n"
+  },
+  "run": "workflow",
+  "solution": "name: CI\non: push\n\njobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-node@v4\n        with:\n          node-version: 20\n          cache: npm\n      - run: npm ci\n      - run: npm test\n",
+  "objectives": [
+    {
+      "id": "o1",
+      "text": "Fija la versión de checkout a v4.",
+      "hint": "uses: actions/checkout@v4",
+      "check": { "type": "yaml_path", "path": "jobs.test.steps[*].uses", "matches": "^actions/checkout@v\\d+$" }
+    },
+    {
+      "id": "o2",
+      "text": "Añade actions/setup-node@v4 para instalar Node.",
+      "hint": "Un step nuevo después de checkout: «- uses: actions/setup-node@v4».",
+      "check": { "type": "yaml_path", "path": "jobs.test.steps[*].uses", "matches": "^actions/setup-node@v\\d+$" }
+    },
+    {
+      "id": "o3",
+      "text": "Pídele Node 20 con su input node-version.",
+      "hint": "Debajo de uses, con dos espacios más: «with:» y dentro «node-version: 20».",
+      "check": { "type": "yaml_path", "path": "jobs.test.steps[*].with.node-version", "matches": "^20(\\.\\d+)*(\\.x)?$" }
+    },
+    {
+      "id": "o4",
+      "text": "Activa la caché de npm del propio setup-node.",
+      "hint": "Dentro del mismo with: «cache: npm».",
+      "check": { "type": "yaml_path", "path": "jobs.test.steps[*].with.cache", "equals": "npm" }
+    },
+    {
+      "id": "o5",
+      "text": "setup-node tiene que ir antes que npm ci.",
+      "hint": "Mueve el step de setup-node encima de «run: npm ci».",
+      "check": { "type": "order", "first": "uses:\\s*actions/setup-node@", "then": "run:\\s*npm ci" }
+    },
+    {
+      "id": "o6",
+      "text": "Ejecútalo con un push a main y que termine en verde.",
+      "hint": "Elige «push a main» y pulsa ejecutar.",
+      "check": { "type": "run", "event": "push-main", "expect": "success" }
+    }
+  ]
+}

@@ -1,0 +1,290 @@
+{
+  "level": "junior",
+  "unit": "actions",
+  "lesson": "usar-actions",
+  "test": 5,
+  "title": "Dominar",
+  "questions": [
+    {
+      "id": "actions.usar-actions.p5.q01",
+      "type": "order_steps",
+      "prompt": "Ordena cómo incorporas una action de terceros con seguridad.",
+      "steps": [
+        {
+          "id": "s1",
+          "text": "Buscarla en el Marketplace"
+        },
+        {
+          "id": "s2",
+          "text": "Revisar autor, actividad y mantenimiento"
+        },
+        {
+          "id": "s3",
+          "text": "Leer sus inputs en el README"
+        },
+        {
+          "id": "s4",
+          "text": "Fijarla a un SHA en el workflow"
+        }
+      ],
+      "answer": [
+        "s1",
+        "s2",
+        "s3",
+        "s4"
+      ],
+      "explanation": "Una action corre con los permisos de tu job: elígela con el mismo cuidado que una dependencia.",
+      "tags": [
+        "seguridad",
+        "marketplace"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.usar-actions.p5.q02",
+      "type": "order_steps",
+      "prompt": "Ordena los steps de un job que compila una app Android.",
+      "steps": [
+        {
+          "id": "s1",
+          "text": "uses: actions/checkout@v4"
+        },
+        {
+          "id": "s2",
+          "text": "uses: actions/setup-java@v4"
+        },
+        {
+          "id": "s3",
+          "text": "run: ./gradlew assembleDebug"
+        },
+        {
+          "id": "s4",
+          "text": "uses: actions/upload-artifact@v4 con el APK"
+        }
+      ],
+      "answer": [
+        "s1",
+        "s2",
+        "s3",
+        "s4"
+      ],
+      "explanation": "Código, Java, compilar y guardar el resultado. Es el esqueleto del CI de Pipelingo.",
+      "tags": [
+        "setup-java",
+        "artefactos"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.usar-actions.p5.q03",
+      "type": "multiple_choice",
+      "prompt": "Necesitas el historial completo para calcular la versión. ¿Qué haces?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Añadir fetch-depth: 0 a checkout"
+        },
+        {
+          "id": "b",
+          "text": "Un run con git clone",
+          "why": "checkout ya clona: solo hay que pedirle más historial."
+        },
+        {
+          "id": "c",
+          "text": "Usar actions/cache",
+          "why": "La caché no trae commits."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Con todo el historial, git describe y las herramientas de versionado encuentran los tags.",
+      "tags": [
+        "checkout"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.usar-actions.p5.q04",
+      "type": "fill_command",
+      "prompt": "Escribe el input de setup-java que elige el JDK.",
+      "template": "{{b1}}: temurin",
+      "blanks": {
+        "b1": [
+          "distribution"
+        ]
+      },
+      "explanation": "distribution es obligatorio en setup-java v4.",
+      "tags": [
+        "setup-java"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.usar-actions.p5.q05",
+      "type": "find_error",
+      "prompt": "gradlew no se encuentra. Falta un step. ¿Delante de qué línea debería ir?",
+      "code": {
+        "lang": "yaml",
+        "content": "steps:\n  - uses: actions/setup-java@v4\n    with:\n      distribution: temurin\n      java-version: 17\n  - run: ./gradlew assembleDebug"
+      },
+      "answer": [
+        2
+      ],
+      "fix": "  - uses: actions/checkout@v4",
+      "explanation": "setup-java instala Java, pero tu código no está en el runner hasta que haces checkout.",
+      "tags": [
+        "checkout"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.usar-actions.p5.q06",
+      "type": "true_false",
+      "prompt": "Una action fijada con @v4 puede recibir correcciones sin que toques el workflow.",
+      "answer": true,
+      "explanation": "v4 es un tag que el autor mueve a la última 4.x. Con un SHA eso no pasa.",
+      "tags": [
+        "versiones"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.usar-actions.p5.q07",
+      "type": "match",
+      "prompt": "Empareja cada tipo de action con cómo funciona.",
+      "pairs": [
+        {
+          "left": "JavaScript",
+          "right": "Corre directamente en el runner"
+        },
+        {
+          "left": "Contenedor",
+          "right": "Corre dentro de una imagen Docker"
+        },
+        {
+          "left": "Compuesta",
+          "right": "Agrupa varios steps"
+        },
+        {
+          "left": "Local",
+          "right": "Vive en tu propio repo"
+        }
+      ],
+      "explanation": "Para empezar te basta con saber usarlas; crearlas es un paso posterior.",
+      "tags": [
+        "actions"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.usar-actions.p5.q08",
+      "type": "multiple_choice",
+      "prompt": "¿Cuándo es mejor un run que una action?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Cuando es un comando simple, como ./gradlew test"
+        },
+        {
+          "id": "b",
+          "text": "Nunca",
+          "why": "Para comandos simples run es lo más claro."
+        },
+        {
+          "id": "c",
+          "text": "Siempre",
+          "why": "Para instalar herramientas o hacer login, las actions ahorran mucho."
+        }
+      ],
+      "answer": "a",
+      "explanation": "No hace falta una action para todo: un comando de una línea va mejor con run.",
+      "tags": [
+        "run",
+        "actions"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.usar-actions.p5.q09",
+      "type": "true_false",
+      "prompt": "Los inputs de una action se pasan con env.",
+      "answer": false,
+      "explanation": "Los inputs van en with. env crea variables de entorno, que la action puede no leer.",
+      "tags": [
+        "with",
+        "env"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.usar-actions.p5.q10",
+      "type": "multiple_choice",
+      "prompt": "Fijaste una action por SHA. El autor publica después una versión maliciosa. ¿Qué pasa?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Tu workflow sigue usando el commit que revisaste"
+        },
+        {
+          "id": "b",
+          "text": "Se actualiza sola",
+          "why": "Un SHA no se puede mover."
+        },
+        {
+          "id": "c",
+          "text": "Tu workflow falla",
+          "why": "El commit antiguo sigue existiendo."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Por eso el SHA es la opción recomendada para actions de terceros.",
+      "tags": [
+        "versiones",
+        "seguridad"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.usar-actions.p5.q11",
+      "type": "fill_command",
+      "prompt": "Usa la action oficial para guardar y restaurar la caché.",
+      "template": "- uses: actions/{{b1}}@v4",
+      "blanks": {
+        "b1": [
+          "cache"
+        ]
+      },
+      "explanation": "actions/cache necesita un path y una key para saber qué guardar.",
+      "tags": [
+        "cache"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.usar-actions.p5.q12",
+      "type": "multiple_choice",
+      "prompt": "¿Para qué crearías tu propia action compuesta?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Para reutilizar los mismos steps en varios workflows"
+        },
+        {
+          "id": "b",
+          "text": "Para ocultar secrets",
+          "why": "No oculta nada."
+        },
+        {
+          "id": "c",
+          "text": "Para que todo sea más rápido",
+          "why": "La velocidad no cambia."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Si copias los mismos 5 steps en varios archivos, es momento de agruparlos.",
+      "tags": [
+        "actions"
+      ],
+      "difficulty": 2
+    }
+  ]
+}

@@ -1,0 +1,303 @@
+{
+  "level": "junior",
+  "unit": "actions",
+  "lesson": "triggers",
+  "test": 5,
+  "title": "Dominar",
+  "questions": [
+    {
+      "id": "actions.triggers.p5.q01",
+      "type": "order_steps",
+      "prompt": "Ordena qué pasa en un flujo con pull request.",
+      "steps": [
+        {
+          "id": "s1",
+          "text": "Creas una rama y haces commits"
+        },
+        {
+          "id": "s2",
+          "text": "Haces push de la rama"
+        },
+        {
+          "id": "s3",
+          "text": "Abres un PR: se lanza pull_request"
+        },
+        {
+          "id": "s4",
+          "text": "Los checks pasan en verde"
+        },
+        {
+          "id": "s5",
+          "text": "Fusionas a main: se lanza push"
+        }
+      ],
+      "answer": [
+        "s1",
+        "s2",
+        "s3",
+        "s4",
+        "s5"
+      ],
+      "explanation": "El mismo cambio pasa dos veces por el CI: en el PR y al llegar a main.",
+      "tags": [
+        "pull_request",
+        "push"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.triggers.p5.q02",
+      "type": "order_steps",
+      "prompt": "Ordena cómo publicas una versión con un tag.",
+      "steps": [
+        {
+          "id": "s1",
+          "text": "Fusionas los cambios a main"
+        },
+        {
+          "id": "s2",
+          "text": "git tag v1.2.0"
+        },
+        {
+          "id": "s3",
+          "text": "git push origin v1.2.0"
+        },
+        {
+          "id": "s4",
+          "text": "Se lanza el workflow con on: push: tags"
+        }
+      ],
+      "answer": [
+        "s1",
+        "s2",
+        "s3",
+        "s4"
+      ],
+      "explanation": "El tag marca la versión y su push es el evento que dispara la publicación.",
+      "tags": [
+        "tags"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.triggers.p5.q03",
+      "type": "multiple_choice",
+      "prompt": "Necesitas un informe cada lunes a las 8:00 UTC. ¿Qué usas?",
+      "options": [
+        {
+          "id": "a",
+          "text": "schedule con cron '0 8 * * 1'"
+        },
+        {
+          "id": "b",
+          "text": "workflow_dispatch",
+          "why": "Es manual: alguien tendría que acordarse cada lunes."
+        },
+        {
+          "id": "c",
+          "text": "push",
+          "why": "Depende de que alguien suba algo."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Minuto 0, hora 8, cualquier día y mes, día de la semana 1 (lunes).",
+      "tags": [
+        "schedule",
+        "cron"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.triggers.p5.q04",
+      "type": "fill_command",
+      "prompt": "Lanza el CI en cada push y también a mano.",
+      "template": "on: [push, {{b1}}]",
+      "blanks": {
+        "b1": [
+          "workflow_dispatch"
+        ]
+      },
+      "explanation": "Combinar push y workflow_dispatch te deja relanzar el CI sin hacer un commit vacío.",
+      "tags": [
+        "on",
+        "workflow_dispatch"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.triggers.p5.q05",
+      "type": "find_error",
+      "prompt": "El CI solo se lanza cuando cambias la documentación, no el código. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "on:\n  push:\n    branches: [main]\n    paths: ['docs/**']"
+      },
+      "answer": [
+        4
+      ],
+      "fix": "    paths-ignore: ['docs/**']",
+      "explanation": "paths incluye solo esos archivos. Para excluirlos se usa paths-ignore.",
+      "tags": [
+        "paths"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.triggers.p5.q06",
+      "type": "true_false",
+      "prompt": "Un PR que llega desde un fork no puede leer los secrets de tu repo.",
+      "answer": true,
+      "explanation": "GitHub los retiene para que nadie pueda robarlos modificando el workflow en su fork.",
+      "tags": [
+        "pull_request",
+        "seguridad"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.triggers.p5.q07",
+      "type": "match",
+      "prompt": "Empareja cada patrón o filtro con lo que significa.",
+      "pairs": [
+        {
+          "left": "tags: ['v*']",
+          "right": "Cualquier tag que empiece por v"
+        },
+        {
+          "left": "paths: ['**']",
+          "right": "Cualquier archivo, en cualquier carpeta"
+        },
+        {
+          "left": "branches-ignore",
+          "right": "Ramas que se excluyen"
+        },
+        {
+          "left": "types: [opened]",
+          "right": "Solo al abrir el PR"
+        }
+      ],
+      "explanation": "Con estos patrones decides con precisión qué cambios lanzan qué workflow.",
+      "tags": [
+        "filtros"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.triggers.p5.q08",
+      "type": "multiple_choice",
+      "prompt": "¿Qué trigger elegirías para desplegar a producción con control?",
+      "options": [
+        {
+          "id": "a",
+          "text": "push de tags v* o workflow_dispatch"
+        },
+        {
+          "id": "b",
+          "text": "push a cualquier rama",
+          "why": "Desplegarías cada experimento."
+        },
+        {
+          "id": "c",
+          "text": "schedule cada minuto",
+          "why": "Desplegaría sin que nadie lo decida."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Producción se despliega cuando alguien lo decide: con un tag o pulsando un botón.",
+      "tags": [
+        "tags",
+        "workflow_dispatch"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.triggers.p5.q09",
+      "type": "true_false",
+      "prompt": "El cron '0 0 * * *' se ejecuta a medianoche hora de España.",
+      "answer": false,
+      "explanation": "Se ejecuta a medianoche UTC, que en España es la 1:00 o las 2:00 según la época del año.",
+      "tags": [
+        "cron"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.triggers.p5.q10",
+      "type": "multiple_choice",
+      "prompt": "Tu workflow con schedule está en la rama develop y no se ejecuta nunca. ¿Por qué?",
+      "options": [
+        {
+          "id": "a",
+          "text": "schedule solo se lee desde la rama por defecto"
+        },
+        {
+          "id": "b",
+          "text": "El cron está mal",
+          "why": "Puede pasar, pero aquí la causa es la rama."
+        },
+        {
+          "id": "c",
+          "text": "Falta checkout",
+          "why": "checkout no influye en que se lance."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Lleva el workflow a la rama por defecto (normalmente main) para que el horario funcione.",
+      "tags": [
+        "schedule"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.triggers.p5.q11",
+      "type": "order_steps",
+      "prompt": "Ordena cómo pruebas un trigger manual nuevo.",
+      "steps": [
+        {
+          "id": "s1",
+          "text": "Añadir workflow_dispatch al workflow"
+        },
+        {
+          "id": "s2",
+          "text": "Hacer push del YAML a main"
+        },
+        {
+          "id": "s3",
+          "text": "Ir a Actions y elegir el workflow"
+        },
+        {
+          "id": "s4",
+          "text": "Pulsar Run workflow"
+        }
+      ],
+      "answer": [
+        "s1",
+        "s2",
+        "s3",
+        "s4"
+      ],
+      "explanation": "El botón solo aparece cuando el workflow está en la rama por defecto.",
+      "tags": [
+        "workflow_dispatch"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.triggers.p5.q12",
+      "type": "fill_command",
+      "prompt": "Lanza el workflow solo al abrir el PR y al añadirle commits.",
+      "template": "types: [opened, {{b1}}]",
+      "blanks": {
+        "b1": [
+          "synchronize"
+        ]
+      },
+      "explanation": "synchronize se dispara cada vez que subes commits nuevos a la rama del PR.",
+      "tags": [
+        "types",
+        "pull_request"
+      ],
+      "difficulty": 3
+    }
+  ]
+}

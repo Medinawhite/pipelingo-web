@@ -1,0 +1,325 @@
+{
+  "level": "junior",
+  "unit": "actions",
+  "lesson": "jobs-encadenados",
+  "test": 2,
+  "title": "Comprender",
+  "questions": [
+    {
+      "id": "actions.jobs-encadenados.p2.q01",
+      "type": "match",
+      "prompt": "Empareja cada herramienta con su uso.",
+      "pairs": [
+        {
+          "left": "needs",
+          "right": "Orden entre jobs"
+        },
+        {
+          "left": "matrix",
+          "right": "El mismo job con varias combinaciones"
+        },
+        {
+          "left": "cache",
+          "right": "Dependencias más rápidas"
+        },
+        {
+          "left": "artifact",
+          "right": "Archivos entre jobs o para descargar"
+        }
+      ],
+      "explanation": "Con estas cuatro piezas un pipeline pasa de un solo job a una cadena eficiente.",
+      "tags": [
+        "needs",
+        "matrix",
+        "cache",
+        "artefactos"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.jobs-encadenados.p2.q02",
+      "type": "multiple_choice",
+      "prompt": "Quieres build → test → deploy. ¿Cómo se escribe?",
+      "options": [
+        {
+          "id": "a",
+          "text": "test lleva needs: build y deploy lleva needs: test"
+        },
+        {
+          "id": "b",
+          "text": "build lleva needs: deploy",
+          "why": "Es al revés: así build esperaría a deploy."
+        },
+        {
+          "id": "c",
+          "text": "No hace falta: corren en el orden del archivo",
+          "why": "El orden del archivo no importa: sin needs corren a la vez."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Cada job declara de quién depende. GitHub calcula el orden.",
+      "tags": [
+        "needs"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.jobs-encadenados.p2.q03",
+      "type": "multiple_choice",
+      "prompt": "Una matrix tiene os: [ubuntu-latest, windows-latest] y node: [18, 20]. ¿Cuántos jobs salen?",
+      "options": [
+        {
+          "id": "a",
+          "text": "4"
+        },
+        {
+          "id": "b",
+          "text": "2",
+          "why": "Se combinan todos con todos: 2 × 2."
+        },
+        {
+          "id": "c",
+          "text": "6",
+          "why": "Son 2 × 2, no 2 + 2 + 2."
+        }
+      ],
+      "answer": "a",
+      "explanation": "La matrix multiplica: cada sistema con cada versión.",
+      "tags": [
+        "matrix"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.jobs-encadenados.p2.q04",
+      "type": "multiple_choice",
+      "prompt": "¿Qué diferencia hay entre caché y artefacto?",
+      "options": [
+        {
+          "id": "a",
+          "text": "La caché acelera ejecuciones futuras; el artefacto entrega o pasa resultados"
+        },
+        {
+          "id": "b",
+          "text": "Son lo mismo",
+          "why": "Tienen usos distintos."
+        },
+        {
+          "id": "c",
+          "text": "La caché es permanente",
+          "why": "Se borra si no se usa en 7 días."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Caché para lo que se puede volver a descargar; artefacto para lo que produces.",
+      "tags": [
+        "cache",
+        "artefactos"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.jobs-encadenados.p2.q05",
+      "type": "multiple_choice",
+      "prompt": "¿Por qué la key de la caché lleva hashFiles('**/package-lock.json')?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Para crear una caché nueva cuando cambian las dependencias"
+        },
+        {
+          "id": "b",
+          "text": "Para cifrar la caché",
+          "why": "No cifra nada."
+        },
+        {
+          "id": "c",
+          "text": "Para ordenar los archivos",
+          "why": "No ordena nada."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Si la key no cambiara, restaurarías dependencias viejas aunque hayas actualizado el lockfile.",
+      "tags": [
+        "cache"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.jobs-encadenados.p2.q06",
+      "type": "multiple_choice",
+      "prompt": "deploy depende de test y test falla. ¿Qué pasa con deploy?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Se salta"
+        },
+        {
+          "id": "b",
+          "text": "Se ejecuta igual",
+          "why": "Solo pasaría con if: always()."
+        },
+        {
+          "id": "c",
+          "text": "Se reintenta",
+          "why": "GitHub no reintenta solo."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Es la red de seguridad del pipeline: si los tests fallan, no se despliega.",
+      "tags": [
+        "needs"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.jobs-encadenados.p2.q07",
+      "type": "multiple_choice",
+      "prompt": "Un job necesita el APK que compila build. ¿Qué haces?",
+      "options": [
+        {
+          "id": "a",
+          "text": "build lo sube con upload-artifact y el otro lo baja con download-artifact"
+        },
+        {
+          "id": "b",
+          "text": "Volver a compilar en cada job",
+          "why": "Funciona, pero es lento y podría dar otro resultado."
+        },
+        {
+          "id": "c",
+          "text": "Leerlo de la caché",
+          "why": "La caché no es fiable para entregar resultados."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Así compilas una vez y pruebas o publicas exactamente ese APK.",
+      "tags": [
+        "artefactos"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.jobs-encadenados.p2.q08",
+      "type": "match",
+      "prompt": "Empareja cada opción de la matrix con lo que hace.",
+      "pairs": [
+        {
+          "left": "fail-fast",
+          "right": "Cancela el resto si falla uno"
+        },
+        {
+          "left": "max-parallel",
+          "right": "Límite de jobs a la vez"
+        },
+        {
+          "left": "include",
+          "right": "Añade una combinación"
+        },
+        {
+          "left": "exclude",
+          "right": "Quita una combinación"
+        }
+      ],
+      "explanation": "Con include y exclude ajustas la matrix sin escribir cada combinación a mano.",
+      "tags": [
+        "matrix"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.jobs-encadenados.p2.q09",
+      "type": "multiple_choice",
+      "prompt": "¿Para qué sirve restore-keys en actions/cache?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Claves alternativas por si la exacta no existe"
+        },
+        {
+          "id": "b",
+          "text": "Para borrar la caché",
+          "why": "No borra nada."
+        },
+        {
+          "id": "c",
+          "text": "Es la contraseña de la caché",
+          "why": "La caché no tiene contraseña."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Restaurar una caché parecida es mejor que empezar de cero.",
+      "tags": [
+        "cache"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.jobs-encadenados.p2.q10",
+      "type": "true_false",
+      "prompt": "Los jobs unidos con needs comparten el disco del job anterior.",
+      "answer": false,
+      "explanation": "needs solo ordena. Cada job sigue en su runner limpio: los archivos viajan con artefactos.",
+      "tags": [
+        "needs",
+        "artefactos"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.jobs-encadenados.p2.q11",
+      "type": "multiple_choice",
+      "prompt": "¿Cómo lee el job deploy un valor que produjo el job build?",
+      "options": [
+        {
+          "id": "a",
+          "text": "${{ needs.build.outputs.<nombre> }}"
+        },
+        {
+          "id": "b",
+          "text": "${{ steps.build.outputs.<nombre> }}",
+          "why": "steps solo vale dentro del mismo job."
+        },
+        {
+          "id": "c",
+          "text": "${{ env.build }}",
+          "why": "Las variables no pasan de un job a otro."
+        }
+      ],
+      "answer": "a",
+      "explanation": "build declara outputs y deploy, que lo tiene en needs, los lee.",
+      "tags": [
+        "needs",
+        "outputs"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.jobs-encadenados.p2.q12",
+      "type": "multiple_choice",
+      "prompt": "¿Por qué separar build y test en dos jobs?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Para ver claro qué ha fallado y poder paralelizar"
+        },
+        {
+          "id": "b",
+          "text": "Es obligatorio",
+          "why": "Un job también podría hacerlo todo."
+        },
+        {
+          "id": "c",
+          "text": "Siempre es más barato",
+          "why": "Cada job tarda en arrancar; no siempre ahorra."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Un pipeline legible dice de un vistazo qué etapa ha fallado.",
+      "tags": [
+        "needs"
+      ],
+      "difficulty": 2
+    }
+  ]
+}

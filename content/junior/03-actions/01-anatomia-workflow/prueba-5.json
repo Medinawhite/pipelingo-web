@@ -1,0 +1,309 @@
+{
+  "level": "junior",
+  "unit": "actions",
+  "lesson": "anatomia-workflow",
+  "test": 5,
+  "title": "Dominar",
+  "questions": [
+    {
+      "id": "actions.anatomia-workflow.p5.q01",
+      "type": "order_steps",
+      "prompt": "Ordena lo que pasa desde que haces push hasta ver el resultado.",
+      "steps": [
+        {
+          "id": "s1",
+          "text": "Haces git push"
+        },
+        {
+          "id": "s2",
+          "text": "GitHub detecta el evento y lee .github/workflows"
+        },
+        {
+          "id": "s3",
+          "text": "Asigna un runner limpio a cada job"
+        },
+        {
+          "id": "s4",
+          "text": "Ejecuta los steps en orden"
+        },
+        {
+          "id": "s5",
+          "text": "Muestra el resultado como check en el commit"
+        }
+      ],
+      "answer": [
+        "s1",
+        "s2",
+        "s3",
+        "s4",
+        "s5"
+      ],
+      "explanation": "Este ciclo se repite en cada push. Entenderlo es entender cualquier pipeline.",
+      "tags": [
+        "workflow",
+        "runner"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.anatomia-workflow.p5.q02",
+      "type": "order_steps",
+      "prompt": "Ordena los steps de un job típico de Node.js.",
+      "steps": [
+        {
+          "id": "s1",
+          "text": "uses: actions/checkout@v4"
+        },
+        {
+          "id": "s2",
+          "text": "uses: actions/setup-node@v4"
+        },
+        {
+          "id": "s3",
+          "text": "run: npm ci"
+        },
+        {
+          "id": "s4",
+          "text": "run: npm test"
+        }
+      ],
+      "answer": [
+        "s1",
+        "s2",
+        "s3",
+        "s4"
+      ],
+      "explanation": "Primero el código, luego la herramienta, luego las dependencias y por último los tests.",
+      "tags": [
+        "steps",
+        "checkout"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.anatomia-workflow.p5.q03",
+      "type": "order_steps",
+      "prompt": "Un workflow ha fallado. Ordena cómo lo investigas.",
+      "steps": [
+        {
+          "id": "s1",
+          "text": "Abrir la pestaña Actions"
+        },
+        {
+          "id": "s2",
+          "text": "Entrar en la ejecución fallida"
+        },
+        {
+          "id": "s3",
+          "text": "Abrir el job y el step en rojo"
+        },
+        {
+          "id": "s4",
+          "text": "Leer el error en el log"
+        },
+        {
+          "id": "s5",
+          "text": "Corregir y hacer push"
+        }
+      ],
+      "answer": [
+        "s1",
+        "s2",
+        "s3",
+        "s4",
+        "s5"
+      ],
+      "explanation": "El log del step en rojo casi siempre dice qué ha pasado. Léelo antes de cambiar nada.",
+      "tags": [
+        "logs"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.anatomia-workflow.p5.q04",
+      "type": "multiple_choice",
+      "prompt": "Quieres que lint y test corran a la vez para ir más rápido. ¿Qué haces?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Dos jobs sin needs"
+        },
+        {
+          "id": "b",
+          "text": "Un job con dos steps",
+          "why": "Los steps de un job van en orden, uno tras otro."
+        },
+        {
+          "id": "c",
+          "text": "Dos workflows unidos con needs",
+          "why": "needs une jobs del mismo workflow."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Los jobs sin needs arrancan en paralelo, cada uno en su runner.",
+      "tags": [
+        "job",
+        "needs"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.anatomia-workflow.p5.q05",
+      "type": "find_error",
+      "prompt": "El job usa una versión de Node que no es la 20. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "name: CI\non: push\njobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-node@v4\n        with:\n          node: 20\n      - run: npm test"
+      },
+      "answer": [
+        10
+      ],
+      "fix": "          node-version: 20",
+      "explanation": "El input se llama node-version. Con otro nombre la action lo ignora y usa su versión por defecto.",
+      "tags": [
+        "with",
+        "setup-node"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.anatomia-workflow.p5.q06",
+      "type": "fill_command",
+      "prompt": "Ejecuta el job en el runner de macOS que pone GitHub.",
+      "template": "runs-on: {{b1}}",
+      "blanks": {
+        "b1": [
+          "macos-latest"
+        ]
+      },
+      "explanation": "macos-latest hace falta, por ejemplo, para compilar apps de iOS.",
+      "tags": [
+        "runs-on"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.anatomia-workflow.p5.q07",
+      "type": "true_false",
+      "prompt": "Cada job empieza en un runner limpio, sin nada de otros jobs.",
+      "answer": true,
+      "explanation": "Por eso cada job repite checkout y la instalación de herramientas.",
+      "tags": [
+        "job",
+        "runner"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.anatomia-workflow.p5.q08",
+      "type": "multiple_choice",
+      "prompt": "Tienes dos archivos en .github/workflows y los dos usan on: push. ¿Qué pasa al hacer push?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Se ejecutan los dos, cada uno por su lado"
+        },
+        {
+          "id": "b",
+          "text": "Solo el primero por orden alfabético",
+          "why": "GitHub lanza todos los que encajan con el evento."
+        },
+        {
+          "id": "c",
+          "text": "Se fusionan en uno",
+          "why": "Cada archivo es un workflow independiente."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Puedes separar CI, despliegue y tareas programadas en archivos distintos.",
+      "tags": [
+        "workflow"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.anatomia-workflow.p5.q09",
+      "type": "match",
+      "prompt": "Empareja cada línea con lo que hace.",
+      "pairs": [
+        {
+          "left": "name: CI",
+          "right": "Nombre en la pestaña Actions"
+        },
+        {
+          "left": "on: push",
+          "right": "Se lanza en cada push"
+        },
+        {
+          "left": "runs-on: ubuntu-latest",
+          "right": "Runner Linux de GitHub"
+        },
+        {
+          "left": "run: npm test",
+          "right": "Comando de shell"
+        }
+      ],
+      "explanation": "Ya sabes leer un workflow mínimo de principio a fin.",
+      "tags": [
+        "workflow"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.anatomia-workflow.p5.q10",
+      "type": "true_false",
+      "prompt": "Un step puede llevar a la vez uses y run.",
+      "answer": false,
+      "explanation": "Cada step hace una cosa: o ejecuta una action con uses, o comandos con run.",
+      "tags": [
+        "uses",
+        "run"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.anatomia-workflow.p5.q11",
+      "type": "multiple_choice",
+      "prompt": "¿Qué necesita GitHub, como mínimo, para ejecutar un workflow?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Un archivo YAML válido en .github/workflows"
+        },
+        {
+          "id": "b",
+          "text": "Un servidor propio",
+          "why": "GitHub pone los runners."
+        },
+        {
+          "id": "c",
+          "text": "Una cuenta de Docker Hub",
+          "why": "No hace falta para Actions."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Con un archivo válido y un evento que encaje, GitHub pone la máquina y lo ejecuta.",
+      "tags": [
+        "workflow"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.anatomia-workflow.p5.q12",
+      "type": "fill_command",
+      "prompt": "Ejecuta varias órdenes seguidas en un solo step.",
+      "template": "- run: {{b1}}",
+      "blanks": {
+        "b1": [
+          "|"
+        ]
+      },
+      "explanation": "Con | escribes un bloque de varias líneas y cada una se ejecuta como un comando.",
+      "tags": [
+        "run",
+        "yaml"
+      ],
+      "difficulty": 3
+    }
+  ]
+}

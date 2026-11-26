@@ -1,0 +1,55 @@
+{
+  "level": "junior",
+  "unit": "actions",
+  "lesson": "jobs-encadenados",
+  "lab": 1,
+  "kind": "editor",
+  "title": "Jobs en cadena",
+  "intro": "test, build y deploy arrancan a la vez y deploy no encuentra el build. Encadénalos, pasa el artefacto y prueba en dos versiones de Node.",
+  "outro": "needs ordena los jobs, los artefactos llevan archivos de un job a otro (cada job es un runner limpio) y matrix repite un job con varios valores.",
+  "file": {
+    "path": ".github/workflows/ci.yml",
+    "lang": "yaml",
+    "starter": "name: CI\non: push\n\njobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-node@v4\n        with:\n          node-version: 20\n      - run: npm ci\n      - run: npm test\n\n  build:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - run: npm ci\n      - run: npm run build\n      - uses: actions/upload-artifact@v4\n        with:\n          name: dist\n          path: dist\n\n  deploy:\n    runs-on: ubuntu-latest\n    steps:\n      - run: cat dist/app.js\n"
+  },
+  "run": "workflow",
+  "solution": "name: CI\non: push\n\njobs:\n  test:\n    runs-on: ubuntu-latest\n    strategy:\n      matrix:\n        node: [20, 22]\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-node@v4\n        with:\n          node-version: ${{ matrix.node }}\n      - run: npm ci\n      - run: npm test\n\n  build:\n    needs: test\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - run: npm ci\n      - run: npm run build\n      - uses: actions/upload-artifact@v4\n        with:\n          name: dist\n          path: dist\n\n  deploy:\n    needs: build\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/download-artifact@v4\n        with:\n          name: dist\n          path: dist\n      - run: cat dist/app.js\n",
+  "objectives": [
+    {
+      "id": "o1",
+      "text": "build solo empieza cuando test termina bien.",
+      "hint": "En build: «needs: test».",
+      "check": { "type": "yaml_path", "path": "jobs.build.needs", "contains": "test" }
+    },
+    {
+      "id": "o2",
+      "text": "deploy espera a build.",
+      "hint": "En deploy: «needs: build».",
+      "check": { "type": "yaml_path", "path": "jobs.deploy.needs", "contains": "build" }
+    },
+    {
+      "id": "o3",
+      "text": "deploy descarga el artefacto dist antes de usarlo.",
+      "hint": "Primer step de deploy: «- uses: actions/download-artifact@v4» con «with:», «name: dist» y «path: dist».",
+      "check": { "type": "order", "first": "uses:\\s*actions/download-artifact@v\\d+", "then": "run:\\s*cat dist/app\\.js" }
+    },
+    {
+      "id": "o4",
+      "text": "Repite test con Node 20 y 22 usando una matriz llamada node.",
+      "hint": "En test: «strategy:», dentro «matrix:» y dentro «node: [20, 22]».",
+      "check": { "type": "yaml_path", "path": "jobs.test.strategy.matrix.node", "contains": "22" }
+    },
+    {
+      "id": "o5",
+      "text": "setup-node usa la versión de la matriz.",
+      "hint": "node-version: ${{ matrix.node }}",
+      "check": { "type": "regex", "pattern": "node-version:\\s*\\$\\{\\{\\s*matrix\\.node\\s*\\}\\}" }
+    },
+    {
+      "id": "o6",
+      "text": "Ejecútalo con un push a main: test (×2), build y deploy en verde.",
+      "hint": "Elige «push a main» y pulsa ejecutar. Mira el grafo de jobs.",
+      "check": { "type": "run", "event": "push-main", "expect": "success" }
+    }
+  ]
+}

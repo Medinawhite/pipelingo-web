@@ -1,0 +1,149 @@
+{
+  "level": "junior",
+  "unit": "docker",
+  "lesson": "imagen-vs-contenedor",
+  "test": 3,
+  "title": "Aplicar",
+  "questions": [
+    {
+      "id": "docker.imagen-vs-contenedor.p3.q01",
+      "type": "fill_command",
+      "prompt": "Descarga la imagen nginx sin arrancar ningún contenedor.",
+      "template": "docker {{b1}} nginx",
+      "blanks": { "b1": ["pull"] },
+      "explanation": "pull solo descarga la imagen. run también la descarga si falta, pero además crea un contenedor.",
+      "tags": ["pull"],
+      "difficulty": 1
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p3.q02",
+      "type": "fill_command",
+      "prompt": "Arranca un contenedor de nginx en segundo plano.",
+      "template": "docker run {{b1}} nginx",
+      "blanks": { "b1": ["-d", "--detach"] },
+      "explanation": "-d deja el contenedor corriendo y te devuelve la terminal.",
+      "tags": ["run", "detach"],
+      "difficulty": 1
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p3.q03",
+      "type": "fill_command",
+      "prompt": "Arranca nginx en segundo plano y ponle de nombre web.",
+      "template": "docker run -d {{b1}} web nginx",
+      "blanks": { "b1": ["--name"] },
+      "explanation": "Con --name usas un nombre fácil en vez del ID: docker logs web, docker stop web...",
+      "tags": ["run", "name"],
+      "difficulty": 1
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p3.q04",
+      "type": "fill_command",
+      "prompt": "Lista todos los contenedores, también los parados.",
+      "template": "docker ps {{b1}}",
+      "blanks": { "b1": ["-a", "--all"] },
+      "explanation": "Sin -a solo ves los que corren. Un contenedor que se cayó solo aparece con -a.",
+      "tags": ["ps"],
+      "difficulty": 1
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p3.q05",
+      "type": "fill_command",
+      "prompt": "Muestra lo que ha escrito la app del contenedor web.",
+      "template": "docker {{b1}} web",
+      "blanks": { "b1": ["logs"] },
+      "explanation": "docker logs es lo primero que se revisa cuando un contenedor no hace lo que esperas.",
+      "tags": ["logs"],
+      "difficulty": 1
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p3.q06",
+      "type": "fill_command",
+      "prompt": "Sigue los logs de web en tiempo real.",
+      "template": "docker logs {{b1}} web",
+      "blanks": { "b1": ["-f", "--follow"] },
+      "explanation": "-f mantiene el comando abierto y va mostrando los mensajes nuevos. Sales con Ctrl+C sin parar el contenedor.",
+      "tags": ["logs"],
+      "difficulty": 2
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p3.q07",
+      "type": "fill_command",
+      "prompt": "Detén el contenedor web.",
+      "template": "docker {{b1}} web",
+      "blanks": { "b1": ["stop"] },
+      "explanation": "stop detiene el proceso de forma ordenada. El contenedor sigue existiendo, parado.",
+      "tags": ["stop"],
+      "difficulty": 1
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p3.q08",
+      "type": "fill_command",
+      "prompt": "Vuelve a arrancar el contenedor web, que está parado.",
+      "template": "docker {{b1}} web",
+      "blanks": { "b1": ["start"] },
+      "explanation": "start reanuda un contenedor que ya existe. run crearía uno nuevo.",
+      "tags": ["start"],
+      "difficulty": 1
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p3.q09",
+      "type": "fill_command",
+      "prompt": "Borra el contenedor web, que ya está parado.",
+      "template": "docker {{b1}} web",
+      "blanks": { "b1": ["rm"] },
+      "explanation": "rm elimina el contenedor y su capa de escritura. La imagen nginx sigue en tu máquina.",
+      "tags": ["rm"],
+      "difficulty": 1
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p3.q10",
+      "type": "fill_command",
+      "prompt": "Publica el puerto 80 del contenedor en el puerto 8080 de tu máquina.",
+      "template": "docker run -d -p {{b1}}:{{b2}} nginx",
+      "blanks": { "b1": ["8080"], "b2": ["80"] },
+      "explanation": "El formato es host:contenedor. Después abres http://localhost:8080 y llegas al puerto 80 de nginx.",
+      "tags": ["run", "puertos"],
+      "difficulty": 2
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p3.q11",
+      "type": "fill_command",
+      "prompt": "Lista las imágenes que tienes descargadas.",
+      "template": "docker {{b1}}",
+      "blanks": { "b1": ["images", "image ls"] },
+      "explanation": "docker images lista imágenes; docker ps lista contenedores. No los confundas.",
+      "tags": ["images"],
+      "difficulty": 1
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p3.q12",
+      "type": "fill_command",
+      "prompt": "Ejecuta echo hola en un contenedor de alpine que se borre solo al terminar.",
+      "template": "docker run {{b1}} alpine echo hola",
+      "blanks": { "b1": ["--rm"] },
+      "explanation": "--rm evita acumular contenedores parados de tareas puntuales.",
+      "tags": ["run", "rm"],
+      "difficulty": 2
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p3.q13",
+      "type": "fill_command",
+      "prompt": "Abre una terminal dentro del contenedor web, que ya está corriendo.",
+      "template": "docker {{b1}} -it web sh",
+      "blanks": { "b1": ["exec"] },
+      "explanation": "exec ejecuta un comando en un contenedor en marcha. -it lo hace interactivo, para poder escribir en él.",
+      "tags": ["exec"],
+      "difficulty": 2
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p3.q14",
+      "type": "fill_command",
+      "prompt": "Arranca nginx en su versión 1.27, no en latest.",
+      "template": "docker run -d nginx:{{b1}}",
+      "blanks": { "b1": ["1.27"] },
+      "explanation": "El tag va detrás de los dos puntos. Fijar la versión es lo que hace que un despliegue sea reproducible.",
+      "tags": ["tags"],
+      "difficulty": 2
+    }
+  ]
+}

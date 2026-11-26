@@ -1,0 +1,275 @@
+{
+  "level": "junior",
+  "unit": "actions",
+  "lesson": "triggers",
+  "test": 1,
+  "title": "Reconocer",
+  "questions": [
+    {
+      "id": "actions.triggers.p1.q01",
+      "type": "multiple_choice",
+      "prompt": "¿Qué evento lanza un workflow al subir commits?",
+      "options": [
+        {
+          "id": "a",
+          "text": "push"
+        },
+        {
+          "id": "b",
+          "text": "commit",
+          "why": "No existe como evento: lo que GitHub recibe es el push."
+        },
+        {
+          "id": "c",
+          "text": "upload",
+          "why": "No existe en Actions."
+        }
+      ],
+      "answer": "a",
+      "explanation": "push salta cada vez que alguien sube commits (o tags) al repo.",
+      "tags": [
+        "push"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.triggers.p1.q02",
+      "type": "multiple_choice",
+      "prompt": "¿Qué evento se lanza al abrir o actualizar un pull request?",
+      "options": [
+        {
+          "id": "a",
+          "text": "pull_request"
+        },
+        {
+          "id": "b",
+          "text": "merge_request",
+          "why": "Ese término es de GitLab."
+        },
+        {
+          "id": "c",
+          "text": "pr",
+          "why": "No existe: el nombre completo es pull_request."
+        }
+      ],
+      "answer": "a",
+      "explanation": "pull_request permite pasar los tests antes de fusionar el código.",
+      "tags": [
+        "pull_request"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.triggers.p1.q03",
+      "type": "multiple_choice",
+      "prompt": "¿Qué añade workflow_dispatch?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Un botón para lanzar el workflow a mano"
+        },
+        {
+          "id": "b",
+          "text": "Que se ejecute cada hora",
+          "why": "Eso es schedule."
+        },
+        {
+          "id": "c",
+          "text": "Que se lance al crear un tag",
+          "why": "Eso es push con filtro tags."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Con workflow_dispatch aparece el botón Run workflow en la pestaña Actions.",
+      "tags": [
+        "workflow_dispatch"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.triggers.p1.q04",
+      "type": "true_false",
+      "prompt": "schedule usa la sintaxis de cron para programar ejecuciones.",
+      "answer": true,
+      "explanation": "cron tiene 5 campos: minuto, hora, día, mes y día de la semana. Siempre en hora UTC.",
+      "tags": [
+        "schedule",
+        "cron"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.triggers.p1.q05",
+      "type": "true_false",
+      "prompt": "Con on: push sin filtros, el workflow también se lanza al subir un tag.",
+      "answer": true,
+      "explanation": "Un push de tag también es un push. Si quieres separarlos, filtra con branches o tags.",
+      "tags": [
+        "push",
+        "tags"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.triggers.p1.q06",
+      "type": "multiple_choice",
+      "prompt": "¿Qué filtro limita push a ciertas ramas?",
+      "options": [
+        {
+          "id": "a",
+          "text": "branches"
+        },
+        {
+          "id": "b",
+          "text": "only",
+          "why": "No existe en Actions."
+        },
+        {
+          "id": "c",
+          "text": "refs",
+          "why": "No es un filtro de push."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Con branches: [main] el workflow solo se lanza al subir commits a main.",
+      "tags": [
+        "filtros",
+        "branches"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.triggers.p1.q07",
+      "type": "multiple_choice",
+      "prompt": "¿Qué filtro lanza el workflow solo si cambian ciertos archivos?",
+      "options": [
+        {
+          "id": "a",
+          "text": "paths"
+        },
+        {
+          "id": "b",
+          "text": "files",
+          "why": "No existe: el filtro se llama paths."
+        },
+        {
+          "id": "c",
+          "text": "include",
+          "why": "No existe en Actions."
+        }
+      ],
+      "answer": "a",
+      "explanation": "paths evita gastar minutos cuando el cambio no afecta a lo que construyes.",
+      "tags": [
+        "filtros",
+        "paths"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.triggers.p1.q08",
+      "type": "true_false",
+      "prompt": "Un workflow puede escuchar varios eventos a la vez.",
+      "answer": true,
+      "explanation": "Por ejemplo on: [push, pull_request]. Cada evento lanza su propia ejecución.",
+      "tags": [
+        "on"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.triggers.p1.q09",
+      "type": "multiple_choice",
+      "prompt": "¿En qué zona horaria se interpreta schedule?",
+      "options": [
+        {
+          "id": "a",
+          "text": "UTC"
+        },
+        {
+          "id": "b",
+          "text": "La del repositorio",
+          "why": "Los repos no tienen zona horaria."
+        },
+        {
+          "id": "c",
+          "text": "La de tu ordenador",
+          "why": "El workflow corre en GitHub, no en tu máquina."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Siempre UTC. Para las 9:00 en España tienes que restar una o dos horas según la época del año.",
+      "tags": [
+        "schedule",
+        "cron"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.triggers.p1.q10",
+      "type": "multiple_choice",
+      "prompt": "¿Qué filtro usarías para lanzar el workflow solo con tags como v1.2.0?",
+      "options": [
+        {
+          "id": "a",
+          "text": "tags: ['v*']"
+        },
+        {
+          "id": "b",
+          "text": "branches: ['v*']",
+          "why": "Los tags no son ramas: ese filtro no los ve."
+        },
+        {
+          "id": "c",
+          "text": "paths: ['v*']",
+          "why": "paths filtra archivos, no tags."
+        }
+      ],
+      "answer": "a",
+      "explanation": "El asterisco es un comodín: v* encaja con v1.0.0, v2.3.1...",
+      "tags": [
+        "tags",
+        "filtros"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.triggers.p1.q11",
+      "type": "true_false",
+      "prompt": "Los workflows con schedule se ejecutan desde la rama por defecto del repo.",
+      "answer": true,
+      "explanation": "Aunque el archivo exista en otras ramas, el horario solo se lee de la rama por defecto, normalmente main.",
+      "tags": [
+        "schedule"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.triggers.p1.q12",
+      "type": "multiple_choice",
+      "prompt": "¿Dónde está el botón Run workflow de un workflow_dispatch?",
+      "options": [
+        {
+          "id": "a",
+          "text": "En la pestaña Actions, al elegir el workflow"
+        },
+        {
+          "id": "b",
+          "text": "En Settings",
+          "why": "Settings no lanza workflows."
+        },
+        {
+          "id": "c",
+          "text": "En la página del PR",
+          "why": "El PR muestra checks, no ese botón."
+        }
+      ],
+      "answer": "a",
+      "explanation": "También puedes lanzarlo desde la terminal con gh workflow run.",
+      "tags": [
+        "workflow_dispatch"
+      ],
+      "difficulty": 1
+    }
+  ]
+}

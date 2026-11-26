@@ -1,0 +1,205 @@
+{
+  "level": "junior",
+  "unit": "actions",
+  "lesson": "secrets-y-permisos",
+  "test": 3,
+  "title": "Aplicar",
+  "questions": [
+    {
+      "id": "actions.secrets-y-permisos.p3.q01",
+      "type": "fill_command",
+      "prompt": "Lee el secret DOCKER_PASSWORD.",
+      "template": "${{ {{b1}}.DOCKER_PASSWORD }}",
+      "blanks": {
+        "b1": [
+          "secrets"
+        ]
+      },
+      "explanation": "El contexto secrets contiene todos los secrets disponibles para el job.",
+      "tags": [
+        "secrets"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.secrets-y-permisos.p3.q02",
+      "type": "fill_command",
+      "prompt": "Usa el token automático como contraseña en login-action.",
+      "template": "password: ${{ secrets.{{b1}} }}",
+      "blanks": {
+        "b1": [
+          "GITHUB_TOKEN"
+        ]
+      },
+      "explanation": "GITHUB_TOKEN está en el contexto secrets aunque no lo crees tú.",
+      "tags": [
+        "GITHUB_TOKEN"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.secrets-y-permisos.p3.q03",
+      "type": "fill_command",
+      "prompt": "Da permiso para publicar paquetes.",
+      "template": "packages: {{b1}}",
+      "blanks": {
+        "b1": [
+          "write"
+        ]
+      },
+      "explanation": "write permite subir; read, solo descargar.",
+      "tags": [
+        "permissions"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.secrets-y-permisos.p3.q04",
+      "type": "fill_command",
+      "prompt": "Deja el código en solo lectura.",
+      "template": "contents: {{b1}}",
+      "blanks": {
+        "b1": [
+          "read"
+        ]
+      },
+      "explanation": "contents: read basta para hacer checkout.",
+      "tags": [
+        "permissions"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.secrets-y-permisos.p3.q05",
+      "type": "fill_command",
+      "prompt": "Escribe la clave que define los permisos del token.",
+      "template": "{{b1}}:",
+      "blanks": {
+        "b1": [
+          "permissions"
+        ]
+      },
+      "explanation": "Puede ir en la raíz del workflow o dentro de un job.",
+      "tags": [
+        "permissions"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.secrets-y-permisos.p3.q06",
+      "type": "fill_command",
+      "prompt": "Lee la variable de configuración REGISTRY.",
+      "template": "${{ {{b1}}.REGISTRY }}",
+      "blanks": {
+        "b1": [
+          "vars"
+        ]
+      },
+      "explanation": "vars guarda valores no sensibles definidos en Settings.",
+      "tags": [
+        "vars"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.secrets-y-permisos.p3.q07",
+      "type": "fill_command",
+      "prompt": "Pasa el secret API_KEY al step como variable de entorno.",
+      "template": "API_KEY: ${{ secrets.{{b1}} }}",
+      "blanks": {
+        "b1": [
+          "API_KEY"
+        ]
+      },
+      "explanation": "Esta línea va dentro de env. Luego el script lee $API_KEY.",
+      "tags": [
+        "secrets",
+        "env"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.secrets-y-permisos.p3.q08",
+      "type": "fill_command",
+      "prompt": "Usa como usuario de GHCR a quien lanzó el workflow.",
+      "template": "username: ${{ github.{{b1}} }}",
+      "blanks": {
+        "b1": [
+          "actor"
+        ]
+      },
+      "explanation": "github.actor es el usuario que provocó la ejecución.",
+      "tags": [
+        "ghcr",
+        "github"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.secrets-y-permisos.p3.q09",
+      "type": "fill_command",
+      "prompt": "Crea un secret desde la terminal con la CLI de GitHub.",
+      "template": "gh secret {{b1}} API_KEY",
+      "blanks": {
+        "b1": [
+          "set"
+        ]
+      },
+      "explanation": "gh secret set te pide el valor sin que quede en el historial de la terminal.",
+      "tags": [
+        "secrets",
+        "gh"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.secrets-y-permisos.p3.q10",
+      "type": "fill_command",
+      "prompt": "Lista los secrets del repo con la CLI de GitHub.",
+      "template": "gh secret {{b1}}",
+      "blanks": {
+        "b1": [
+          "list"
+        ]
+      },
+      "explanation": "Muestra los nombres y la fecha de cambio, nunca los valores.",
+      "tags": [
+        "secrets",
+        "gh"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.secrets-y-permisos.p3.q11",
+      "type": "fill_command",
+      "prompt": "Permite que el workflow comente en pull requests.",
+      "template": "pull-requests: {{b1}}",
+      "blanks": {
+        "b1": [
+          "write"
+        ]
+      },
+      "explanation": "Útil para bots que publican un resumen de los tests en el PR.",
+      "tags": [
+        "permissions"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.secrets-y-permisos.p3.q12",
+      "type": "fill_command",
+      "prompt": "Quita todos los permisos al token.",
+      "template": "permissions: {{b1}}",
+      "blanks": {
+        "b1": [
+          "{}"
+        ]
+      },
+      "explanation": "{} deja el token sin permisos. Útil para jobs que no tocan el repo.",
+      "tags": [
+        "permissions"
+      ],
+      "difficulty": 3
+    }
+  ]
+}

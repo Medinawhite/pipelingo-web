@@ -1,0 +1,55 @@
+{
+  "level": "junior",
+  "unit": "actions",
+  "lesson": "secrets-y-permisos",
+  "lab": 1,
+  "kind": "editor",
+  "title": "Sin credenciales en claro",
+  "intro": "Este workflow publica la imagen en GHCR y despliega. Tiene un token escrito en el YAML y el push a GHCR falla con «denied». Arréglalo con secrets y permisos mínimos.",
+  "outro": "Las credenciales van en secrets y el GITHUB_TOKEN recibe solo lo que necesita. Ojo: permissions en un job sustituye a los del workflow, no se suma.",
+  "file": {
+    "path": ".github/workflows/publish.yml",
+    "lang": "yaml",
+    "starter": "name: Publish\non:\n  push:\n    branches: [main]\n\njobs:\n  publish:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: docker/login-action@v3\n        with:\n          registry: ghcr.io\n          username: ${{ github.actor }}\n          password: ${{ secrets.GITHUB_TOKEN }}\n      - run: docker build -t ghcr.io/dev/hello-devops:${{ github.sha }} .\n      - run: docker push ghcr.io/dev/hello-devops:${{ github.sha }}\n      - run: ./deploy.sh\n        env:\n          DEPLOY_TOKEN: dpl_live_9f8e7d6c\n"
+  },
+  "run": "workflow",
+  "solution": "name: Publish\non:\n  push:\n    branches: [main]\n\npermissions:\n  contents: read\n\njobs:\n  publish:\n    runs-on: ubuntu-latest\n    permissions:\n      contents: read\n      packages: write\n    steps:\n      - uses: actions/checkout@v4\n      - uses: docker/login-action@v3\n        with:\n          registry: ghcr.io\n          username: ${{ github.actor }}\n          password: ${{ secrets.GITHUB_TOKEN }}\n      - run: docker build -t ghcr.io/dev/hello-devops:${{ github.sha }} .\n      - run: docker push ghcr.io/dev/hello-devops:${{ github.sha }}\n      - run: ./deploy.sh\n        env:\n          DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}\n",
+  "objectives": [
+    {
+      "id": "o1",
+      "text": "Lee DEPLOY_TOKEN del secret del mismo nombre.",
+      "hint": "DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}",
+      "check": { "type": "regex", "pattern": "DEPLOY_TOKEN:\\s*\\$\\{\\{\\s*secrets\\.DEPLOY_TOKEN\\s*\\}\\}" }
+    },
+    {
+      "id": "o2",
+      "text": "Que no quede ninguna credencial en claro en el YAML.",
+      "hint": "Borra el valor dpl_live_… del archivo.",
+      "check": { "type": "not_regex", "pattern": "dpl_live_" }
+    },
+    {
+      "id": "o3",
+      "text": "Permisos mínimos para todo el workflow: el GITHUB_TOKEN solo lee el contenido.",
+      "hint": "En la raíz: «permissions:» y dentro «contents: read».",
+      "check": { "type": "yaml_path", "path": "permissions.contents", "equals": "read" }
+    },
+    {
+      "id": "o4",
+      "text": "El job publish necesita subir paquetes a GHCR.",
+      "hint": "Dentro de publish: «permissions:» con «packages: write».",
+      "check": { "type": "yaml_path", "path": "jobs.publish.permissions.packages", "equals": "write" }
+    },
+    {
+      "id": "o5",
+      "text": "Los permisos del job sustituyen a los del workflow: dale también contents: read.",
+      "hint": "En los permissions de publish, añade «contents: read».",
+      "check": { "type": "yaml_path", "path": "jobs.publish.permissions.contents", "equals": "read" }
+    },
+    {
+      "id": "o6",
+      "text": "Ejecútalo con un push a main y que termine en verde.",
+      "hint": "Elige «push a main» y pulsa ejecutar. Fíjate en que el token sale como ***.",
+      "check": { "type": "run", "event": "push-main", "expect": "success" }
+    }
+  ]
+}

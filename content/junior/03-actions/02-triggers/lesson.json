@@ -1,0 +1,8 @@
+{
+  "level": "junior",
+  "unit": "actions",
+  "lesson": "triggers",
+  "order": 2,
+  "title": "Triggers",
+  "goal": "Elegir cuándo se lanza un workflow: push, pull_request, tags, horario o a mano, con filtros."
+}

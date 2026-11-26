@@ -1,0 +1,327 @@
+{
+  "level": "junior",
+  "unit": "actions",
+  "lesson": "contextos-y-expresiones",
+  "test": 2,
+  "title": "Comprender",
+  "questions": [
+    {
+      "id": "actions.contextos-y-expresiones.p2.q01",
+      "type": "match",
+      "prompt": "Empareja cada contexto con lo que contiene.",
+      "pairs": [
+        {
+          "left": "github",
+          "right": "Evento, repo, rama y commit"
+        },
+        {
+          "left": "env",
+          "right": "Variables de entorno"
+        },
+        {
+          "left": "secrets",
+          "right": "Valores sensibles"
+        },
+        {
+          "left": "runner",
+          "right": "La máquina del job"
+        }
+      ],
+      "explanation": "Cada contexto es un objeto que lees con punto: github.sha, env.APP, secrets.TOKEN...",
+      "tags": [
+        "contextos"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p2.q02",
+      "type": "multiple_choice",
+      "prompt": "¿Por qué usar github.sha como tag de una imagen?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Identifica exactamente el commit que se construyó"
+        },
+        {
+          "id": "b",
+          "text": "Porque es corto",
+          "why": "Tiene 40 caracteres."
+        },
+        {
+          "id": "c",
+          "text": "Porque cambia una vez al día",
+          "why": "Cambia con cada commit."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Con el SHA siempre sabes qué código hay dentro de cada imagen.",
+      "tags": [
+        "sha",
+        "tags"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p2.q03",
+      "type": "multiple_choice",
+      "prompt": "Un step tiene if: github.ref == 'refs/heads/main'. ¿Cuándo corre?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Solo en ejecuciones sobre la rama main"
+        },
+        {
+          "id": "b",
+          "text": "También en PR hacia main",
+          "why": "En un PR la ref es refs/pull/..., no main."
+        },
+        {
+          "id": "c",
+          "text": "Siempre",
+          "why": "La condición lo limita."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Es la forma típica de que el despliegue solo ocurra desde main.",
+      "tags": [
+        "if",
+        "ref"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p2.q04",
+      "type": "multiple_choice",
+      "prompt": "Un step hace echo \"VERSION=1.2\" >> $GITHUB_ENV. ¿Quién ve VERSION?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Los steps siguientes del mismo job"
+        },
+        {
+          "id": "b",
+          "text": "Ese mismo step",
+          "why": "Se aplica a partir del step siguiente."
+        },
+        {
+          "id": "c",
+          "text": "Todos los jobs del workflow",
+          "why": "Solo vale dentro de este job."
+        }
+      ],
+      "answer": "a",
+      "explanation": "GITHUB_ENV es un archivo: lo que escribes ahí se carga como variable en los steps siguientes.",
+      "tags": [
+        "GITHUB_ENV"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p2.q05",
+      "type": "multiple_choice",
+      "prompt": "Un step de aviso tiene if: failure(). ¿Cuándo corre?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Solo si algún step anterior ha fallado"
+        },
+        {
+          "id": "b",
+          "text": "Siempre",
+          "why": "Para eso sería always()."
+        },
+        {
+          "id": "c",
+          "text": "Nunca",
+          "why": "Corre justo cuando hay un fallo."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Útil para avisar por chat o correo solo cuando algo se rompe.",
+      "tags": [
+        "funciones"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p2.q06",
+      "type": "match",
+      "prompt": "Empareja cada función con cuándo es verdadera.",
+      "pairs": [
+        {
+          "left": "success()",
+          "right": "Todo ha ido bien hasta aquí"
+        },
+        {
+          "left": "failure()",
+          "right": "Algo anterior ha fallado"
+        },
+        {
+          "left": "always()",
+          "right": "Pase lo que pase"
+        },
+        {
+          "left": "cancelled()",
+          "right": "Se ha cancelado la ejecución"
+        }
+      ],
+      "explanation": "Estas funciones de estado solo tienen sentido en if.",
+      "tags": [
+        "funciones"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p2.q07",
+      "type": "multiple_choice",
+      "prompt": "¿Qué diferencia hay entre ${{ env.X }} y $X dentro de run?",
+      "options": [
+        {
+          "id": "a",
+          "text": "${{ }} lo sustituye GitHub antes de ejecutar; $X lo lee la shell al ejecutar"
+        },
+        {
+          "id": "b",
+          "text": "Ninguna",
+          "why": "El resultado suele coincidir, pero cada uno lo resuelve uno distinto."
+        },
+        {
+          "id": "c",
+          "text": "$X solo funciona en Windows",
+          "why": "En Windows con PowerShell se escribe $env:X."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Dentro de la shell, prefiere $X: es más seguro con valores que contienen caracteres raros.",
+      "tags": [
+        "env",
+        "expresiones"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p2.q08",
+      "type": "multiple_choice",
+      "prompt": "¿Para qué sirve id en un step?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Para leer después sus salidas con steps.<id>.outputs"
+        },
+        {
+          "id": "b",
+          "text": "Para ordenarlo",
+          "why": "El orden es el del archivo."
+        },
+        {
+          "id": "c",
+          "text": "Es obligatorio",
+          "why": "Es opcional."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Sin id no puedes referirte a un step desde otro.",
+      "tags": [
+        "id",
+        "outputs"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p2.q09",
+      "type": "multiple_choice",
+      "prompt": "¿Qué comprueba startsWith(github.ref, 'refs/tags/v')?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Que la ejecución viene de un tag que empieza por v"
+        },
+        {
+          "id": "b",
+          "text": "Que existe una rama llamada v",
+          "why": "refs/tags apunta a tags, no a ramas."
+        },
+        {
+          "id": "c",
+          "text": "Que el repo tiene algún tag",
+          "why": "Solo mira la ref de esta ejecución."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Así un mismo workflow puede publicar solo cuando el push es de un tag de versión.",
+      "tags": [
+        "funciones",
+        "tags"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p2.q10",
+      "type": "true_false",
+      "prompt": "Los valores de los secrets aparecen como *** en los logs.",
+      "answer": true,
+      "explanation": "GitHub enmascara el valor exacto de cada secret cuando aparece en la salida.",
+      "tags": [
+        "secrets",
+        "logs"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p2.q11",
+      "type": "multiple_choice",
+      "prompt": "¿Dónde están las variables por defecto como GITHUB_SHA?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Ya están en el entorno de cada step"
+        },
+        {
+          "id": "b",
+          "text": "Solo si las declaras en env",
+          "why": "GitHub las pone siempre."
+        },
+        {
+          "id": "c",
+          "text": "En Settings del repo",
+          "why": "No hay que configurarlas."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Puedes leerlas en run con $GITHUB_SHA, $GITHUB_REF, $GITHUB_WORKSPACE...",
+      "tags": [
+        "env",
+        "github"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p2.q12",
+      "type": "match",
+      "prompt": "Empareja cada valor del contexto github con lo que es.",
+      "pairs": [
+        {
+          "left": "github.repository",
+          "right": "owner/repo"
+        },
+        {
+          "left": "github.actor",
+          "right": "Quién lanzó el workflow"
+        },
+        {
+          "left": "github.run_number",
+          "right": "Número de ejecución"
+        },
+        {
+          "left": "github.ref_name",
+          "right": "Nombre corto de la rama o tag"
+        }
+      ],
+      "explanation": "Estos valores sirven para nombrar imágenes, versiones y despliegues sin escribirlos a mano.",
+      "tags": [
+        "github"
+      ],
+      "difficulty": 2
+    }
+  ]
+}

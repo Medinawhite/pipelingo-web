@@ -1,0 +1,211 @@
+{
+  "level": "junior",
+  "unit": "actions",
+  "lesson": "contextos-y-expresiones",
+  "test": 3,
+  "title": "Aplicar",
+  "questions": [
+    {
+      "id": "actions.contextos-y-expresiones.p3.q01",
+      "type": "fill_command",
+      "prompt": "Imprime el commit que lanzó el workflow.",
+      "template": "run: echo ${{ github.{{b1}} }}",
+      "blanks": {
+        "b1": [
+          "sha"
+        ]
+      },
+      "explanation": "github.sha es el hash completo del commit.",
+      "tags": [
+        "sha"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p3.q02",
+      "type": "fill_command",
+      "prompt": "Ejecuta el step solo en la rama main.",
+      "template": "if: github.ref == 'refs/heads/{{b1}}'",
+      "blanks": {
+        "b1": [
+          "main"
+        ]
+      },
+      "explanation": "github.ref lleva el prefijo refs/heads/ en las ramas.",
+      "tags": [
+        "if",
+        "ref"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p3.q03",
+      "type": "fill_command",
+      "prompt": "Ejecuta el step solo si algo anterior ha fallado.",
+      "template": "if: {{b1}}",
+      "blanks": {
+        "b1": [
+          "failure()",
+          "${{ failure() }}"
+        ]
+      },
+      "explanation": "failure() es verdadera cuando un step anterior del job ha fallado.",
+      "tags": [
+        "funciones"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p3.q04",
+      "type": "fill_command",
+      "prompt": "Ejecuta el step pase lo que pase.",
+      "template": "if: {{b1}}",
+      "blanks": {
+        "b1": [
+          "always()",
+          "${{ always() }}"
+        ]
+      },
+      "explanation": "always() corre incluso si el job ha fallado o se ha cancelado.",
+      "tags": [
+        "funciones"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p3.q05",
+      "type": "fill_command",
+      "prompt": "Lee la variable de entorno APP desde bash.",
+      "template": "run: echo {{b1}}",
+      "blanks": {
+        "b1": [
+          "$APP",
+          "${APP}"
+        ]
+      },
+      "explanation": "En la shell las variables se leen con $.",
+      "tags": [
+        "env"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p3.q06",
+      "type": "fill_command",
+      "prompt": "Guarda VERSION=1.0 para los steps siguientes.",
+      "template": "run: echo \"VERSION=1.0\" >> {{b1}}",
+      "blanks": {
+        "b1": [
+          "$GITHUB_ENV",
+          "\"$GITHUB_ENV\""
+        ]
+      },
+      "explanation": "Lo que añades a $GITHUB_ENV se convierte en variable en los steps siguientes.",
+      "tags": [
+        "GITHUB_ENV"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p3.q07",
+      "type": "fill_command",
+      "prompt": "Publica una salida tag=1.0 desde el step.",
+      "template": "run: echo \"tag=1.0\" >> {{b1}}",
+      "blanks": {
+        "b1": [
+          "$GITHUB_OUTPUT",
+          "\"$GITHUB_OUTPUT\""
+        ]
+      },
+      "explanation": "$GITHUB_OUTPUT guarda salidas del step; se leen con steps.<id>.outputs.",
+      "tags": [
+        "outputs"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p3.q08",
+      "type": "fill_command",
+      "prompt": "Lee la salida tag del step con id meta.",
+      "template": "${{ steps.meta.{{b1}}.tag }}",
+      "blanks": {
+        "b1": [
+          "outputs"
+        ]
+      },
+      "explanation": "Formato: steps, id del step, outputs y el nombre de la salida.",
+      "tags": [
+        "outputs",
+        "id"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p3.q09",
+      "type": "fill_command",
+      "prompt": "Ejecuta el step solo cuando el evento es un pull request.",
+      "template": "if: github.event_name == '{{b1}}'",
+      "blanks": {
+        "b1": [
+          "pull_request"
+        ]
+      },
+      "explanation": "event_name tiene el nombre del evento que lanzó el workflow.",
+      "tags": [
+        "eventos",
+        "if"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p3.q10",
+      "type": "fill_command",
+      "prompt": "Ejecuta el step solo con tags que empiezan por v.",
+      "template": "if: startsWith(github.ref, 'refs/{{b1}}/v')",
+      "blanks": {
+        "b1": [
+          "tags"
+        ]
+      },
+      "explanation": "Los tags viven en refs/tags/, igual que las ramas en refs/heads/.",
+      "tags": [
+        "funciones",
+        "tags"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p3.q11",
+      "type": "fill_command",
+      "prompt": "Lee la variable APP con la sintaxis de contexto.",
+      "template": "${{ {{b1}}.APP }}",
+      "blanks": {
+        "b1": [
+          "env"
+        ]
+      },
+      "explanation": "El contexto env da acceso a las variables definidas con env en el workflow, el job o el step.",
+      "tags": [
+        "env",
+        "contextos"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p3.q12",
+      "type": "fill_command",
+      "prompt": "Dale al step el identificador build.",
+      "template": "- {{b1}}: build",
+      "blanks": {
+        "b1": [
+          "id"
+        ]
+      },
+      "explanation": "Con id: build podrás leer sus salidas como steps.build.outputs.",
+      "tags": [
+        "id"
+      ],
+      "difficulty": 1
+    }
+  ]
+}

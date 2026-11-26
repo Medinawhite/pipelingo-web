@@ -1,0 +1,235 @@
+{
+  "level": "junior",
+  "unit": "actions",
+  "lesson": "secrets-y-permisos",
+  "test": 4,
+  "title": "Depurar",
+  "questions": [
+    {
+      "id": "actions.secrets-y-permisos.p4.q01",
+      "type": "find_error",
+      "prompt": "Revisión de seguridad: ¿qué línea es un problema?",
+      "code": {
+        "lang": "yaml",
+        "content": "env:\n  API_KEY: sk-live-12345"
+      },
+      "answer": [
+        2
+      ],
+      "fix": "  API_KEY: ${{ secrets.API_KEY }}",
+      "explanation": "La clave está escrita en el repo. Muévela a un secret y rótala: ya está en el historial.",
+      "tags": [
+        "secrets",
+        "seguridad"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.secrets-y-permisos.p4.q02",
+      "type": "find_error",
+      "prompt": "GitHub no reconoce el contexto. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "- run: ./deploy.sh\n  env:\n    TOKEN: ${{ secret.DEPLOY_TOKEN }}"
+      },
+      "answer": [
+        3
+      ],
+      "fix": "    TOKEN: ${{ secrets.DEPLOY_TOKEN }}",
+      "explanation": "El contexto se llama secrets, en plural.",
+      "tags": [
+        "secrets"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.secrets-y-permisos.p4.q03",
+      "type": "find_error",
+      "prompt": "docker push a GHCR responde «denied». ¿Qué parte de permissions hay que completar?",
+      "code": {
+        "lang": "yaml",
+        "content": "permissions:\n  contents: read\njobs:\n  publish:\n    runs-on: ubuntu-latest"
+      },
+      "answer": [
+        2
+      ],
+      "fix": "  contents: read\n  packages: write",
+      "explanation": "Al declarar permissions, todo lo no listado queda en none. Falta packages: write.",
+      "tags": [
+        "permissions",
+        "ghcr"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.secrets-y-permisos.p4.q04",
+      "type": "find_error",
+      "prompt": "El login en GHCR falla. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "- uses: docker/login-action@v3\n  with:\n    registry: ghcr.io\n    username: ${{ github.actor }}\n    password: ${{ secrets.GITHUB_PASSWORD }}"
+      },
+      "answer": [
+        5
+      ],
+      "fix": "    password: ${{ secrets.GITHUB_TOKEN }}",
+      "explanation": "El token automático se llama GITHUB_TOKEN. GITHUB_PASSWORD no existe.",
+      "tags": [
+        "GITHUB_TOKEN"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.secrets-y-permisos.p4.q05",
+      "type": "find_error",
+      "prompt": "Revisión de seguridad: ¿qué línea puede filtrar el secret?",
+      "code": {
+        "lang": "yaml",
+        "content": "- run: echo \"${{ secrets.API_KEY }}\" | base64"
+      },
+      "answer": [
+        1
+      ],
+      "fix": "No imprimas secrets, ni transformados",
+      "explanation": "El enmascarado busca el valor exacto. En base64 el texto cambia y aparece en el log.",
+      "tags": [
+        "secrets",
+        "seguridad"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.secrets-y-permisos.p4.q06",
+      "type": "find_error",
+      "prompt": "La contraseña de la base de datos se ve en claro en Settings. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "- run: ./deploy.sh\n  env:\n    PASSWORD: ${{ vars.DB_PASSWORD }}"
+      },
+      "answer": [
+        3
+      ],
+      "fix": "    PASSWORD: ${{ secrets.DB_PASSWORD }}",
+      "explanation": "vars es para valores no sensibles y se ven en claro. Las contraseñas van en secrets.",
+      "tags": [
+        "vars",
+        "secrets"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.secrets-y-permisos.p4.q07",
+      "type": "find_error",
+      "prompt": "GitHub ignora los permisos. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "permission:\n  packages: write"
+      },
+      "answer": [
+        1
+      ],
+      "fix": "permissions:",
+      "explanation": "La clave es permissions, en plural.",
+      "tags": [
+        "permissions"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.secrets-y-permisos.p4.q08",
+      "type": "find_error",
+      "prompt": "El job solo lee el código y publica la imagen. ¿Qué línea da más permiso del necesario?",
+      "code": {
+        "lang": "yaml",
+        "content": "permissions:\n  contents: write\n  packages: write"
+      },
+      "answer": [
+        2
+      ],
+      "fix": "  contents: read",
+      "explanation": "Para hacer checkout basta read. write permitiría modificar el código del repo.",
+      "tags": [
+        "permissions",
+        "seguridad"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.secrets-y-permisos.p4.q09",
+      "type": "find_error",
+      "prompt": "docker push a GHCR sigue fallando. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "permissions:\n  contents: read\n  packages: read"
+      },
+      "answer": [
+        3
+      ],
+      "fix": "  packages: write",
+      "explanation": "read solo deja descargar imágenes. Para publicarlas hace falta write.",
+      "tags": [
+        "permissions",
+        "ghcr"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.secrets-y-permisos.p4.q10",
+      "type": "find_error",
+      "prompt": "¿Qué línea filtra el secret al repositorio?",
+      "code": {
+        "lang": "yaml",
+        "content": "- run: echo \"${{ secrets.API_KEY }}\" > config/key.txt\n- run: git add config/key.txt && git commit -m \"config\" && git push"
+      },
+      "answer": [
+        2
+      ],
+      "fix": "No subas el archivo: créalo solo dentro del runner",
+      "explanation": "Crear el archivo en el runner está bien; subirlo con git lo deja en el historial para siempre.",
+      "tags": [
+        "secrets",
+        "seguridad"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.secrets-y-permisos.p4.q11",
+      "type": "find_error",
+      "prompt": "GitHub dice que el job permissions no tiene runs-on. ¿Qué línea está mal indentada?",
+      "code": {
+        "lang": "yaml",
+        "content": "jobs:\n  publish:\n    runs-on: ubuntu-latest\n  permissions:\n    packages: write"
+      },
+      "answer": [
+        4
+      ],
+      "fix": "    permissions:",
+      "explanation": "Para que sea del job, permissions va a la altura de runs-on. Si no, GitHub cree que es otro job.",
+      "tags": [
+        "permissions",
+        "yaml"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.secrets-y-permisos.p4.q12",
+      "type": "find_error",
+      "prompt": "El login en GHCR falla. ¿Qué dos líneas están mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "- uses: docker/login-action@v3\n  with:\n    registry: ghcr.io\n    username: ${{ secrets.GITHUB_TOKEN }}\n    password: ${{ github.actor }}"
+      },
+      "answer": [
+        4,
+        5
+      ],
+      "fix": "    username: ${{ github.actor }}\n    password: ${{ secrets.GITHUB_TOKEN }}",
+      "explanation": "Están cruzados: el usuario es github.actor y la contraseña, el GITHUB_TOKEN.",
+      "tags": [
+        "ghcr",
+        "GITHUB_TOKEN"
+      ],
+      "difficulty": 2
+    }
+  ]
+}

@@ -1,0 +1,270 @@
+{
+  "level": "junior",
+  "unit": "actions",
+  "lesson": "jobs-encadenados",
+  "test": 1,
+  "title": "Reconocer",
+  "questions": [
+    {
+      "id": "actions.jobs-encadenados.p1.q01",
+      "type": "multiple_choice",
+      "prompt": "¿Qué hace needs en un job?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Hace que espere a que terminen otros jobs"
+        },
+        {
+          "id": "b",
+          "text": "Lo repite con varios valores",
+          "why": "Eso es una matrix."
+        },
+        {
+          "id": "c",
+          "text": "Le pasa archivos de otro job",
+          "why": "Para eso están los artefactos."
+        }
+      ],
+      "answer": "a",
+      "explanation": "needs convierte jobs paralelos en una cadena: build, luego test, luego deploy.",
+      "tags": [
+        "needs"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.jobs-encadenados.p1.q02",
+      "type": "true_false",
+      "prompt": "Si falla un job del que depende el tuyo, el tuyo se salta.",
+      "answer": true,
+      "explanation": "Por defecto un job solo corre si todos sus needs han terminado bien.",
+      "tags": [
+        "needs"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.jobs-encadenados.p1.q03",
+      "type": "multiple_choice",
+      "prompt": "¿Qué hace strategy.matrix?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lanza el mismo job con varias combinaciones de valores"
+        },
+        {
+          "id": "b",
+          "text": "Ordena los jobs",
+          "why": "Eso es needs."
+        },
+        {
+          "id": "c",
+          "text": "Guarda dependencias",
+          "why": "Eso es la caché."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Con una matrix pruebas varias versiones o sistemas sin copiar el job.",
+      "tags": [
+        "matrix"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.jobs-encadenados.p1.q04",
+      "type": "multiple_choice",
+      "prompt": "¿Para qué sirve la caché?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Para reutilizar dependencias entre ejecuciones y ganar tiempo"
+        },
+        {
+          "id": "b",
+          "text": "Para guardar el APK",
+          "why": "Eso es un artefacto."
+        },
+        {
+          "id": "c",
+          "text": "Para guardar secrets",
+          "why": "Los secrets van en Settings."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Descargar las mismas dependencias en cada ejecución es lento. La caché las guarda.",
+      "tags": [
+        "cache"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.jobs-encadenados.p1.q05",
+      "type": "multiple_choice",
+      "prompt": "¿Para qué sirve un artefacto?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Para guardar archivos generados y descargarlos o pasarlos a otro job"
+        },
+        {
+          "id": "b",
+          "text": "Para acelerar npm install",
+          "why": "Eso es la caché."
+        },
+        {
+          "id": "c",
+          "text": "Para versionar el código",
+          "why": "Eso lo hace git."
+        }
+      ],
+      "answer": "a",
+      "explanation": "El APK, un informe de tests o un binario: lo que produce el job y quieres conservar.",
+      "tags": [
+        "artefactos"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.jobs-encadenados.p1.q06",
+      "type": "true_false",
+      "prompt": "Un job puede depender de varios jobs a la vez.",
+      "answer": true,
+      "explanation": "needs: [build, test] espera a que terminen los dos.",
+      "tags": [
+        "needs"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.jobs-encadenados.p1.q07",
+      "type": "multiple_choice",
+      "prompt": "¿Qué action descarga un artefacto en otro job?",
+      "options": [
+        {
+          "id": "a",
+          "text": "actions/download-artifact"
+        },
+        {
+          "id": "b",
+          "text": "actions/checkout",
+          "why": "Descarga el repo, no artefactos."
+        },
+        {
+          "id": "c",
+          "text": "actions/cache",
+          "why": "Restaura caché, no artefactos."
+        }
+      ],
+      "answer": "a",
+      "explanation": "upload-artifact en un job y download-artifact en otro: así viajan los archivos.",
+      "tags": [
+        "artefactos"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.jobs-encadenados.p1.q08",
+      "type": "multiple_choice",
+      "prompt": "¿Qué es la key de una caché?",
+      "options": [
+        {
+          "id": "a",
+          "text": "El identificador que decide qué caché se restaura"
+        },
+        {
+          "id": "b",
+          "text": "Una contraseña",
+          "why": "No es secreta."
+        },
+        {
+          "id": "c",
+          "text": "La carpeta que se guarda",
+          "why": "Eso es path."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Si la key coincide, se restaura la caché. Si no, se crea una nueva al final del job.",
+      "tags": [
+        "cache"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.jobs-encadenados.p1.q09",
+      "type": "true_false",
+      "prompt": "Con fail-fast, que viene activado, si una combinación de la matrix falla se cancelan las demás.",
+      "answer": true,
+      "explanation": "Ahorra minutos. Si quieres ver todos los resultados, pon fail-fast: false.",
+      "tags": [
+        "matrix"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.jobs-encadenados.p1.q10",
+      "type": "multiple_choice",
+      "prompt": "¿Cómo lees en un step el valor node de la matrix?",
+      "options": [
+        {
+          "id": "a",
+          "text": "${{ matrix.node }}"
+        },
+        {
+          "id": "b",
+          "text": "${{ env.node }}",
+          "why": "La matrix tiene su propio contexto."
+        },
+        {
+          "id": "c",
+          "text": "$node",
+          "why": "No es una variable de entorno."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Cada copia del job recibe su combinación en el contexto matrix.",
+      "tags": [
+        "matrix"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.jobs-encadenados.p1.q11",
+      "type": "true_false",
+      "prompt": "Los artefactos se pueden descargar desde la página de la ejecución.",
+      "answer": true,
+      "explanation": "Aparecen al final de la página del run. Útil para probar el APK en tu móvil.",
+      "tags": [
+        "artefactos"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.jobs-encadenados.p1.q12",
+      "type": "multiple_choice",
+      "prompt": "¿Qué función usas en la key para que cambie cuando cambia el lockfile?",
+      "options": [
+        {
+          "id": "a",
+          "text": "hashFiles"
+        },
+        {
+          "id": "b",
+          "text": "sha()",
+          "why": "No existe."
+        },
+        {
+          "id": "c",
+          "text": "toJSON",
+          "why": "Convierte a JSON; no calcula un hash de archivos."
+        }
+      ],
+      "answer": "a",
+      "explanation": "hashFiles('**/package-lock.json') da un valor nuevo cada vez que cambian las dependencias.",
+      "tags": [
+        "cache",
+        "funciones"
+      ],
+      "difficulty": 1
+    }
+  ]
+}

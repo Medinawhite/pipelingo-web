@@ -1,0 +1,292 @@
+{
+  "level": "junior",
+  "unit": "actions",
+  "lesson": "contextos-y-expresiones",
+  "test": 5,
+  "title": "Dominar",
+  "questions": [
+    {
+      "id": "actions.contextos-y-expresiones.p5.q01",
+      "type": "order_steps",
+      "prompt": "Ordena cómo pasas un valor de un step a otro con outputs.",
+      "steps": [
+        {
+          "id": "s1",
+          "text": "Darle un id al primer step"
+        },
+        {
+          "id": "s2",
+          "text": "Escribir tag=... en $GITHUB_OUTPUT"
+        },
+        {
+          "id": "s3",
+          "text": "Leer steps.<id>.outputs.tag en el step siguiente"
+        },
+        {
+          "id": "s4",
+          "text": "Ver el valor en el log"
+        }
+      ],
+      "answer": [
+        "s1",
+        "s2",
+        "s3",
+        "s4"
+      ],
+      "explanation": "outputs es la forma limpia de pasar datos entre steps, y luego entre jobs.",
+      "tags": [
+        "outputs",
+        "id"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p5.q02",
+      "type": "order_steps",
+      "prompt": "Ordena cómo construyes y publicas una imagen etiquetada con el commit.",
+      "steps": [
+        {
+          "id": "s1",
+          "text": "uses: actions/checkout@v4"
+        },
+        {
+          "id": "s2",
+          "text": "Login en el registro"
+        },
+        {
+          "id": "s3",
+          "text": "docker build -t app:${{ github.sha }} ."
+        },
+        {
+          "id": "s4",
+          "text": "docker push app:${{ github.sha }}"
+        }
+      ],
+      "answer": [
+        "s1",
+        "s2",
+        "s3",
+        "s4"
+      ],
+      "explanation": "El SHA une la imagen con el commit exacto. Es el hilo que luego usará Helm.",
+      "tags": [
+        "sha"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p5.q03",
+      "type": "multiple_choice",
+      "prompt": "Quieres desplegar solo en push a main, nunca en PR. ¿Qué condición usas?",
+      "options": [
+        {
+          "id": "a",
+          "text": "github.event_name == 'push' && github.ref == 'refs/heads/main'"
+        },
+        {
+          "id": "b",
+          "text": "github.ref == 'main'",
+          "why": "Falta refs/heads/: nunca sería verdadera."
+        },
+        {
+          "id": "c",
+          "text": "always()",
+          "why": "Desplegaría siempre, incluso si fallan los tests."
+        }
+      ],
+      "answer": "a",
+      "explanation": "&& exige las dos cosas: que sea un push y que sea a main.",
+      "tags": [
+        "if",
+        "ref"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p5.q04",
+      "type": "fill_command",
+      "prompt": "Etiqueta la imagen con el commit exacto.",
+      "template": "docker build -t hello-devops:${{ github.{{b1}} }} .",
+      "blanks": {
+        "b1": [
+          "sha"
+        ]
+      },
+      "explanation": "Cada imagen queda ligada a un commit: si algo falla, sabes qué código lleva.",
+      "tags": [
+        "sha"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p5.q05",
+      "type": "find_error",
+      "prompt": "El despliegue no ocurre nunca cuando los tests pasan. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "- name: Desplegar\n  if: github.ref_name == 'main' && failure()\n  run: ./deploy.sh"
+      },
+      "answer": [
+        2
+      ],
+      "fix": "  if: github.ref_name == 'main' && success()",
+      "explanation": "failure() exige que algo haya fallado. Para desplegar cuando todo va bien, usa success().",
+      "tags": [
+        "funciones",
+        "if"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p5.q06",
+      "type": "true_false",
+      "prompt": "Una variable creada con export en un step sigue existiendo en el siguiente.",
+      "answer": false,
+      "explanation": "Cada step arranca una shell nueva. Para pasarla, escríbela en $GITHUB_ENV.",
+      "tags": [
+        "env",
+        "GITHUB_ENV"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p5.q07",
+      "type": "match",
+      "prompt": "Empareja cada herramienta con su uso.",
+      "pairs": [
+        {
+          "left": "$GITHUB_ENV",
+          "right": "Variables para los steps siguientes"
+        },
+        {
+          "left": "$GITHUB_OUTPUT",
+          "right": "Salidas de un step"
+        },
+        {
+          "left": "${{ env.X }}",
+          "right": "Leer env con la sintaxis de contexto"
+        },
+        {
+          "left": "$X",
+          "right": "Leer env desde la shell"
+        }
+      ],
+      "explanation": "Con estas cuatro piezas mueves cualquier dato dentro de un job.",
+      "tags": [
+        "env",
+        "outputs"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p5.q08",
+      "type": "multiple_choice",
+      "prompt": "¿Por qué el step de limpieza lleva if: always()?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Para que corra aunque fallen los anteriores"
+        },
+        {
+          "id": "b",
+          "text": "Para que corra dos veces",
+          "why": "always() no repite nada."
+        },
+        {
+          "id": "c",
+          "text": "Para que no pueda fallar",
+          "why": "Puede fallar igual; solo cambia cuándo se ejecuta."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Así no dejas recursos a medias aunque el job falle.",
+      "tags": [
+        "funciones"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p5.q09",
+      "type": "true_false",
+      "prompt": "En una expresión, 'main' y \"main\" valen lo mismo.",
+      "answer": false,
+      "explanation": "Las expresiones solo aceptan comillas simples para los textos.",
+      "tags": [
+        "expresiones"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p5.q10",
+      "type": "multiple_choice",
+      "prompt": "Necesitas el nombre de la rama sin el prefijo refs/heads/. ¿Qué usas?",
+      "options": [
+        {
+          "id": "a",
+          "text": "github.ref_name"
+        },
+        {
+          "id": "b",
+          "text": "github.ref",
+          "why": "Incluye refs/heads/."
+        },
+        {
+          "id": "c",
+          "text": "github.branch",
+          "why": "No existe."
+        }
+      ],
+      "answer": "a",
+      "explanation": "ref_name da main o v1.2.0, listo para usar en nombres y mensajes.",
+      "tags": [
+        "ref"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p5.q11",
+      "type": "fill_command",
+      "prompt": "Ejecuta un step solo si el step con id tests ha fallado.",
+      "template": "if: steps.tests.outcome == '{{b1}}'",
+      "blanks": {
+        "b1": [
+          "failure"
+        ]
+      },
+      "explanation": "outcome vale success, failure, cancelled o skipped.",
+      "tags": [
+        "id",
+        "if"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p5.q12",
+      "type": "match",
+      "prompt": "Empareja cada valor con lo que te dice.",
+      "pairs": [
+        {
+          "left": "github.event_name",
+          "right": "Qué evento lanzó el workflow"
+        },
+        {
+          "left": "github.sha",
+          "right": "Qué commit se construye"
+        },
+        {
+          "left": "runner.os",
+          "right": "Qué sistema tiene la máquina"
+        },
+        {
+          "left": "github.actor",
+          "right": "Qué usuario lo lanzó"
+        }
+      ],
+      "explanation": "Con estos datos un mismo workflow se adapta a cada situación.",
+      "tags": [
+        "contextos"
+      ],
+      "difficulty": 2
+    }
+  ]
+}

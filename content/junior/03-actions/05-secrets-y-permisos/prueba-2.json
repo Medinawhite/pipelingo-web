@@ -1,0 +1,328 @@
+{
+  "level": "junior",
+  "unit": "actions",
+  "lesson": "secrets-y-permisos",
+  "test": 2,
+  "title": "Comprender",
+  "questions": [
+    {
+      "id": "actions.secrets-y-permisos.p2.q01",
+      "type": "match",
+      "prompt": "Empareja cada pieza con lo que es.",
+      "pairs": [
+        {
+          "left": "secrets",
+          "right": "Valores sensibles cifrados"
+        },
+        {
+          "left": "vars",
+          "right": "Configuración no sensible"
+        },
+        {
+          "left": "GITHUB_TOKEN",
+          "right": "Token automático de cada job"
+        },
+        {
+          "left": "permissions",
+          "right": "Qué puede hacer ese token"
+        }
+      ],
+      "explanation": "Las credenciales en secrets y la configuración en vars. Y el token, con lo justo.",
+      "tags": [
+        "secrets",
+        "vars",
+        "permissions"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.secrets-y-permisos.p2.q02",
+      "type": "multiple_choice",
+      "prompt": "¿Por qué no hay que escribir un token en el YAML?",
+      "options": [
+        {
+          "id": "a",
+          "text": "El YAML está en el repo y lo lee cualquiera con acceso"
+        },
+        {
+          "id": "b",
+          "text": "GitHub lo borra",
+          "why": "No lo borra: queda ahí y en el historial."
+        },
+        {
+          "id": "c",
+          "text": "Porque no funcionaría",
+          "why": "Funcionaría, y ese es el problema."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Lo que se sube a git queda en el historial aunque luego lo borres.",
+      "tags": [
+        "secrets",
+        "seguridad"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.secrets-y-permisos.p2.q03",
+      "type": "multiple_choice",
+      "prompt": "Pones permissions con packages: write a nivel de workflow. ¿Qué pasa con contents?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Se queda sin permiso: los no listados pasan a none"
+        },
+        {
+          "id": "b",
+          "text": "Sigue con write",
+          "why": "Al declarar permissions, solo cuenta lo que listas."
+        },
+        {
+          "id": "c",
+          "text": "Se hereda de Settings",
+          "why": "Solo se hereda si no declaras permissions."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Por eso se suele añadir contents: read: checkout necesita leer el código.",
+      "tags": [
+        "permissions"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.secrets-y-permisos.p2.q04",
+      "type": "multiple_choice",
+      "prompt": "En un repo privado pones permissions: {} y checkout falla. ¿Por qué?",
+      "options": [
+        {
+          "id": "a",
+          "text": "El token ya no puede leer el código"
+        },
+        {
+          "id": "b",
+          "text": "Porque checkout está roto",
+          "why": "Funciona con el permiso adecuado."
+        },
+        {
+          "id": "c",
+          "text": "Porque falta un secret",
+          "why": "checkout usa el GITHUB_TOKEN."
+        }
+      ],
+      "answer": "a",
+      "explanation": "{} quita todos los permisos. Añade contents: read para poder hacer checkout.",
+      "tags": [
+        "permissions",
+        "checkout"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.secrets-y-permisos.p2.q05",
+      "type": "multiple_choice",
+      "prompt": "Haces echo de un secret en un step. ¿Qué ves en el log?",
+      "options": [
+        {
+          "id": "a",
+          "text": "***"
+        },
+        {
+          "id": "b",
+          "text": "El valor del secret",
+          "why": "GitHub lo enmascara."
+        },
+        {
+          "id": "c",
+          "text": "Un error",
+          "why": "No falla, solo lo oculta."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Aunque se oculte, no imprimas secrets: hay formas de saltarse el enmascarado.",
+      "tags": [
+        "secrets",
+        "logs"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.secrets-y-permisos.p2.q06",
+      "type": "multiple_choice",
+      "prompt": "¿Qué pasa si codificas un secret en base64 antes de imprimirlo?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Se puede filtrar: el enmascarado solo reconoce el valor exacto"
+        },
+        {
+          "id": "b",
+          "text": "Sigue saliendo ***",
+          "why": "El texto ya es otro y GitHub no lo reconoce."
+        },
+        {
+          "id": "c",
+          "text": "GitHub lo bloquea",
+          "why": "No lo bloquea."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Cualquier transformación (base64, al revés, por partes) puede saltarse el ***.",
+      "tags": [
+        "secrets",
+        "seguridad"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.secrets-y-permisos.p2.q07",
+      "type": "match",
+      "prompt": "Empareja cada permiso con lo que permite.",
+      "pairs": [
+        {
+          "left": "contents: read",
+          "right": "Leer el código"
+        },
+        {
+          "left": "packages: write",
+          "right": "Publicar en GHCR"
+        },
+        {
+          "left": "pull-requests: write",
+          "right": "Comentar en PR"
+        },
+        {
+          "left": "id-token: write",
+          "right": "Pedir tokens OIDC a la nube"
+        }
+      ],
+      "explanation": "Cada permiso abre una puerta concreta. Pide solo las que usa el job.",
+      "tags": [
+        "permissions"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.secrets-y-permisos.p2.q08",
+      "type": "multiple_choice",
+      "prompt": "¿Por qué los PR que llegan desde forks no reciben tus secrets?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Un desconocido podría cambiar el workflow para robarlos"
+        },
+        {
+          "id": "b",
+          "text": "Para ahorrar minutos",
+          "why": "No tiene que ver con los minutos."
+        },
+        {
+          "id": "c",
+          "text": "Por un error de GitHub",
+          "why": "Es intencionado."
+        }
+      ],
+      "answer": "a",
+      "explanation": "El workflow del PR lo escribe quien manda el PR. Por eso no recibe credenciales.",
+      "tags": [
+        "seguridad",
+        "pull_request"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.secrets-y-permisos.p2.q09",
+      "type": "multiple_choice",
+      "prompt": "¿Qué diferencia hay entre un secret del repo y uno de un environment?",
+      "options": [
+        {
+          "id": "a",
+          "text": "El de environment solo lo reciben los jobs de ese environment"
+        },
+        {
+          "id": "b",
+          "text": "Ninguna",
+          "why": "Cambia quién puede leerlo."
+        },
+        {
+          "id": "c",
+          "text": "El del repo es más seguro",
+          "why": "El de environment está más restringido."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Las credenciales de producción, mejor en el environment production.",
+      "tags": [
+        "secrets",
+        "environments"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.secrets-y-permisos.p2.q10",
+      "type": "true_false",
+      "prompt": "Es buena práctica rotar los secrets cada cierto tiempo.",
+      "answer": true,
+      "explanation": "Cambiarlos de vez en cuando limita el daño de una filtración que nadie ha detectado.",
+      "tags": [
+        "secrets"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.secrets-y-permisos.p2.q11",
+      "type": "multiple_choice",
+      "prompt": "¿Cómo pasas un secret a un script de forma segura?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Con env en el step, y el script lo lee como variable"
+        },
+        {
+          "id": "b",
+          "text": "Escribiéndolo en un archivo del repo",
+          "why": "Quedaría en git."
+        },
+        {
+          "id": "c",
+          "text": "Como argumento del comando",
+          "why": "Los argumentos pueden verse en listados de procesos y en el log."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Pasar secrets por variables de entorno es lo más limpio y lo menos expuesto.",
+      "tags": [
+        "secrets",
+        "env"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.secrets-y-permisos.p2.q12",
+      "type": "multiple_choice",
+      "prompt": "El token por defecto de tu repo solo tiene lectura. ¿Cómo das escritura a un workflow concreto?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Con el bloque permissions en ese workflow o job"
+        },
+        {
+          "id": "b",
+          "text": "Cambiando tu contraseña",
+          "why": "No tiene relación."
+        },
+        {
+          "id": "c",
+          "text": "Creando siempre un token personal",
+          "why": "Para tu propio repo no hace falta."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Así cada workflow pide lo que necesita, y el resto sigue en solo lectura.",
+      "tags": [
+        "permissions"
+      ],
+      "difficulty": 2
+    }
+  ]
+}

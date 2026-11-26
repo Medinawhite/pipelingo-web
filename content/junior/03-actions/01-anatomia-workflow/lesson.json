@@ -1,0 +1,8 @@
+{
+  "level": "junior",
+  "unit": "actions",
+  "lesson": "anatomia-workflow",
+  "order": 1,
+  "title": "Anatomía de un workflow",
+  "goal": "Reconocer las piezas de un workflow: archivo, on, jobs, runs-on y steps."
+}

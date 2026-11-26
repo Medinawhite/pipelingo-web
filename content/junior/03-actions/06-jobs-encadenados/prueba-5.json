@@ -1,0 +1,292 @@
+{
+  "level": "junior",
+  "unit": "actions",
+  "lesson": "jobs-encadenados",
+  "test": 5,
+  "title": "Dominar",
+  "questions": [
+    {
+      "id": "actions.jobs-encadenados.p5.q01",
+      "type": "order_steps",
+      "prompt": "Ordena los jobs de un pipeline típico.",
+      "steps": [
+        {
+          "id": "s1",
+          "text": "build: compila y sube el artefacto"
+        },
+        {
+          "id": "s2",
+          "text": "test: needs build, baja el artefacto y lo prueba"
+        },
+        {
+          "id": "s3",
+          "text": "publish: needs test, publica la imagen"
+        },
+        {
+          "id": "s4",
+          "text": "deploy: needs publish, despliega"
+        }
+      ],
+      "answer": [
+        "s1",
+        "s2",
+        "s3",
+        "s4"
+      ],
+      "explanation": "Cada etapa solo arranca si la anterior ha ido bien. Ese es el flujo que enseña Pipelingo.",
+      "tags": [
+        "needs",
+        "artefactos"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.jobs-encadenados.p5.q02",
+      "type": "order_steps",
+      "prompt": "Ordena qué pasa cuando usas actions/cache para npm.",
+      "steps": [
+        {
+          "id": "s1",
+          "text": "Añades actions/cache con path y key"
+        },
+        {
+          "id": "s2",
+          "text": "En ese step se restaura la caché si la key existe"
+        },
+        {
+          "id": "s3",
+          "text": "npm ci instala, rápido si hubo caché"
+        },
+        {
+          "id": "s4",
+          "text": "Al terminar el job se guarda la caché si no existía"
+        }
+      ],
+      "answer": [
+        "s1",
+        "s2",
+        "s3",
+        "s4"
+      ],
+      "explanation": "La caché se restaura en su step y se guarda al final del job, de forma automática.",
+      "tags": [
+        "cache"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.jobs-encadenados.p5.q03",
+      "type": "multiple_choice",
+      "prompt": "Quieres probar el mismo job en Ubuntu y en Windows. ¿Qué haces?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Una matrix con os y runs-on: ${{ matrix.os }}"
+        },
+        {
+          "id": "b",
+          "text": "Dos workflows iguales",
+          "why": "Duplicas código que tendrás que mantener."
+        },
+        {
+          "id": "c",
+          "text": "Usar needs",
+          "why": "needs ordena jobs; no los multiplica."
+        }
+      ],
+      "answer": "a",
+      "explanation": "La matrix copia el job por ti, con una combinación distinta en cada copia.",
+      "tags": [
+        "matrix"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.jobs-encadenados.p5.q04",
+      "type": "fill_command",
+      "prompt": "Haz que deploy espere a lint y a test.",
+      "template": "needs: [{{b1}}, test]",
+      "blanks": {
+        "b1": [
+          "lint"
+        ]
+      },
+      "explanation": "deploy solo arranca cuando los dos han terminado bien.",
+      "tags": [
+        "needs"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.jobs-encadenados.p5.q05",
+      "type": "find_error",
+      "prompt": "El job test no ve el APK. ¿Qué línea falla?",
+      "code": {
+        "lang": "yaml",
+        "content": "jobs:\n  build:\n    runs-on: ubuntu-latest\n    steps:\n      - run: ./gradlew assembleDebug\n  test:\n    runs-on: ubuntu-latest\n    steps:\n      - run: ls app/build/outputs/apk"
+      },
+      "answer": [
+        9
+      ],
+      "fix": "Subir el APK como artefacto en build y descargarlo en test, con needs: build",
+      "explanation": "Cada job tiene su máquina. El APK de build no está en el runner de test.",
+      "tags": [
+        "artefactos",
+        "needs"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.jobs-encadenados.p5.q06",
+      "type": "true_false",
+      "prompt": "La caché es una forma fiable de pasar el APK a otro job.",
+      "answer": false,
+      "explanation": "La caché puede no coincidir o haberse borrado. Para entregar resultados, usa artefactos.",
+      "tags": [
+        "cache",
+        "artefactos"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.jobs-encadenados.p5.q07",
+      "type": "match",
+      "prompt": "Empareja cada expresión con lo que te da.",
+      "pairs": [
+        {
+          "left": "needs.build.result",
+          "right": "Resultado del job build"
+        },
+        {
+          "left": "needs.build.outputs",
+          "right": "Salidas de build"
+        },
+        {
+          "left": "matrix.os",
+          "right": "Valor de la combinación actual"
+        },
+        {
+          "left": "strategy",
+          "right": "Configuración de la matrix"
+        }
+      ],
+      "explanation": "needs y matrix son contextos: se leen con punto, como github o env.",
+      "tags": [
+        "needs",
+        "matrix"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.jobs-encadenados.p5.q08",
+      "type": "multiple_choice",
+      "prompt": "¿Por qué el job deploy no debe llevar if: always()?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Desplegaría aunque fallen los tests"
+        },
+        {
+          "id": "b",
+          "text": "Sería más lento",
+          "why": "No cambia la velocidad."
+        },
+        {
+          "id": "c",
+          "text": "No compilaría",
+          "why": "No tiene que ver con compilar."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Deja la condición por defecto: solo se despliega si todo lo anterior ha ido bien.",
+      "tags": [
+        "needs",
+        "funciones"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.jobs-encadenados.p5.q09",
+      "type": "true_false",
+      "prompt": "Dos jobs sin needs pueden ejecutarse a la vez.",
+      "answer": true,
+      "explanation": "Es lo que pasa por defecto. needs solo hace falta cuando uno depende del otro.",
+      "tags": [
+        "needs"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.jobs-encadenados.p5.q10",
+      "type": "multiple_choice",
+      "prompt": "Una matrix de 3 sistemas por 3 versiones tarda mucho y gasta minutos. ¿Qué harías?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Quitar combinaciones con exclude o reducir la matrix"
+        },
+        {
+          "id": "b",
+          "text": "Poner fail-fast: false",
+          "why": "Correrían todas aunque fallen: tarda más."
+        },
+        {
+          "id": "c",
+          "text": "Añadir más needs",
+          "why": "needs no reduce combinaciones."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Prueba solo las combinaciones que de verdad usan tus usuarios.",
+      "tags": [
+        "matrix"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.jobs-encadenados.p5.q11",
+      "type": "fill_command",
+      "prompt": "Usa como runner el sistema de la matrix.",
+      "template": "runs-on: ${{ matrix.{{b1}} }}",
+      "blanks": {
+        "b1": [
+          "os"
+        ]
+      },
+      "explanation": "Cada copia del job se ejecuta en el sistema de su combinación.",
+      "tags": [
+        "matrix",
+        "runs-on"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.jobs-encadenados.p5.q12",
+      "type": "multiple_choice",
+      "prompt": "El job notify tiene needs: [test] y if: failure(). ¿Cuándo corre?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Cuando test falla"
+        },
+        {
+          "id": "b",
+          "text": "Siempre",
+          "why": "Para eso sería always()."
+        },
+        {
+          "id": "c",
+          "text": "Nunca",
+          "why": "Corre justo cuando test falla."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Así avisas solo cuando hay algo que arreglar.",
+      "tags": [
+        "needs",
+        "funciones"
+      ],
+      "difficulty": 2
+    }
+  ]
+}

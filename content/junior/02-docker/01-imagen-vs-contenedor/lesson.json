@@ -1,0 +1,8 @@
+{
+  "level": "junior",
+  "unit": "docker",
+  "lesson": "imagen-vs-contenedor",
+  "order": 1,
+  "title": "Imagen vs contenedor",
+  "goal": "Distinguir imagen y contenedor, y manejar un contenedor con run, ps, logs, stop, start y rm."
+}

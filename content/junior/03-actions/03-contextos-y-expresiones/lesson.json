@@ -1,0 +1,8 @@
+{
+  "level": "junior",
+  "unit": "actions",
+  "lesson": "contextos-y-expresiones",
+  "order": 3,
+  "title": "Contextos y expresiones",
+  "goal": "Leer datos del evento con ${{ }}, usar condiciones if y pasar valores entre steps."
+}

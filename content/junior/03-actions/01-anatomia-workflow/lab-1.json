@@ -1,0 +1,49 @@
+{
+  "level": "junior",
+  "unit": "actions",
+  "lesson": "anatomia-workflow",
+  "lab": 1,
+  "kind": "editor",
+  "title": "Tu primer workflow",
+  "intro": "Este workflow está a medio escribir: no sabe cuándo lanzarse, ni dónde correr, ni tiene el código. Complétalo y pulsa «ejecutar» para ver el run.",
+  "outro": "on, jobs, runs-on y steps: con estas cuatro piezas se escribe cualquier workflow. Y sin checkout, el runner está vacío.",
+  "file": {
+    "path": ".github/workflows/ci.yml",
+    "lang": "yaml",
+    "starter": "# Completa el workflow y pulsa «ejecutar».\nname: CI\n\njobs:\n  test:\n    steps:\n      - run: npm ci\n      - run: npm test\n"
+  },
+  "run": "workflow",
+  "solution": "name: CI\non: push\n\njobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - run: npm ci\n      - run: npm test\n",
+  "objectives": [
+    {
+      "id": "o1",
+      "text": "Haz que se lance con cada push.",
+      "hint": "Añade una línea «on: push» en la raíz, debajo de name.",
+      "check": { "type": "yaml_path", "path": "on", "contains": "push" }
+    },
+    {
+      "id": "o2",
+      "text": "Dile al job test en qué máquina corre: ubuntu-latest.",
+      "hint": "Dentro de test, al mismo nivel que steps: «runs-on: ubuntu-latest».",
+      "check": { "type": "yaml_path", "path": "jobs.test.runs-on", "equals": "ubuntu-latest" }
+    },
+    {
+      "id": "o3",
+      "text": "Descarga el código del repo con actions/checkout, en la versión v4.",
+      "hint": "Un step nuevo: «- uses: actions/checkout@v4».",
+      "check": { "type": "yaml_path", "path": "jobs.test.steps[*].uses", "matches": "^actions/checkout@v\\d+$" }
+    },
+    {
+      "id": "o4",
+      "text": "El checkout tiene que ir antes que npm ci.",
+      "hint": "Los steps se ejecutan en orden, de arriba abajo.",
+      "check": { "type": "order", "first": "uses:\\s*actions/checkout@", "then": "run:\\s*npm ci" }
+    },
+    {
+      "id": "o5",
+      "text": "Ejecútalo con un push a main y que termine en verde.",
+      "hint": "Elige «push a main» junto al botón ejecutar.",
+      "check": { "type": "run", "event": "push-main", "expect": "success" }
+    }
+  ]
+}

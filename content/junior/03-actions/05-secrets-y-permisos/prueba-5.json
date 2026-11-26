@@ -1,0 +1,292 @@
+{
+  "level": "junior",
+  "unit": "actions",
+  "lesson": "secrets-y-permisos",
+  "test": 5,
+  "title": "Dominar",
+  "questions": [
+    {
+      "id": "actions.secrets-y-permisos.p5.q01",
+      "type": "order_steps",
+      "prompt": "Ordena cómo empiezas a usar un secret nuevo.",
+      "steps": [
+        {
+          "id": "s1",
+          "text": "Crear el secret en Settings"
+        },
+        {
+          "id": "s2",
+          "text": "Pasarlo con env: ${{ secrets.NOMBRE }} en el step"
+        },
+        {
+          "id": "s3",
+          "text": "Leerlo en el script como variable de entorno"
+        },
+        {
+          "id": "s4",
+          "text": "Comprobar que el log muestra ***"
+        }
+      ],
+      "answer": [
+        "s1",
+        "s2",
+        "s3",
+        "s4"
+      ],
+      "explanation": "El secret nunca aparece en el YAML ni en el log: solo su nombre.",
+      "tags": [
+        "secrets"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.secrets-y-permisos.p5.q02",
+      "type": "order_steps",
+      "prompt": "Ordena cómo publicas en GHCR con permisos mínimos.",
+      "steps": [
+        {
+          "id": "s1",
+          "text": "permissions con contents: read y packages: write"
+        },
+        {
+          "id": "s2",
+          "text": "uses: actions/checkout@v4"
+        },
+        {
+          "id": "s3",
+          "text": "docker/login-action con el GITHUB_TOKEN"
+        },
+        {
+          "id": "s4",
+          "text": "docker build y docker push"
+        }
+      ],
+      "answer": [
+        "s1",
+        "s2",
+        "s3",
+        "s4"
+      ],
+      "explanation": "Con solo dos permisos el job puede leer el código y publicar la imagen. Nada más.",
+      "tags": [
+        "permissions",
+        "ghcr"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.secrets-y-permisos.p5.q03",
+      "type": "multiple_choice",
+      "prompt": "Un compañero pega una clave en el YAML y hace push. ¿Qué haces primero?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Revocar o rotar la clave: ya está expuesta"
+        },
+        {
+          "id": "b",
+          "text": "Borrar la línea y hacer commit",
+          "why": "La clave sigue en el historial de git."
+        },
+        {
+          "id": "c",
+          "text": "Nada, el repo es privado",
+          "why": "Cualquiera con acceso, o un acceso robado, la puede leer."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Una clave expuesta se da por perdida. Primero se invalida y después se limpia.",
+      "tags": [
+        "secrets",
+        "seguridad"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.secrets-y-permisos.p5.q04",
+      "type": "fill_command",
+      "prompt": "Escribe el permiso que necesitas para publicar imágenes.",
+      "template": "{{b1}}: write",
+      "blanks": {
+        "b1": [
+          "packages"
+        ]
+      },
+      "explanation": "Las imágenes de GHCR son paquetes de GitHub.",
+      "tags": [
+        "permissions",
+        "ghcr"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.secrets-y-permisos.p5.q05",
+      "type": "find_error",
+      "prompt": "No has creado ningún secret y el login falla. ¿Qué línea cambiarías?",
+      "code": {
+        "lang": "yaml",
+        "content": "permissions:\n  contents: read\n  packages: write\njobs:\n  publish:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: docker/login-action@v3\n        with:\n          registry: ghcr.io\n          username: ${{ github.actor }}\n          password: ${{ secrets.GHCR_TOKEN }}"
+      },
+      "answer": [
+        13
+      ],
+      "fix": "          password: ${{ secrets.GITHUB_TOKEN }}",
+      "explanation": "GHCR_TOKEN no existe. Para el GHCR de tu repo basta el GITHUB_TOKEN automático.",
+      "tags": [
+        "GITHUB_TOKEN",
+        "ghcr"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.secrets-y-permisos.p5.q06",
+      "type": "true_false",
+      "prompt": "Si declaras permissions con packages: write, el resto de permisos pasan a none.",
+      "answer": true,
+      "explanation": "Por eso suele añadirse también contents: read.",
+      "tags": [
+        "permissions"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.secrets-y-permisos.p5.q07",
+      "type": "match",
+      "prompt": "Empareja cada nivel con quién puede usarlo.",
+      "pairs": [
+        {
+          "left": "Secret de repo",
+          "right": "Todos los workflows del repo"
+        },
+        {
+          "left": "Secret de environment",
+          "right": "Solo los jobs de ese environment"
+        },
+        {
+          "left": "Secret de organización",
+          "right": "Los repos que elijas de la organización"
+        },
+        {
+          "left": "vars",
+          "right": "Cualquiera, se ve en claro"
+        }
+      ],
+      "explanation": "Cuanto más sensible el secret, más pequeño su alcance.",
+      "tags": [
+        "secrets",
+        "vars"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.secrets-y-permisos.p5.q08",
+      "type": "true_false",
+      "prompt": "Si borras una clave del YAML con un commit, desaparece del historial de git.",
+      "answer": false,
+      "explanation": "Los commits anteriores la siguen teniendo. Por eso hay que rotarla.",
+      "tags": [
+        "secrets",
+        "seguridad"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.secrets-y-permisos.p5.q09",
+      "type": "multiple_choice",
+      "prompt": "¿Qué token usas para publicar en el GHCR de tu propio repo?",
+      "options": [
+        {
+          "id": "a",
+          "text": "GITHUB_TOKEN con packages: write"
+        },
+        {
+          "id": "b",
+          "text": "Tu contraseña",
+          "why": "Nunca se usa en un workflow."
+        },
+        {
+          "id": "c",
+          "text": "Un token personal con todos los permisos",
+          "why": "Daría mucho más poder del necesario."
+        }
+      ],
+      "answer": "a",
+      "explanation": "El GITHUB_TOKEN caduca al acabar el job y solo tiene los permisos que declares.",
+      "tags": [
+        "GITHUB_TOKEN"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.secrets-y-permisos.p5.q10",
+      "type": "multiple_choice",
+      "prompt": "¿Por qué GitHub no deja volver a leer un secret guardado?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Para que nadie con acceso a la web pueda copiarlo"
+        },
+        {
+          "id": "b",
+          "text": "Por espacio",
+          "why": "No tiene que ver con el espacio."
+        },
+        {
+          "id": "c",
+          "text": "Es un fallo de GitHub",
+          "why": "Es intencionado."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Si lo pierdes, se genera uno nuevo y se reemplaza. No hay que poder leerlo.",
+      "tags": [
+        "secrets"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.secrets-y-permisos.p5.q11",
+      "type": "fill_command",
+      "prompt": "Crea un secret llamado DEPLOY_TOKEN desde la terminal.",
+      "template": "gh secret set {{b1}}",
+      "blanks": {
+        "b1": [
+          "DEPLOY_TOKEN"
+        ]
+      },
+      "explanation": "La CLI te pedirá el valor por teclado, sin dejarlo escrito en ningún archivo.",
+      "tags": [
+        "gh",
+        "secrets"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.secrets-y-permisos.p5.q12",
+      "type": "multiple_choice",
+      "prompt": "¿Dónde pondrías la dirección del registro, ghcr.io?",
+      "options": [
+        {
+          "id": "a",
+          "text": "En vars o directamente en el YAML: no es secreta"
+        },
+        {
+          "id": "b",
+          "text": "Siempre en secrets",
+          "why": "No es sensible: ocultarla no aporta nada."
+        },
+        {
+          "id": "c",
+          "text": "En un archivo dentro del runner",
+          "why": "Se perdería al acabar el job."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Reserva secrets para lo sensible. Así los logs siguen siendo legibles.",
+      "tags": [
+        "vars"
+      ],
+      "difficulty": 2
+    }
+  ]
+}

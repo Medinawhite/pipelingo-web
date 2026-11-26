@@ -1,0 +1,234 @@
+{
+  "level": "junior",
+  "unit": "actions",
+  "lesson": "anatomia-workflow",
+  "test": 4,
+  "title": "Depurar",
+  "questions": [
+    {
+      "id": "actions.anatomia-workflow.p4.q01",
+      "type": "find_error",
+      "prompt": "Este workflow nunca se ejecuta. ¿Qué línea tiene el error?",
+      "code": {
+        "lang": "yaml",
+        "content": "# Archivo: .github/workflow/ci.yml\nname: CI\non: push"
+      },
+      "answer": [
+        1
+      ],
+      "fix": "# Archivo: .github/workflows/ci.yml",
+      "explanation": "La carpeta es workflows, en plural. En cualquier otra ruta GitHub ignora el archivo.",
+      "tags": [
+        "workflow",
+        "estructura"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.anatomia-workflow.p4.q02",
+      "type": "find_error",
+      "prompt": "GitHub dice que al job le falta el runner. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "name: CI\non: push\njobs:\n  build:\n    run-on: ubuntu-latest\n    steps:\n      - run: echo hola"
+      },
+      "answer": [
+        5
+      ],
+      "fix": "    runs-on: ubuntu-latest",
+      "explanation": "La clave es runs-on, con s. Con otro nombre GitHub no sabe dónde ejecutar el job.",
+      "tags": [
+        "runs-on"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.anatomia-workflow.p4.q03",
+      "type": "find_error",
+      "prompt": "npm test falla: no encuentra package.json. Falta un step. ¿Delante de qué línea debería ir?",
+      "code": {
+        "lang": "yaml",
+        "content": "jobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/setup-node@v4\n      - run: npm test"
+      },
+      "answer": [
+        5
+      ],
+      "fix": "      - uses: actions/checkout@v4",
+      "explanation": "El runner empieza vacío. Sin checkout no está tu código y npm no encuentra nada.",
+      "tags": [
+        "checkout"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.anatomia-workflow.p4.q04",
+      "type": "find_error",
+      "prompt": "Este step no descarga el código. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "steps:\n  - run: actions/checkout@v4\n  - run: npm ci"
+      },
+      "answer": [
+        2
+      ],
+      "fix": "  - uses: actions/checkout@v4",
+      "explanation": "Las actions se usan con uses. Con run, la shell intenta ejecutar un comando que no existe.",
+      "tags": [
+        "uses",
+        "run"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.anatomia-workflow.p4.q05",
+      "type": "find_error",
+      "prompt": "GitHub dice que el job no tiene steps. ¿Qué línea está mal indentada?",
+      "code": {
+        "lang": "yaml",
+        "content": "jobs:\n  build:\n    runs-on: ubuntu-latest\n  steps:\n    - run: make"
+      },
+      "answer": [
+        4
+      ],
+      "fix": "    steps:",
+      "explanation": "steps tiene que estar dentro del job, a la misma altura que runs-on.",
+      "tags": [
+        "yaml",
+        "steps"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.anatomia-workflow.p4.q06",
+      "type": "find_error",
+      "prompt": "GitHub no encuentra la action. ¿Qué línea tiene el error?",
+      "code": {
+        "lang": "yaml",
+        "content": "steps:\n  - uses: actions/chekout@v4\n  - run: npm ci"
+      },
+      "answer": [
+        2
+      ],
+      "fix": "  - uses: actions/checkout@v4",
+      "explanation": "El nombre de la action tiene que ser exacto: checkout. Un error de tecleo y no existe.",
+      "tags": [
+        "uses"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.anatomia-workflow.p4.q07",
+      "type": "find_error",
+      "prompt": "El workflow no se lanza al abrir un PR. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "name: CI\non: pull\njobs:\n  test:\n    runs-on: ubuntu-latest"
+      },
+      "answer": [
+        2
+      ],
+      "fix": "on: pull_request",
+      "explanation": "El evento se llama pull_request. pull no existe, así que el workflow no se lanza nunca.",
+      "tags": [
+        "on",
+        "pull_request"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.anatomia-workflow.p4.q08",
+      "type": "find_error",
+      "prompt": "GitHub rechaza el workflow. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "steps:\n  - uses: actions/checkout@v4\n    run: npm ci"
+      },
+      "answer": [
+        3
+      ],
+      "fix": "  - run: npm ci",
+      "explanation": "Un step lleva uses o run, nunca los dos. Cada uno va en su propio step, con su guion.",
+      "tags": [
+        "uses",
+        "run",
+        "step"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.anatomia-workflow.p4.q09",
+      "type": "find_error",
+      "prompt": "El job se queda esperando un runner que nunca llega. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "jobs:\n  build:\n    runs-on: ubuntu-lastest"
+      },
+      "answer": [
+        3
+      ],
+      "fix": "    runs-on: ubuntu-latest",
+      "explanation": "El nombre del runner tiene que ser exacto. Con una etiqueta que no existe, el job no arranca.",
+      "tags": [
+        "runs-on"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.anatomia-workflow.p4.q10",
+      "type": "find_error",
+      "prompt": "El job show falla: saludo.txt no existe. ¿Qué línea falla?",
+      "code": {
+        "lang": "yaml",
+        "content": "jobs:\n  build:\n    runs-on: ubuntu-latest\n    steps:\n      - run: echo hola > saludo.txt\n  show:\n    runs-on: ubuntu-latest\n    steps:\n      - run: cat saludo.txt"
+      },
+      "answer": [
+        9
+      ],
+      "fix": "Crear el archivo en el mismo job, o pasarlo con un artefacto",
+      "explanation": "Cada job corre en una máquina distinta. El archivo de build no existe en el runner de show.",
+      "tags": [
+        "job",
+        "runner"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.anatomia-workflow.p4.q11",
+      "type": "find_error",
+      "prompt": "Querías dos comandos, pero el step ejecuta «npm ci npm test». ¿Qué línea cambiarías?",
+      "code": {
+        "lang": "yaml",
+        "content": "steps:\n  - run:\n      npm ci\n      npm test"
+      },
+      "answer": [
+        2
+      ],
+      "fix": "  - run: |",
+      "explanation": "Sin la barra vertical, YAML junta las líneas en una sola. Con | cada línea es un comando.",
+      "tags": [
+        "run",
+        "yaml"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.anatomia-workflow.p4.q12",
+      "type": "find_error",
+      "prompt": "GitHub dice que falta la versión de la action. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "steps:\n  - uses: actions/checkout@v4\n  - uses: actions/setup-node"
+      },
+      "answer": [
+        3
+      ],
+      "fix": "  - uses: actions/setup-node@v4",
+      "explanation": "Toda action se usa con @ y una versión. Sin ella el workflow no es válido.",
+      "tags": [
+        "uses",
+        "versiones"
+      ],
+      "difficulty": 1
+    }
+  ]
+}

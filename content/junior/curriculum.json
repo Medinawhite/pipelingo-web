@@ -1,0 +1,123 @@
+{
+  "level": "junior",
+  "phases": [
+    {
+      "id": "fundamentos",
+      "title": "Fundamentos",
+      "units": [
+        {
+          "id": "github",
+          "title": "GitHub",
+          "path": "01-github",
+          "goal": "Que el repo sea un punto de partida seguro para la automatización.",
+          "lessons": [
+            { "id": "repos-y-commits", "title": "Repos y commits", "path": "01-repos-y-commits" },
+            { "id": "ramas-y-github-flow", "title": "Ramas y GitHub Flow", "path": "02-ramas-y-github-flow" },
+            { "id": "pull-requests", "title": "Pull requests y code review", "path": "03-pull-requests" },
+            { "id": "proteccion-de-ramas", "title": "Protección de ramas", "path": "04-proteccion-de-ramas" },
+            { "id": "tags-y-semver", "title": "Tags y versionado semántico", "path": "05-tags-y-semver" },
+            { "id": "secrets-y-token", "title": "Secrets, variables y GITHUB_TOKEN", "path": "06-secrets-y-token" }
+          ],
+          "bridge": { "id": "github-docker", "title": "GitHub → Docker", "sub": "El Dockerfile vive en el repo", "file": "bridges/github-docker.json" }
+        },
+        {
+          "id": "docker",
+          "title": "Docker",
+          "path": "02-docker",
+          "goal": "Empaquetar la app en una imagen ligera, segura y lista para OpenShift.",
+          "lessons": [
+            { "id": "imagen-vs-contenedor", "title": "Imagen vs contenedor", "path": "01-imagen-vs-contenedor" },
+            { "id": "dockerfile-basico", "title": "Dockerfile básico", "path": "02-dockerfile-basico" },
+            { "id": "capas-y-cache", "title": "Capas y caché", "path": "03-capas-y-cache" },
+            { "id": "imagenes-ligeras", "title": "Imágenes ligeras", "path": "04-imagenes-ligeras" },
+            { "id": "configuracion", "title": "Configuración: puertos y variables", "path": "05-configuracion" },
+            { "id": "seguridad", "title": "Seguridad: no root", "path": "06-seguridad" },
+            { "id": "tags", "title": "Tags de imagen", "path": "07-tags" }
+          ],
+          "bridge": { "id": "docker-actions", "title": "Docker → Actions", "sub": "docker build en un runner", "file": "bridges/docker-actions.json" }
+        }
+      ],
+      "boss": { "id": "jefe-1-fundamentos", "title": "Jefe 1 · Fundamentos", "sub": "Quiz: app dockerizada en un repo protegido", "file": "bosses/jefe-1-fundamentos.json" }
+    },
+    {
+      "id": "ci",
+      "title": "CI",
+      "units": [
+        {
+          "id": "actions",
+          "title": "GitHub Actions",
+          "path": "03-actions",
+          "goal": "Escribir y entender el workflow que dirige todo el CI/CD.",
+          "lessons": [
+            { "id": "anatomia-workflow", "title": "Anatomía de un workflow", "path": "01-anatomia-workflow" },
+            { "id": "triggers", "title": "Triggers", "path": "02-triggers" },
+            { "id": "contextos-y-expresiones", "title": "Contextos y expresiones", "path": "03-contextos-y-expresiones" },
+            { "id": "usar-actions", "title": "Usar actions", "path": "04-usar-actions" },
+            { "id": "secrets-y-permisos", "title": "Secrets y permisos", "path": "05-secrets-y-permisos" },
+            { "id": "jobs-encadenados", "title": "Jobs encadenados", "path": "06-jobs-encadenados" },
+            { "id": "environments", "title": "Environments y aprobaciones", "path": "07-environments" }
+          ],
+          "bridge": { "id": "actions-ghcr", "title": "Actions → GHCR", "sub": "Push de la imagen con tag = SHA", "file": "bridges/actions-ghcr.json" }
+        },
+        {
+          "id": "ghcr",
+          "title": "GHCR",
+          "path": "04-ghcr",
+          "goal": "Publicar imágenes versionadas y trazables que OpenShift pueda descargar.",
+          "lessons": [
+            { "id": "registro", "title": "Qué es un registro", "path": "01-registro" },
+            { "id": "login-y-permisos", "title": "Login y permisos", "path": "02-login-y-permisos" },
+            { "id": "estrategia-de-tags", "title": "Estrategia de tags", "path": "03-estrategia-de-tags" },
+            { "id": "visibilidad", "title": "Visibilidad y acceso", "path": "04-visibilidad" },
+            { "id": "mantenimiento", "title": "Mantenimiento y escaneo", "path": "05-mantenimiento" }
+          ],
+          "bridge": { "id": "ghcr-helm", "title": "GHCR → Helm", "sub": "image.tag en los values", "file": "bridges/ghcr-helm.json" }
+        }
+      ],
+      "boss": { "id": "jefe-2-ci", "title": "Jefe 2 · CI", "sub": "Quiz: pipeline de build y publicación", "file": "bosses/jefe-2-ci.json" }
+    },
+    {
+      "id": "cd",
+      "title": "CD",
+      "units": [
+        {
+          "id": "helm",
+          "title": "Helm",
+          "path": "05-helm",
+          "goal": "Describir el despliegue una vez y reutilizarlo en cada entorno y versión.",
+          "lessons": [
+            { "id": "por-que-helm", "title": "Por qué Helm", "path": "01-por-que-helm" },
+            { "id": "estructura-chart", "title": "Estructura de un chart", "path": "02-estructura-chart" },
+            { "id": "templating", "title": "Templating", "path": "03-templating" },
+            { "id": "values-por-entorno", "title": "Values por entorno", "path": "04-values-por-entorno" },
+            { "id": "ciclo-de-vida", "title": "Ciclo de vida", "path": "05-ciclo-de-vida" },
+            { "id": "validar", "title": "Validar antes de desplegar", "path": "06-validar" }
+          ],
+          "bridge": { "id": "helm-openshift", "title": "Helm → OpenShift", "sub": "helm upgrade desde Actions", "file": "bridges/helm-openshift.json" }
+        },
+        {
+          "id": "openshift",
+          "title": "OpenShift",
+          "path": "06-openshift",
+          "goal": "Ejecutar la app en el clúster, exponerla y saber qué hacer cuando falla.",
+          "lessons": [
+            { "id": "conceptos-kubernetes", "title": "Conceptos de Kubernetes", "path": "01-conceptos-kubernetes" },
+            { "id": "openshift-vs-kubernetes", "title": "OpenShift frente a Kubernetes", "path": "02-openshift-vs-kubernetes" },
+            { "id": "oc-basico", "title": "oc básico", "path": "03-oc-basico" },
+            { "id": "exponer-la-app", "title": "Exponer la app", "path": "04-exponer-la-app" },
+            { "id": "seguridad", "title": "Seguridad: SCC y service accounts", "path": "05-seguridad" },
+            { "id": "acceso-desde-ci", "title": "Acceso desde el CI", "path": "06-acceso-desde-ci" },
+            { "id": "salud-y-debugging", "title": "Salud y debugging", "path": "07-salud-y-debugging" }
+          ]
+        }
+      ],
+      "boss": { "id": "jefe-3-cd", "title": "Jefe 3 · CD", "sub": "Quiz: despliegue y rollback", "file": "bosses/jefe-3-cd.json" }
+    },
+    {
+      "id": "flujo-completo",
+      "title": "Flujo completo",
+      "units": [],
+      "boss": { "id": "jefe-final", "title": "Jefe final · Del push a producción", "sub": "Al superarlo, asciendes a Mid", "file": "bosses/jefe-final.json" }
+    }
+  ]
+}

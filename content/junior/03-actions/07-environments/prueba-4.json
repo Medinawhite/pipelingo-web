@@ -1,0 +1,231 @@
+{
+  "level": "junior",
+  "unit": "actions",
+  "lesson": "environments",
+  "test": 4,
+  "title": "Depurar",
+  "questions": [
+    {
+      "id": "actions.environments.p4.q01",
+      "type": "find_error",
+      "prompt": "El job no pide aprobación ni usa los secrets de production. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "deploy-prod:\n  runs-on: ubuntu-latest\n  env: production"
+      },
+      "answer": [
+        3
+      ],
+      "fix": "  environment: production",
+      "explanation": "env define variables. Para asociar el job a un entorno se usa environment.",
+      "tags": [
+        "environments",
+        "env"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.environments.p4.q02",
+      "type": "find_error",
+      "prompt": "GitHub no deja llamar al workflow así. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "jobs:\n  build:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: ./.github/workflows/build.yml"
+      },
+      "answer": [
+        5
+      ],
+      "fix": "Llamarlo desde el job: build: uses: ./.github/workflows/build.yml, sin runs-on ni steps",
+      "explanation": "Los workflows reutilizables se llaman a nivel de job, no como un step.",
+      "tags": [
+        "reutilizables"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.environments.p4.q03",
+      "type": "find_error",
+      "prompt": "Otro workflow lo llama y GitHub dice que no es reutilizable. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "# .github/workflows/build.yml\non:\n  workflow_dispatch:\njobs:"
+      },
+      "answer": [
+        3
+      ],
+      "fix": "  workflow_call:",
+      "explanation": "Solo los workflows con workflow_call se pueden llamar desde otros.",
+      "tags": [
+        "reutilizables"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.environments.p4.q04",
+      "type": "find_error",
+      "prompt": "El workflow llamado no recibe los secrets. ¿Debajo de qué línea falta algo?",
+      "code": {
+        "lang": "yaml",
+        "content": "jobs:\n  deploy:\n    uses: ./.github/workflows/deploy.yml\n    with:\n      entorno: prod"
+      },
+      "answer": [
+        5
+      ],
+      "fix": "    secrets: inherit",
+      "explanation": "Los secrets no pasan solos al workflow llamado: hay que pasarlos o usar inherit.",
+      "tags": [
+        "reutilizables",
+        "secrets"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.environments.p4.q05",
+      "type": "find_error",
+      "prompt": "GitHub ignora la configuración. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "concurency:\n  group: deploy-prod"
+      },
+      "answer": [
+        1
+      ],
+      "fix": "concurrency:",
+      "explanation": "La clave es concurrency, con dos r.",
+      "tags": [
+        "concurrency"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.environments.p4.q06",
+      "type": "find_error",
+      "prompt": "El workflow llamado no recibe el entorno. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "# deploy.yml\non:\n  workflow_call:\n    inputs:\n      entorno:\n        type: string\n# ci.yml\njobs:\n  deploy:\n    uses: ./.github/workflows/deploy.yml\n    with:\n      environment: prod"
+      },
+      "answer": [
+        12
+      ],
+      "fix": "      entorno: prod",
+      "explanation": "El nombre en with tiene que ser el mismo que el del input declarado: entorno.",
+      "tags": [
+        "inputs",
+        "reutilizables"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.environments.p4.q07",
+      "type": "find_error",
+      "prompt": "Se puede aprobar el despliegue antes de que terminen los tests. ¿Debajo de qué línea falta algo?",
+      "code": {
+        "lang": "yaml",
+        "content": "jobs:\n  test:\n    runs-on: ubuntu-latest\n  deploy-prod:\n    environment: production\n    runs-on: ubuntu-latest"
+      },
+      "answer": [
+        4
+      ],
+      "fix": "    needs: test",
+      "explanation": "Sin needs, deploy-prod arranca a la vez que test. Con needs, solo tras pasar los tests.",
+      "tags": [
+        "needs",
+        "environments"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.environments.p4.q08",
+      "type": "find_error",
+      "prompt": "GitHub rechaza el job. ¿Qué línea sobra?",
+      "code": {
+        "lang": "yaml",
+        "content": "jobs:\n  build:\n    runs-on: ubuntu-latest\n    uses: ./.github/workflows/build.yml"
+      },
+      "answer": [
+        3
+      ],
+      "fix": "Quitar runs-on: el workflow llamado define sus propios runners",
+      "explanation": "Un job que llama a un workflow reutilizable no lleva runs-on ni steps.",
+      "tags": [
+        "reutilizables"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.environments.p4.q09",
+      "type": "find_error",
+      "prompt": "Dentro del workflow reutilizable, entorno sale vacío. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "steps:\n  - run: ./deploy.sh ${{ env.entorno }}"
+      },
+      "answer": [
+        2
+      ],
+      "fix": "  - run: ./deploy.sh ${{ inputs.entorno }}",
+      "explanation": "Los inputs se leen con el contexto inputs, no con env.",
+      "tags": [
+        "inputs"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.environments.p4.q10",
+      "type": "find_error",
+      "prompt": "GitHub dice que falta la versión del workflow llamado. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "jobs:\n  deploy:\n    uses: mi-org/plantillas/.github/workflows/deploy.yml"
+      },
+      "answer": [
+        3
+      ],
+      "fix": "    uses: mi-org/plantillas/.github/workflows/deploy.yml@v1",
+      "explanation": "Un workflow de otro repo se llama con @ y una versión, igual que una action.",
+      "tags": [
+        "reutilizables",
+        "versiones"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.environments.p4.q11",
+      "type": "find_error",
+      "prompt": "En Settings el environment se llama production y el job no pide aprobación. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "deploy:\n  environment: producion"
+      },
+      "answer": [
+        2
+      ],
+      "fix": "  environment: production",
+      "explanation": "Con un nombre que no coincide, GitHub crea otro environment sin reglas.",
+      "tags": [
+        "environments"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.environments.p4.q12",
+      "type": "find_error",
+      "prompt": "GitHub no acepta el valor de secrets. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "jobs:\n  deploy:\n    uses: ./.github/workflows/deploy.yml\n    secrets: inherits"
+      },
+      "answer": [
+        4
+      ],
+      "fix": "    secrets: inherit",
+      "explanation": "El valor es inherit, sin s final.",
+      "tags": [
+        "reutilizables",
+        "secrets"
+      ],
+      "difficulty": 1
+    }
+  ]
+}

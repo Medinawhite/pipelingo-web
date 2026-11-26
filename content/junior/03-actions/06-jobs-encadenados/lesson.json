@@ -1,0 +1,8 @@
+{
+  "level": "junior",
+  "unit": "actions",
+  "lesson": "jobs-encadenados",
+  "order": 6,
+  "title": "Jobs encadenados",
+  "goal": "Ordenar jobs con needs, repetirlos con matrix y moverlos más rápido con caché y artefactos."
+}

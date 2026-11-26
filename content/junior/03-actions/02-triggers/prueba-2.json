@@ -1,0 +1,326 @@
+{
+  "level": "junior",
+  "unit": "actions",
+  "lesson": "triggers",
+  "test": 2,
+  "title": "Comprender",
+  "questions": [
+    {
+      "id": "actions.triggers.p2.q01",
+      "type": "match",
+      "prompt": "Empareja cada evento con cuándo se lanza.",
+      "pairs": [
+        {
+          "left": "push",
+          "right": "Al subir commits"
+        },
+        {
+          "left": "pull_request",
+          "right": "Al abrir o actualizar un PR"
+        },
+        {
+          "left": "workflow_dispatch",
+          "right": "A mano, con un botón"
+        },
+        {
+          "left": "schedule",
+          "right": "A una hora fija"
+        }
+      ],
+      "explanation": "Elegir bien el evento es decidir en qué momento del flujo actúa la automatización.",
+      "tags": [
+        "triggers"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.triggers.p2.q02",
+      "type": "multiple_choice",
+      "prompt": "Quieres pasar los tests antes de fusionar un PR a main. ¿Qué trigger usas?",
+      "options": [
+        {
+          "id": "a",
+          "text": "pull_request con branches: [main]"
+        },
+        {
+          "id": "b",
+          "text": "push a main",
+          "why": "Llega tarde: el código ya está fusionado."
+        },
+        {
+          "id": "c",
+          "text": "schedule cada hora",
+          "why": "No va ligado al PR."
+        }
+      ],
+      "answer": "a",
+      "explanation": "El check del PR avisa antes de fusionar. Con la rama protegida, incluso lo impide.",
+      "tags": [
+        "pull_request",
+        "branches"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.triggers.p2.q03",
+      "type": "multiple_choice",
+      "prompt": "Tienes on: push con branches: [main]. Haces push a feature/login. ¿Se lanza?",
+      "options": [
+        {
+          "id": "a",
+          "text": "No"
+        },
+        {
+          "id": "b",
+          "text": "Sí",
+          "why": "El filtro lo limita a main."
+        },
+        {
+          "id": "c",
+          "text": "Solo si abres un PR",
+          "why": "Para eso haría falta el evento pull_request."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Los filtros recortan el evento: solo los push a main lanzan el workflow.",
+      "tags": [
+        "branches",
+        "filtros"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.triggers.p2.q04",
+      "type": "multiple_choice",
+      "prompt": "¿Por qué filtrar con paths?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Para no lanzar el CI si solo cambian archivos que no afectan al build"
+        },
+        {
+          "id": "b",
+          "text": "Para ocultar archivos",
+          "why": "No oculta nada."
+        },
+        {
+          "id": "c",
+          "text": "Para borrar archivos",
+          "why": "Los filtros no modifican el repo."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Un cambio en el README no necesita compilar la app. Ahorras tiempo y minutos.",
+      "tags": [
+        "paths"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.triggers.p2.q05",
+      "type": "multiple_choice",
+      "prompt": "Un PR llega desde un fork. ¿Tiene acceso a los secrets de tu repo?",
+      "options": [
+        {
+          "id": "a",
+          "text": "No, por seguridad"
+        },
+        {
+          "id": "b",
+          "text": "Sí, igual que tus PR",
+          "why": "Cualquiera podría robarlos con un PR."
+        },
+        {
+          "id": "c",
+          "text": "Sí, y además con un token con escritura",
+          "why": "Desde un fork el token solo tiene lectura."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Un desconocido podría cambiar el workflow para imprimir tus secretos. Por eso GitHub no se los da.",
+      "tags": [
+        "pull_request",
+        "seguridad"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.triggers.p2.q06",
+      "type": "match",
+      "prompt": "Empareja cada expresión cron con cuándo se ejecuta.",
+      "pairs": [
+        {
+          "left": "0 0 * * *",
+          "right": "Cada día a medianoche UTC"
+        },
+        {
+          "left": "0 * * * *",
+          "right": "Cada hora"
+        },
+        {
+          "left": "0 9 * * 1",
+          "right": "Los lunes a las 9:00 UTC"
+        },
+        {
+          "left": "*/15 * * * *",
+          "right": "Cada 15 minutos"
+        }
+      ],
+      "explanation": "Los campos son minuto, hora, día del mes, mes y día de la semana (0 domingo, 1 lunes).",
+      "tags": [
+        "cron"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.triggers.p2.q07",
+      "type": "multiple_choice",
+      "prompt": "¿Qué ventaja tiene desplegar solo con push de tags v*?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Solo despliegas las versiones que marcas a propósito"
+        },
+        {
+          "id": "b",
+          "text": "Es más rápido",
+          "why": "La velocidad es la misma."
+        },
+        {
+          "id": "c",
+          "text": "No necesita runner",
+          "why": "Todo job necesita un runner."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Un tag es una decisión: «esto es la versión 1.2.0». Así no despliegas cada commit de prueba.",
+      "tags": [
+        "tags"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.triggers.p2.q08",
+      "type": "multiple_choice",
+      "prompt": "¿Qué hace branches-ignore: ['docs/**']?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lanza en todas las ramas menos las que empiezan por docs/"
+        },
+        {
+          "id": "b",
+          "text": "Lanza solo en ramas docs/",
+          "why": "Es al revés."
+        },
+        {
+          "id": "c",
+          "text": "Ignora los archivos de docs/",
+          "why": "Eso es paths-ignore."
+        }
+      ],
+      "answer": "a",
+      "explanation": "-ignore excluye. branches-ignore mira ramas; paths-ignore, archivos.",
+      "tags": [
+        "branches",
+        "filtros"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.triggers.p2.q09",
+      "type": "multiple_choice",
+      "prompt": "¿Para qué sirven los inputs de workflow_dispatch?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Para pedir datos al lanzarlo a mano, como el entorno"
+        },
+        {
+          "id": "b",
+          "text": "Para leer secrets",
+          "why": "Los secrets van aparte."
+        },
+        {
+          "id": "c",
+          "text": "Para programarlo",
+          "why": "Eso es schedule."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Al pulsar Run workflow, GitHub muestra un formulario con esos campos.",
+      "tags": [
+        "workflow_dispatch",
+        "inputs"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.triggers.p2.q10",
+      "type": "true_false",
+      "prompt": "pull_request también se lanza cuando subes commits nuevos a la rama del PR.",
+      "answer": true,
+      "explanation": "Por defecto escucha opened, synchronize y reopened. synchronize es justo eso: commits nuevos.",
+      "tags": [
+        "pull_request"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.triggers.p2.q11",
+      "type": "multiple_choice",
+      "prompt": "Tienes on: [push, pull_request] y abres un PR desde una rama del mismo repo. ¿Cuántas ejecuciones hay?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Dos: una por el push y otra por el PR"
+        },
+        {
+          "id": "b",
+          "text": "Una",
+          "why": "Cada evento lanza su propia ejecución."
+        },
+        {
+          "id": "c",
+          "text": "Ninguna",
+          "why": "Los dos eventos encajan."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Es normal ver el workflow dos veces. Si no lo quieres, filtra push a main.",
+      "tags": [
+        "push",
+        "pull_request"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.triggers.p2.q12",
+      "type": "match",
+      "prompt": "Empareja cada filtro con lo que limita.",
+      "pairs": [
+        {
+          "left": "branches",
+          "right": "Qué ramas"
+        },
+        {
+          "left": "tags",
+          "right": "Qué tags"
+        },
+        {
+          "left": "paths",
+          "right": "Qué archivos"
+        },
+        {
+          "left": "types",
+          "right": "Qué acción del evento (opened, closed...)"
+        }
+      ],
+      "explanation": "Los filtros se combinan: todos tienen que cumplirse para que se lance.",
+      "tags": [
+        "filtros"
+      ],
+      "difficulty": 2
+    }
+  ]
+}

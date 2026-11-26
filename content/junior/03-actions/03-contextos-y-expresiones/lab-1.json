@@ -1,0 +1,55 @@
+{
+  "level": "junior",
+  "unit": "actions",
+  "lesson": "contextos-y-expresiones",
+  "lab": 1,
+  "kind": "editor",
+  "title": "Datos del evento",
+  "intro": "Haz que el workflow sepa qué commit y qué rama lo lanzaron, pase un valor de un step a otro y solo despliegue desde main.",
+  "outro": "${{ }} lee los contextos, $GITHUB_OUTPUT pasa valores entre steps e if decide si algo se ejecuta. Con eso el pipeline reacciona a cada evento.",
+  "file": {
+    "path": ".github/workflows/info.yml",
+    "lang": "yaml",
+    "starter": "name: Info\non:\n  push:\n    branches: [main, \"feature/**\"]\n\njobs:\n  info:\n    runs-on: ubuntu-latest\n    steps:\n      - run: echo \"Commit ???\"\n\n  deploy:\n    needs: info\n    runs-on: ubuntu-latest\n    steps:\n      - run: echo \"Desplegando...\"\n"
+  },
+  "run": "workflow",
+  "solution": "name: Info\non:\n  push:\n    branches: [main, \"feature/**\"]\n\njobs:\n  info:\n    runs-on: ubuntu-latest\n    steps:\n      - run: echo \"Commit ${{ github.sha }}\"\n      - id: datos\n        run: echo \"rama=${{ github.ref_name }}\" >> $GITHUB_OUTPUT\n      - run: echo \"Rama ${{ steps.datos.outputs.rama }}\"\n\n  deploy:\n    needs: info\n    if: github.ref == 'refs/heads/main'\n    runs-on: ubuntu-latest\n    steps:\n      - run: echo \"Desplegando...\"\n",
+  "objectives": [
+    {
+      "id": "o1",
+      "text": "Muestra el SHA del commit en lugar de ???.",
+      "hint": "El contexto github tiene el SHA: ${{ github.sha }}.",
+      "check": { "type": "regex", "pattern": "echo .*\\$\\{\\{\\s*github\\.sha\\s*\\}\\}" }
+    },
+    {
+      "id": "o2",
+      "text": "Añade un step con id datos que guarde rama=<nombre de la rama> en $GITHUB_OUTPUT.",
+      "hint": "- id: datos\n  run: echo \"rama=${{ github.ref_name }}\" >> $GITHUB_OUTPUT",
+      "check": { "type": "regex", "pattern": "rama=\\$\\{\\{\\s*github\\.ref_name\\s*\\}\\}\"?\\s*>>\\s*\"?\\$GITHUB_OUTPUT" }
+    },
+    {
+      "id": "o3",
+      "text": "En otro step posterior, muestra ese valor leyéndolo de steps.",
+      "hint": "- run: echo \"Rama ${{ steps.datos.outputs.rama }}\"",
+      "check": { "type": "order", "first": "id:\\s*datos", "then": "\\$\\{\\{\\s*steps\\.datos\\.outputs\\.rama\\s*\\}\\}" }
+    },
+    {
+      "id": "o4",
+      "text": "El job deploy solo debe ejecutarse cuando la rama es main.",
+      "hint": "En deploy: «if: github.ref == 'refs/heads/main'». En las expresiones, comillas simples.",
+      "check": { "type": "yaml_path", "path": "jobs.deploy.if", "matches": "github\\.ref\\s*==\\s*'refs/heads/main'|github\\.ref_name\\s*==\\s*'main'" }
+    },
+    {
+      "id": "o5",
+      "text": "Ejecútalo con un push a main: los dos jobs en verde.",
+      "hint": "Elige «push a main» y pulsa ejecutar. Mira el log de info.",
+      "check": { "type": "run", "event": "push-main", "expect": "success" }
+    },
+    {
+      "id": "o6",
+      "text": "Ejecútalo con un push a feature/login: deploy se salta.",
+      "hint": "Elige «push a feature/login». El job deploy debe aparecer como saltado.",
+      "check": { "type": "run", "event": "push-feature", "expect": "job_skipped", "job": "deploy" }
+    }
+  ]
+}

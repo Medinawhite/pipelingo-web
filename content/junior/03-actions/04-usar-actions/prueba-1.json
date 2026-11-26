@@ -1,0 +1,287 @@
+{
+  "level": "junior",
+  "unit": "actions",
+  "lesson": "usar-actions",
+  "test": 1,
+  "title": "Reconocer",
+  "questions": [
+    {
+      "id": "actions.usar-actions.p1.q01",
+      "type": "multiple_choice",
+      "prompt": "¿Qué es una action?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Un paso reutilizable que alguien ya ha programado"
+        },
+        {
+          "id": "b",
+          "text": "Un workflow completo",
+          "why": "Una action es un step, no un workflow."
+        },
+        {
+          "id": "c",
+          "text": "Un runner",
+          "why": "El runner es la máquina."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Las actions te ahorran escribir scripts: instalar Java, hacer login, subir archivos...",
+      "tags": [
+        "actions"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.usar-actions.p1.q02",
+      "type": "multiple_choice",
+      "prompt": "¿Dónde buscas actions hechas por otros?",
+      "options": [
+        {
+          "id": "a",
+          "text": "En GitHub Marketplace"
+        },
+        {
+          "id": "b",
+          "text": "En Docker Hub",
+          "why": "Docker Hub guarda imágenes, no actions."
+        },
+        {
+          "id": "c",
+          "text": "En npm",
+          "why": "npm es para paquetes de JavaScript."
+        }
+      ],
+      "answer": "a",
+      "explanation": "El Marketplace muestra cada action con su autor, su versión y su documentación.",
+      "tags": [
+        "marketplace"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.usar-actions.p1.q03",
+      "type": "multiple_choice",
+      "prompt": "¿Qué hace actions/checkout?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Descarga el código del repo en el runner"
+        },
+        {
+          "id": "b",
+          "text": "Hace un commit",
+          "why": "No modifica el repo."
+        },
+        {
+          "id": "c",
+          "text": "Crea una rama",
+          "why": "No crea nada en GitHub."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Es casi siempre el primer step: sin él, el runner no tiene tu código.",
+      "tags": [
+        "checkout"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.usar-actions.p1.q04",
+      "type": "multiple_choice",
+      "prompt": "¿Cómo le pasas parámetros a una action?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Con with"
+        },
+        {
+          "id": "b",
+          "text": "Con env",
+          "why": "env crea variables de entorno; los inputs van en with."
+        },
+        {
+          "id": "c",
+          "text": "Con args",
+          "why": "No es una clave de los steps."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Cada action documenta sus inputs; tú los rellenas debajo de with.",
+      "tags": [
+        "with",
+        "inputs"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.usar-actions.p1.q05",
+      "type": "true_false",
+      "prompt": "En actions/checkout@v4, @v4 indica la versión de la action.",
+      "answer": true,
+      "explanation": "Lo que va después de @ es la versión: un tag como v4, una versión exacta o un SHA.",
+      "tags": [
+        "versiones"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.usar-actions.p1.q06",
+      "type": "multiple_choice",
+      "prompt": "¿Qué hace actions/setup-java?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Instala una versión de Java en el runner"
+        },
+        {
+          "id": "b",
+          "text": "Compila la app",
+          "why": "Compilar lo haces tú con Gradle o Maven."
+        },
+        {
+          "id": "c",
+          "text": "Crea un proyecto Java",
+          "why": "Solo prepara la herramienta."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Las actions setup-* instalan la herramienta: setup-node, setup-python, setup-java...",
+      "tags": [
+        "setup-java"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.usar-actions.p1.q07",
+      "type": "true_false",
+      "prompt": "Las actions oficiales de GitHub están en la organización actions.",
+      "answer": true,
+      "explanation": "actions/checkout, actions/cache, actions/upload-artifact... las mantiene GitHub.",
+      "tags": [
+        "actions"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.usar-actions.p1.q08",
+      "type": "multiple_choice",
+      "prompt": "¿Qué forma de fijar la versión de una action es la más segura?",
+      "options": [
+        {
+          "id": "a",
+          "text": "El SHA completo del commit de la action"
+        },
+        {
+          "id": "b",
+          "text": "@main",
+          "why": "La rama cambia en cualquier momento."
+        },
+        {
+          "id": "c",
+          "text": "Sin versión",
+          "why": "GitHub no lo permite."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Un SHA no se puede mover: siempre ejecutas exactamente el código que revisaste.",
+      "tags": [
+        "versiones",
+        "seguridad"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.usar-actions.p1.q09",
+      "type": "multiple_choice",
+      "prompt": "¿Dónde ves qué inputs acepta una action?",
+      "options": [
+        {
+          "id": "a",
+          "text": "En su README y en su archivo action.yml"
+        },
+        {
+          "id": "b",
+          "text": "En tu workflow",
+          "why": "Tu workflow solo los usa."
+        },
+        {
+          "id": "c",
+          "text": "En Settings del repo",
+          "why": "No está ahí."
+        }
+      ],
+      "answer": "a",
+      "explanation": "action.yml declara los inputs, cuáles son obligatorios y sus valores por defecto.",
+      "tags": [
+        "inputs"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.usar-actions.p1.q10",
+      "type": "true_false",
+      "prompt": "Puedes usar una action que vive en tu propio repo con uses: ./ruta.",
+      "answer": true,
+      "explanation": "Las actions locales empiezan por ./ y necesitan haber hecho checkout antes.",
+      "tags": [
+        "actions-locales"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.usar-actions.p1.q11",
+      "type": "multiple_choice",
+      "prompt": "¿Qué action guarda archivos del job para descargarlos después?",
+      "options": [
+        {
+          "id": "a",
+          "text": "actions/upload-artifact"
+        },
+        {
+          "id": "b",
+          "text": "actions/checkout",
+          "why": "Descarga el repo."
+        },
+        {
+          "id": "c",
+          "text": "actions/cache",
+          "why": "Acelera dependencias; no es para entregar archivos."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Así puedes descargar el APK o los informes desde la página de la ejecución.",
+      "tags": [
+        "artefactos"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.usar-actions.p1.q12",
+      "type": "multiple_choice",
+      "prompt": "¿Qué action prepara Docker Buildx en el runner?",
+      "options": [
+        {
+          "id": "a",
+          "text": "docker/setup-buildx-action"
+        },
+        {
+          "id": "b",
+          "text": "actions/docker",
+          "why": "No existe."
+        },
+        {
+          "id": "c",
+          "text": "docker/login-action",
+          "why": "Hace login en un registro."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Buildx es el constructor moderno de Docker: caché, varias arquitecturas y más.",
+      "tags": [
+        "docker"
+      ],
+      "difficulty": 1
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "level": "junior",
+  "unit": "docker",
+  "lesson": "imagen-vs-contenedor",
+  "lab": 2,
+  "kind": "terminal",
+  "title": "El contenedor que se cae",
+  "intro": "Alguien arrancó una base de datos postgres llamada db y no está en marcha. Averigua por qué y déjala funcionando.",
+  "outro": "Estado, logs, corrección y prueba: el bucle de depuración que usarás también en OpenShift. Y un contenedor no cambia su configuración: se recrea.",
+  "setup": {
+    "images": ["postgres:16"],
+    "containers": [{ "name": "db", "image": "postgres:16", "state": "exited" }]
+  },
+  "objectives": [
+    {
+      "id": "o1",
+      "text": "Lista todos los contenedores, también los parados, para ver el estado de db.",
+      "hint": "docker ps -a",
+      "check": { "type": "command_ran", "pattern": "^docker (ps|container (ls|ps|list))\\b.*(-a\\b|--all|-aq\\b|-qa\\b)" }
+    },
+    {
+      "id": "o2",
+      "text": "Lee los logs de db para saber por qué se para.",
+      "hint": "docker logs db",
+      "check": { "type": "command_ran", "pattern": "^docker (container )?logs\\b.*\\bdb\\b" }
+    },
+    {
+      "id": "o3",
+      "text": "Un contenedor no cambia sus variables de entorno: bórralo para recrearlo.",
+      "hint": "docker rm db",
+      "check": { "type": "container", "name": "db", "state": "absent" }
+    },
+    {
+      "id": "o4",
+      "text": "Vuelve a crear db en segundo plano con postgres:16 y la variable POSTGRES_PASSWORD.",
+      "hint": "docker run -d --name db -e POSTGRES_PASSWORD=secreto postgres:16",
+      "check": { "type": "container", "name": "db", "state": "running", "image": "postgres:16", "env": "^POSTGRES_PASSWORD=.+" }
+    },
+    {
+      "id": "o5",
+      "text": "Confirma en los logs que la base de datos ya acepta conexiones.",
+      "hint": "docker logs db",
+      "check": { "type": "command_ran", "pattern": "^docker (container )?logs\\b.*\\bdb\\b" }
+    }
+  ]
+}

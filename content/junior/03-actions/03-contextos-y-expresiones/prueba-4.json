@@ -1,0 +1,229 @@
+{
+  "level": "junior",
+  "unit": "actions",
+  "lesson": "contextos-y-expresiones",
+  "test": 4,
+  "title": "Depurar",
+  "questions": [
+    {
+      "id": "actions.contextos-y-expresiones.p4.q01",
+      "type": "find_error",
+      "prompt": "El step imprime literalmente «{{ github.sha }}». ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "steps:\n  - run: echo {{ github.sha }}"
+      },
+      "answer": [
+        2
+      ],
+      "fix": "  - run: echo ${{ github.sha }}",
+      "explanation": "Falta el $. Sin él, GitHub no lo trata como expresión y lo deja tal cual.",
+      "tags": [
+        "expresiones"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p4.q02",
+      "type": "find_error",
+      "prompt": "VERSION sale vacía en el segundo step. ¿Qué línea cambiarías?",
+      "code": {
+        "lang": "yaml",
+        "content": "steps:\n  - run: export VERSION=2.0\n  - run: echo $VERSION"
+      },
+      "answer": [
+        2
+      ],
+      "fix": "  - run: echo \"VERSION=2.0\" >> $GITHUB_ENV",
+      "explanation": "Cada step es una shell nueva: export muere al acabar el step. $GITHUB_ENV lo pasa a los siguientes.",
+      "tags": [
+        "GITHUB_ENV",
+        "env"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p4.q03",
+      "type": "find_error",
+      "prompt": "El segundo step imprime vacío. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "steps:\n  - id: meta\n    run: echo \"tag=1.0\" >> $GITHUB_OUTPUT\n  - run: echo ${{ steps.meta.tag }}"
+      },
+      "answer": [
+        4
+      ],
+      "fix": "  - run: echo ${{ steps.meta.outputs.tag }}",
+      "explanation": "Las salidas de un step están bajo outputs: steps.meta.outputs.tag.",
+      "tags": [
+        "outputs"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p4.q04",
+      "type": "find_error",
+      "prompt": "steps.meta no existe. ¿A qué línea le falta el id?",
+      "code": {
+        "lang": "yaml",
+        "content": "steps:\n  - run: echo \"tag=1.0\" >> $GITHUB_OUTPUT\n  - run: echo ${{ steps.meta.outputs.tag }}"
+      },
+      "answer": [
+        2
+      ],
+      "fix": "  - id: meta  (y en la línea siguiente, el run)",
+      "explanation": "Para leer las salidas de un step, ese step necesita un id.",
+      "tags": [
+        "id",
+        "outputs"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p4.q05",
+      "type": "find_error",
+      "prompt": "El aviso de fallo no llega nunca cuando fallan los tests. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "steps:\n  - run: npm test\n  - name: Avisar del fallo\n    if: success()\n    run: ./notificar.sh"
+      },
+      "answer": [
+        4
+      ],
+      "fix": "    if: failure()",
+      "explanation": "success() solo corre si todo ha ido bien: justo lo contrario de lo que quieres.",
+      "tags": [
+        "funciones"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p4.q06",
+      "type": "find_error",
+      "prompt": "El despliegue no corre nunca, ni siquiera en main. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "steps:\n  - run: ./deploy.sh\n    if: github.ref == 'main'"
+      },
+      "answer": [
+        3
+      ],
+      "fix": "    if: github.ref == 'refs/heads/main'",
+      "explanation": "github.ref es la referencia completa. Compara con refs/heads/main o usa github.ref_name.",
+      "tags": [
+        "ref",
+        "if"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p4.q07",
+      "type": "find_error",
+      "prompt": "GitHub dice que la expresión no es válida. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "- run: ./deploy.sh\n  if: github.event_name = 'push'"
+      },
+      "answer": [
+        2
+      ],
+      "fix": "  if: github.event_name == 'push'",
+      "explanation": "Para comparar se usa ==. Un solo = no es un operador de las expresiones.",
+      "tags": [
+        "expresiones"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p4.q08",
+      "type": "find_error",
+      "prompt": "GitHub rechaza la condición. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "- run: ./deploy.sh\n  if: github.ref_name == \"main\""
+      },
+      "answer": [
+        2
+      ],
+      "fix": "  if: github.ref_name == 'main'",
+      "explanation": "En las expresiones los textos van entre comillas simples. Las dobles no valen.",
+      "tags": [
+        "expresiones"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p4.q09",
+      "type": "find_error",
+      "prompt": "El step imprime «%APP%» en ubuntu-latest. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "env:\n  APP: hello-devops\nsteps:\n  - run: echo %APP%"
+      },
+      "answer": [
+        4
+      ],
+      "fix": "  - run: echo $APP",
+      "explanation": "%APP% es sintaxis de cmd de Windows. En bash se usa $APP.",
+      "tags": [
+        "env"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p4.q10",
+      "type": "find_error",
+      "prompt": "Limpiar debe ejecutarse aunque fallen los tests, y no lo hace. ¿Qué step hay que cambiar?",
+      "code": {
+        "lang": "yaml",
+        "content": "steps:\n  - run: ./tests.sh\n  - name: Limpiar\n    run: ./limpiar.sh"
+      },
+      "answer": [
+        3
+      ],
+      "fix": "  - name: Limpiar\n    if: always()",
+      "explanation": "Por defecto un step solo corre si todo ha ido bien. Con if: always() corre siempre.",
+      "tags": [
+        "funciones"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p4.q11",
+      "type": "find_error",
+      "prompt": "El número de ejecución sale vacío. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "- run: echo \"Ejecución ${{ github.run-number }}\""
+      },
+      "answer": [
+        1
+      ],
+      "fix": "- run: echo \"Ejecución ${{ github.run_number }}\"",
+      "explanation": "Las propiedades llevan guion bajo: run_number. Con guion medio no existe.",
+      "tags": [
+        "github"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p4.q12",
+      "type": "find_error",
+      "prompt": "La salida tag no aparece en steps.meta.outputs. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "- id: meta\n  run: echo \"tag=1.0\" >> $GITHUB_ENV\n- run: echo ${{ steps.meta.outputs.tag }}"
+      },
+      "answer": [
+        2
+      ],
+      "fix": "  run: echo \"tag=1.0\" >> $GITHUB_OUTPUT",
+      "explanation": "$GITHUB_ENV crea variables de entorno; las salidas de un step van a $GITHUB_OUTPUT.",
+      "tags": [
+        "outputs",
+        "GITHUB_ENV"
+      ],
+      "difficulty": 3
+    }
+  ]
+}

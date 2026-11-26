@@ -1,0 +1,8 @@
+{
+  "level": "junior",
+  "unit": "actions",
+  "lesson": "usar-actions",
+  "order": 4,
+  "title": "Usar actions",
+  "goal": "Usar actions oficiales y de terceros: checkout, setup-*, inputs con with y versiones seguras."
+}

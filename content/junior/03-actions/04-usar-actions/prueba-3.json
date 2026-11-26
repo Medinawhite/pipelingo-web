@@ -1,0 +1,208 @@
+{
+  "level": "junior",
+  "unit": "actions",
+  "lesson": "usar-actions",
+  "test": 3,
+  "title": "Aplicar",
+  "questions": [
+    {
+      "id": "actions.usar-actions.p3.q01",
+      "type": "fill_command",
+      "prompt": "Descarga el código del repo con la versión 4 de checkout.",
+      "template": "- uses: actions/checkout@{{b1}}",
+      "blanks": {
+        "b1": [
+          "v4"
+        ]
+      },
+      "explanation": "La versión va tras la arroba.",
+      "tags": [
+        "checkout",
+        "versiones"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.usar-actions.p3.q02",
+      "type": "fill_command",
+      "prompt": "Instala Java con la distribución Temurin.",
+      "template": "distribution: {{b1}}",
+      "blanks": {
+        "b1": [
+          "temurin",
+          "'temurin'"
+        ]
+      },
+      "explanation": "distribution va dentro de with en setup-java.",
+      "tags": [
+        "setup-java"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.usar-actions.p3.q03",
+      "type": "fill_command",
+      "prompt": "Pide la versión 17 de Java.",
+      "template": "java-version: {{b1}}",
+      "blanks": {
+        "b1": [
+          "17",
+          "'17'",
+          "\"17\""
+        ]
+      },
+      "explanation": "java-version admite versiones mayores (17) o exactas (17.0.9).",
+      "tags": [
+        "setup-java"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.usar-actions.p3.q04",
+      "type": "fill_command",
+      "prompt": "Escribe la clave que pasa inputs a una action.",
+      "template": "{{b1}}:",
+      "blanks": {
+        "b1": [
+          "with"
+        ]
+      },
+      "explanation": "Debajo de with va cada input con su valor.",
+      "tags": [
+        "with"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.usar-actions.p3.q05",
+      "type": "fill_command",
+      "prompt": "Usa la action oficial de Python en su versión 5.",
+      "template": "- uses: actions/setup-{{b1}}@v5",
+      "blanks": {
+        "b1": [
+          "python"
+        ]
+      },
+      "explanation": "Todas siguen el patrón actions/setup-<herramienta>.",
+      "tags": [
+        "setup"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.usar-actions.p3.q06",
+      "type": "fill_command",
+      "prompt": "Haz que checkout descargue todo el historial.",
+      "template": "fetch-depth: {{b1}}",
+      "blanks": {
+        "b1": [
+          "0"
+        ]
+      },
+      "explanation": "0 significa sin límite: todos los commits y tags.",
+      "tags": [
+        "checkout"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.usar-actions.p3.q07",
+      "type": "fill_command",
+      "prompt": "Activa la caché de npm en setup-node.",
+      "template": "cache: {{b1}}",
+      "blanks": {
+        "b1": [
+          "npm",
+          "'npm'"
+        ]
+      },
+      "explanation": "setup-node también acepta yarn y pnpm.",
+      "tags": [
+        "cache"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.usar-actions.p3.q08",
+      "type": "fill_command",
+      "prompt": "Usa una action local que está en .github/actions/saludo.",
+      "template": "- uses: {{b1}}/.github/actions/saludo",
+      "blanks": {
+        "b1": [
+          "."
+        ]
+      },
+      "explanation": "El punto indica la raíz de tu repo. Antes hace falta checkout.",
+      "tags": [
+        "actions-locales"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.usar-actions.p3.q09",
+      "type": "fill_command",
+      "prompt": "Haz login en un registro con la action oficial de Docker.",
+      "template": "- uses: docker/{{b1}}-action@v3",
+      "blanks": {
+        "b1": [
+          "login"
+        ]
+      },
+      "explanation": "docker/login-action sirve para Docker Hub, GHCR y otros registros.",
+      "tags": [
+        "docker"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.usar-actions.p3.q10",
+      "type": "fill_command",
+      "prompt": "Sube la carpeta del APK como artefacto: elige la action.",
+      "template": "- uses: actions/{{b1}}@v4",
+      "blanks": {
+        "b1": [
+          "upload-artifact"
+        ]
+      },
+      "explanation": "Su pareja, download-artifact, la descarga en otro job.",
+      "tags": [
+        "artefactos"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.usar-actions.p3.q11",
+      "type": "fill_command",
+      "prompt": "Activa la caché de Gradle en setup-java.",
+      "template": "cache: {{b1}}",
+      "blanks": {
+        "b1": [
+          "gradle",
+          "'gradle'"
+        ]
+      },
+      "explanation": "setup-java puede cachear gradle, maven o sbt.",
+      "tags": [
+        "cache",
+        "setup-java"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.usar-actions.p3.q12",
+      "type": "fill_command",
+      "prompt": "Prepara Buildx para construir imágenes.",
+      "template": "- uses: docker/setup-{{b1}}-action@v3",
+      "blanks": {
+        "b1": [
+          "buildx"
+        ]
+      },
+      "explanation": "Buildx mejora la caché de capas y permite varias arquitecturas.",
+      "tags": [
+        "docker"
+      ],
+      "difficulty": 2
+    }
+  ]
+}

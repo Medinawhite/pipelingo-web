@@ -1,0 +1,347 @@
+{
+  "level": "junior",
+  "unit": "actions",
+  "lesson": "anatomia-workflow",
+  "test": 2,
+  "title": "Comprender",
+  "questions": [
+    {
+      "id": "actions.anatomia-workflow.p2.q01",
+      "type": "match",
+      "prompt": "Empareja cada pieza con lo que es.",
+      "pairs": [
+        {
+          "left": "workflow",
+          "right": "Archivo YAML con todo el proceso"
+        },
+        {
+          "left": "job",
+          "right": "Grupo de steps en un runner"
+        },
+        {
+          "left": "step",
+          "right": "Un comando o una action"
+        },
+        {
+          "left": "runner",
+          "right": "Máquina que ejecuta el job"
+        }
+      ],
+      "explanation": "Workflow contiene jobs, cada job corre en un runner y ejecuta steps.",
+      "tags": [
+        "workflow",
+        "job",
+        "step",
+        "runner"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.anatomia-workflow.p2.q02",
+      "type": "multiple_choice",
+      "prompt": "Un workflow tiene dos jobs, build y test, sin needs. ¿Cómo se ejecutan?",
+      "options": [
+        {
+          "id": "a",
+          "text": "A la vez, cada uno en su runner"
+        },
+        {
+          "id": "b",
+          "text": "test espera a que termine build",
+          "why": "Solo pasa si test declara needs: build."
+        },
+        {
+          "id": "c",
+          "text": "Los dos en el mismo runner",
+          "why": "Cada job tiene su propia máquina."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Sin needs los jobs arrancan en paralelo. Es más rápido, pero no comparten nada.",
+      "tags": [
+        "job",
+        "needs"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.anatomia-workflow.p2.q03",
+      "type": "multiple_choice",
+      "prompt": "Un step crea un archivo. ¿Lo ve el siguiente step del mismo job?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Sí, comparten runner y disco"
+        },
+        {
+          "id": "b",
+          "text": "No, cada step empieza de cero",
+          "why": "Dentro de un job todos los steps comparten la máquina."
+        },
+        {
+          "id": "c",
+          "text": "Solo si se sube a GitHub",
+          "why": "No hace falta dentro del mismo job."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Los steps de un job corren en la misma máquina, así que ven los archivos de los anteriores.",
+      "tags": [
+        "step",
+        "runner"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.anatomia-workflow.p2.q04",
+      "type": "multiple_choice",
+      "prompt": "Un job crea un archivo. ¿Lo ve otro job del mismo workflow?",
+      "options": [
+        {
+          "id": "a",
+          "text": "No, cada job empieza en un runner limpio"
+        },
+        {
+          "id": "b",
+          "text": "Sí, siempre",
+          "why": "Cada job tiene su propia máquina."
+        },
+        {
+          "id": "c",
+          "text": "Sí, si usa run",
+          "why": "run no cambia nada: el archivo está en otra máquina."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Para pasar archivos entre jobs se usan artefactos, que verás más adelante.",
+      "tags": [
+        "job",
+        "runner"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.anatomia-workflow.p2.q05",
+      "type": "multiple_choice",
+      "prompt": "¿Por qué casi todos los workflows empiezan con actions/checkout?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Porque el runner empieza vacío y checkout descarga el código"
+        },
+        {
+          "id": "b",
+          "text": "Para iniciar sesión en GitHub",
+          "why": "El runner ya tiene un token."
+        },
+        {
+          "id": "c",
+          "text": "Para instalar Docker",
+          "why": "Docker ya viene en ubuntu-latest."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Sin checkout el runner no tiene tu código, y comandos como npm test o ./gradlew fallan.",
+      "tags": [
+        "checkout",
+        "runner"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.anatomia-workflow.p2.q06",
+      "type": "multiple_choice",
+      "prompt": "Un step falla. ¿Qué pasa con los siguientes steps del mismo job?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Se saltan y el job falla"
+        },
+        {
+          "id": "b",
+          "text": "Se ejecutan igual",
+          "why": "Solo pasa con if: always() o continue-on-error."
+        },
+        {
+          "id": "c",
+          "text": "El step se reintenta solo",
+          "why": "GitHub no reintenta steps por defecto."
+        }
+      ],
+      "answer": "a",
+      "explanation": "El job se para en el primer fallo. Así no despliegas algo que no ha pasado los tests.",
+      "tags": [
+        "step"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.anatomia-workflow.p2.q07",
+      "type": "match",
+      "prompt": "Empareja cada clave con lo que define.",
+      "pairs": [
+        {
+          "left": "on",
+          "right": "Cuándo se ejecuta"
+        },
+        {
+          "left": "jobs",
+          "right": "Qué trabajos hay"
+        },
+        {
+          "left": "runs-on",
+          "right": "Dónde corre cada job"
+        },
+        {
+          "left": "steps",
+          "right": "Qué hace cada job, paso a paso"
+        }
+      ],
+      "explanation": "Con estas cuatro claves ya puedes leer casi cualquier workflow.",
+      "tags": [
+        "on",
+        "jobs",
+        "runs-on",
+        "steps"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.anatomia-workflow.p2.q08",
+      "type": "multiple_choice",
+      "prompt": "¿Qué diferencia hay entre run y uses?",
+      "options": [
+        {
+          "id": "a",
+          "text": "run ejecuta comandos tuyos; uses ejecuta una action ya hecha"
+        },
+        {
+          "id": "b",
+          "text": "Son lo mismo",
+          "why": "Un step lleva uno u otro, nunca los dos."
+        },
+        {
+          "id": "c",
+          "text": "uses solo sirve para Docker",
+          "why": "uses sirve para cualquier action."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Usa run para comandos simples y uses cuando ya existe una action que lo hace bien.",
+      "tags": [
+        "run",
+        "uses"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.anatomia-workflow.p2.q09",
+      "type": "multiple_choice",
+      "prompt": "¿Por qué falla el workflow si indentas mal una línea?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Porque YAML usa la indentación para saber qué va dentro de qué"
+        },
+        {
+          "id": "b",
+          "text": "Porque GitHub no acepta archivos largos",
+          "why": "La longitud no importa."
+        },
+        {
+          "id": "c",
+          "text": "Porque los espacios borran el archivo",
+          "why": "Solo cambian cómo se interpreta."
+        }
+      ],
+      "answer": "a",
+      "explanation": "En YAML la sangría es estructura: un step mal indentado deja de estar dentro de su job.",
+      "tags": [
+        "yaml"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.anatomia-workflow.p2.q10",
+      "type": "multiple_choice",
+      "prompt": "¿Qué es el log de un job?",
+      "options": [
+        {
+          "id": "a",
+          "text": "La salida de cada step, visible en la pestaña Actions"
+        },
+        {
+          "id": "b",
+          "text": "Un archivo que se guarda en el repo",
+          "why": "Se ve en la web de GitHub, no en el repo."
+        },
+        {
+          "id": "c",
+          "text": "Un email que te envía GitHub",
+          "why": "GitHub puede avisarte, pero el log está en la web."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Ahí ves qué ha ejecutado cada step y dónde ha fallado. Es lo primero que se mira.",
+      "tags": [
+        "logs"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.anatomia-workflow.p2.q11",
+      "type": "match",
+      "prompt": "Empareja cada action oficial con lo que hace.",
+      "pairs": [
+        {
+          "left": "actions/checkout",
+          "right": "Descarga el código"
+        },
+        {
+          "left": "actions/setup-node",
+          "right": "Instala Node.js"
+        },
+        {
+          "left": "actions/upload-artifact",
+          "right": "Guarda archivos del job"
+        },
+        {
+          "left": "actions/cache",
+          "right": "Reutiliza dependencias entre ejecuciones"
+        }
+      ],
+      "explanation": "Las actions de la organización actions son las más usadas y las mantiene GitHub.",
+      "tags": [
+        "actions"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.anatomia-workflow.p2.q12",
+      "type": "multiple_choice",
+      "prompt": "¿Dónde ves si un workflow ha pasado o ha fallado?",
+      "options": [
+        {
+          "id": "a",
+          "text": "En la pestaña Actions y como check en el commit o el PR"
+        },
+        {
+          "id": "b",
+          "text": "Solo en tu terminal",
+          "why": "El workflow corre en GitHub, no en tu máquina."
+        },
+        {
+          "id": "c",
+          "text": "En Docker Hub",
+          "why": "Docker Hub no sabe nada de tus workflows."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Cada ejecución deja un check verde o rojo junto al commit. En un PR bloquea el merge si es obligatorio.",
+      "tags": [
+        "checks"
+      ],
+      "difficulty": 1
+    }
+  ]
+}

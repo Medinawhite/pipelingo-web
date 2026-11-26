@@ -1,0 +1,233 @@
+{
+  "level": "junior",
+  "unit": "actions",
+  "lesson": "usar-actions",
+  "test": 4,
+  "title": "Depurar",
+  "questions": [
+    {
+      "id": "actions.usar-actions.p4.q01",
+      "type": "find_error",
+      "prompt": "setup-java falla: falta un input obligatorio. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "- uses: actions/setup-java@v4\n  with:\n    distrib: temurin\n    java-version: 17"
+      },
+      "answer": [
+        3
+      ],
+      "fix": "    distribution: temurin",
+      "explanation": "El input se llama distribution. Con otro nombre se ignora y falta el obligatorio.",
+      "tags": [
+        "setup-java",
+        "inputs"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.usar-actions.p4.q02",
+      "type": "find_error",
+      "prompt": "setup-node no recibe la versión. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "- uses: actions/setup-node@v4\n  env:\n    node-version: 20"
+      },
+      "answer": [
+        2
+      ],
+      "fix": "  with:",
+      "explanation": "Los inputs de una action van en with. env solo crea variables de entorno.",
+      "tags": [
+        "with",
+        "env"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.usar-actions.p4.q03",
+      "type": "find_error",
+      "prompt": "Revisión de seguridad: ¿qué línea es arriesgada?",
+      "code": {
+        "lang": "yaml",
+        "content": "- uses: actions/checkout@v4\n- uses: someuser/deploy-action@main"
+      },
+      "answer": [
+        2
+      ],
+      "fix": "- uses: someuser/deploy-action@<sha-del-commit>",
+      "explanation": "Una action de terceros en @main puede cambiar en cualquier momento. Fíjala a un SHA.",
+      "tags": [
+        "versiones",
+        "seguridad"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.usar-actions.p4.q04",
+      "type": "find_error",
+      "prompt": "GitHub dice que el step no es válido. ¿Qué línea está mal indentada?",
+      "code": {
+        "lang": "yaml",
+        "content": "- uses: actions/setup-node@v4\nwith:\n  node-version: 20"
+      },
+      "answer": [
+        2
+      ],
+      "fix": "  with:",
+      "explanation": "with pertenece al step: va a la altura de uses, no a la del guion.",
+      "tags": [
+        "yaml",
+        "with"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.usar-actions.p4.q05",
+      "type": "find_error",
+      "prompt": "git describe dice que no hay tags. ¿Qué línea hay que ajustar?",
+      "code": {
+        "lang": "yaml",
+        "content": "- uses: actions/checkout@v4\n- run: git describe --tags"
+      },
+      "answer": [
+        1
+      ],
+      "fix": "- uses: actions/checkout@v4  (con with: fetch-depth: 0)",
+      "explanation": "checkout solo baja el último commit. Con fetch-depth: 0 baja todo el historial y los tags.",
+      "tags": [
+        "checkout"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.usar-actions.p4.q06",
+      "type": "find_error",
+      "prompt": "GitHub no encuentra la action local. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "- uses: actions/checkout@v4\n- uses: .github/actions/saludo"
+      },
+      "answer": [
+        2
+      ],
+      "fix": "- uses: ./.github/actions/saludo",
+      "explanation": "Las actions locales empiezan por ./. Sin eso, GitHub busca un repo llamado así.",
+      "tags": [
+        "actions-locales"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.usar-actions.p4.q07",
+      "type": "find_error",
+      "prompt": "La action local no se encuentra. ¿Qué línea falla?",
+      "code": {
+        "lang": "yaml",
+        "content": "- uses: ./.github/actions/saludo\n- uses: actions/checkout@v4"
+      },
+      "answer": [
+        1
+      ],
+      "fix": "Mover checkout delante: la action local está en el repo",
+      "explanation": "La action vive en tu código. Hasta que no haces checkout, no está en el runner.",
+      "tags": [
+        "actions-locales",
+        "checkout"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.usar-actions.p4.q08",
+      "type": "find_error",
+      "prompt": "GitHub no encuentra la action. ¿Qué línea tiene el error?",
+      "code": {
+        "lang": "yaml",
+        "content": "- uses: action/checkout@v4\n- run: npm ci"
+      },
+      "answer": [
+        1
+      ],
+      "fix": "- uses: actions/checkout@v4",
+      "explanation": "La organización es actions, en plural. Un carácter de diferencia y es otra action.",
+      "tags": [
+        "actions"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.usar-actions.p4.q09",
+      "type": "find_error",
+      "prompt": "setup-node instala una versión que no es la 20. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "- uses: actions/setup-node@v4\n  with:\n    version: 20"
+      },
+      "answer": [
+        3
+      ],
+      "fix": "    node-version: 20",
+      "explanation": "El input es node-version. version no existe y se ignora con solo un aviso.",
+      "tags": [
+        "setup-node",
+        "inputs"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.usar-actions.p4.q10",
+      "type": "find_error",
+      "prompt": "El login en GHCR falla por falta de contraseña. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "- uses: docker/login-action@v3\n  with:\n    registry: ghcr.io\n    username: ${{ github.actor }}\n    pasword: ${{ secrets.GITHUB_TOKEN }}"
+      },
+      "answer": [
+        5
+      ],
+      "fix": "    password: ${{ secrets.GITHUB_TOKEN }}",
+      "explanation": "El input es password, con dos s. Con el nombre mal, la action no recibe la contraseña.",
+      "tags": [
+        "docker",
+        "inputs"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.usar-actions.p4.q11",
+      "type": "find_error",
+      "prompt": "upload-artifact dice que no hay nada que subir. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "- uses: actions/upload-artifact@v4\n  with:\n    name: apk\n    file: app/build/outputs/apk/"
+      },
+      "answer": [
+        4
+      ],
+      "fix": "    path: app/build/outputs/apk/",
+      "explanation": "El input que indica qué subir se llama path.",
+      "tags": [
+        "artefactos",
+        "inputs"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.usar-actions.p4.q12",
+      "type": "find_error",
+      "prompt": "GitHub no encuentra la versión de la action. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "- uses: actions/checkout@4\n- run: ls"
+      },
+      "answer": [
+        1
+      ],
+      "fix": "- uses: actions/checkout@v4",
+      "explanation": "Los tags de las actions oficiales llevan v delante: v4.",
+      "tags": [
+        "versiones"
+      ],
+      "difficulty": 1
+    }
+  ]
+}

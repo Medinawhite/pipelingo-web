@@ -1,0 +1,270 @@
+{
+  "level": "junior",
+  "unit": "actions",
+  "lesson": "environments",
+  "test": 1,
+  "title": "Reconocer",
+  "questions": [
+    {
+      "id": "actions.environments.p1.q01",
+      "type": "multiple_choice",
+      "prompt": "¿Qué es un environment en GitHub Actions?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Un destino de despliegue, como dev o prod, con sus reglas y secrets"
+        },
+        {
+          "id": "b",
+          "text": "Una variable de entorno",
+          "why": "Eso es env."
+        },
+        {
+          "id": "c",
+          "text": "Un runner",
+          "why": "El runner es la máquina."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Cada environment puede tener aprobaciones, esperas, ramas permitidas y secrets propios.",
+      "tags": [
+        "environments"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.environments.p1.q02",
+      "type": "multiple_choice",
+      "prompt": "¿Cómo asocias un job al environment production?",
+      "options": [
+        {
+          "id": "a",
+          "text": "environment: production"
+        },
+        {
+          "id": "b",
+          "text": "env: production",
+          "why": "env define variables, no entornos de despliegue."
+        },
+        {
+          "id": "c",
+          "text": "runs-on: production",
+          "why": "runs-on elige la máquina."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Con environment, el job hereda las reglas y los secrets de ese entorno.",
+      "tags": [
+        "environments"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.environments.p1.q03",
+      "type": "true_false",
+      "prompt": "Un environment puede exigir que alguien apruebe antes de desplegar.",
+      "answer": true,
+      "explanation": "Con required reviewers, el job espera hasta que una persona autorizada lo aprueba.",
+      "tags": [
+        "aprobaciones"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.environments.p1.q04",
+      "type": "multiple_choice",
+      "prompt": "¿Qué hace un required reviewer?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Pausa el job hasta que una persona lo aprueba"
+        },
+        {
+          "id": "b",
+          "text": "Revisa el código del PR",
+          "why": "Eso es la revisión del PR, no del despliegue."
+        },
+        {
+          "id": "c",
+          "text": "Ejecuta los tests",
+          "why": "Los tests los ejecuta el workflow."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Es la puerta manual antes de producción: alguien decide que ese es el momento.",
+      "tags": [
+        "aprobaciones"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.environments.p1.q05",
+      "type": "true_false",
+      "prompt": "Cada environment puede tener sus propios secrets.",
+      "answer": true,
+      "explanation": "Así las credenciales de producción solo las usan los jobs de producción.",
+      "tags": [
+        "environments",
+        "secrets"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.environments.p1.q06",
+      "type": "multiple_choice",
+      "prompt": "¿Qué es un workflow reutilizable?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Un workflow que otros workflows llaman como si fuera un job"
+        },
+        {
+          "id": "b",
+          "text": "Una action",
+          "why": "Las actions son steps, no workflows."
+        },
+        {
+          "id": "c",
+          "text": "Una copia de otro workflow",
+          "why": "Precisamente evita copiar."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Defines el despliegue una vez y lo llamas desde varios sitios.",
+      "tags": [
+        "reutilizables"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.environments.p1.q07",
+      "type": "multiple_choice",
+      "prompt": "¿Qué trigger convierte un workflow en reutilizable?",
+      "options": [
+        {
+          "id": "a",
+          "text": "workflow_call"
+        },
+        {
+          "id": "b",
+          "text": "workflow_dispatch",
+          "why": "Ese es para lanzarlo a mano."
+        },
+        {
+          "id": "c",
+          "text": "push",
+          "why": "Se lanza con commits, no desde otro workflow."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Con on: workflow_call, otro workflow puede llamarlo con uses.",
+      "tags": [
+        "reutilizables"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.environments.p1.q08",
+      "type": "multiple_choice",
+      "prompt": "¿Qué hace concurrency?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Evita que dos ejecuciones del mismo grupo corran a la vez"
+        },
+        {
+          "id": "b",
+          "text": "Lanza jobs en paralelo",
+          "why": "Eso pasa por defecto, sin concurrency."
+        },
+        {
+          "id": "c",
+          "text": "Repite el job",
+          "why": "Eso sería una matrix."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Útil para que dos despliegues no pisen el mismo entorno.",
+      "tags": [
+        "concurrency"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.environments.p1.q09",
+      "type": "true_false",
+      "prompt": "Un wait timer retrasa el despliegue unos minutos antes de empezar.",
+      "answer": true,
+      "explanation": "Da margen para cancelar si alguien detecta un problema justo después del merge.",
+      "tags": [
+        "environments"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.environments.p1.q10",
+      "type": "multiple_choice",
+      "prompt": "¿Dónde configuras las reglas de un environment?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Settings → Environments"
+        },
+        {
+          "id": "b",
+          "text": "En Docker Hub",
+          "why": "No tiene relación con Actions."
+        },
+        {
+          "id": "c",
+          "text": "En el Dockerfile",
+          "why": "El Dockerfile construye imágenes."
+        }
+      ],
+      "answer": "a",
+      "explanation": "En el YAML solo lo nombras; aprobaciones y esperas se configuran en Settings.",
+      "tags": [
+        "environments"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.environments.p1.q11",
+      "type": "true_false",
+      "prompt": "Con deployment branches puedes limitar qué ramas pueden desplegar a producción.",
+      "answer": true,
+      "explanation": "Por ejemplo, solo main. Un job de otra rama no podrá usar ese environment.",
+      "tags": [
+        "environments"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.environments.p1.q12",
+      "type": "multiple_choice",
+      "prompt": "¿Dónde ves qué versión hay desplegada en cada entorno?",
+      "options": [
+        {
+          "id": "a",
+          "text": "En la sección Deployments del repo"
+        },
+        {
+          "id": "b",
+          "text": "En ningún sitio",
+          "why": "GitHub guarda el historial de despliegues."
+        },
+        {
+          "id": "c",
+          "text": "Solo en el log del job",
+          "why": "También queda un resumen fuera del log."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Cada job con environment deja un registro: qué commit, cuándo y en qué entorno.",
+      "tags": [
+        "environments"
+      ],
+      "difficulty": 1
+    }
+  ]
+}

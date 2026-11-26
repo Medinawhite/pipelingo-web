@@ -1,0 +1,294 @@
+{
+  "level": "junior",
+  "unit": "actions",
+  "lesson": "contextos-y-expresiones",
+  "test": 1,
+  "title": "Reconocer",
+  "questions": [
+    {
+      "id": "actions.contextos-y-expresiones.p1.q01",
+      "type": "multiple_choice",
+      "prompt": "¿Qué sintaxis usa GitHub Actions para evaluar una expresión?",
+      "options": [
+        {
+          "id": "a",
+          "text": "${{ }}"
+        },
+        {
+          "id": "b",
+          "text": "{{ }}",
+          "why": "Así son las plantillas de Helm, no las de Actions."
+        },
+        {
+          "id": "c",
+          "text": "$( )",
+          "why": "Eso es sustitución de comandos de la shell."
+        }
+      ],
+      "answer": "a",
+      "explanation": "GitHub sustituye ${{ ... }} por su valor antes de ejecutar el step.",
+      "tags": [
+        "expresiones"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p1.q02",
+      "type": "multiple_choice",
+      "prompt": "¿Qué contiene github.sha?",
+      "options": [
+        {
+          "id": "a",
+          "text": "El hash del commit que lanzó el workflow"
+        },
+        {
+          "id": "b",
+          "text": "El nombre del repo",
+          "why": "Eso es github.repository."
+        },
+        {
+          "id": "c",
+          "text": "El número de ejecución",
+          "why": "Eso es github.run_number."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Es el identificador único del commit: 40 caracteres. Perfecto para etiquetar imágenes.",
+      "tags": [
+        "github",
+        "sha"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p1.q03",
+      "type": "multiple_choice",
+      "prompt": "¿Qué contexto guarda los datos del evento, la rama y el repo?",
+      "options": [
+        {
+          "id": "a",
+          "text": "github"
+        },
+        {
+          "id": "b",
+          "text": "env",
+          "why": "env guarda variables de entorno que defines tú."
+        },
+        {
+          "id": "c",
+          "text": "runner",
+          "why": "runner describe la máquina."
+        }
+      ],
+      "answer": "a",
+      "explanation": "github.event_name, github.ref, github.sha, github.repository... todo sale de ahí.",
+      "tags": [
+        "github",
+        "contextos"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p1.q04",
+      "type": "true_false",
+      "prompt": "En un push a main, github.ref_name vale main.",
+      "answer": true,
+      "explanation": "ref_name es el nombre corto. github.ref es la referencia completa: refs/heads/main.",
+      "tags": [
+        "github",
+        "ref"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p1.q05",
+      "type": "multiple_choice",
+      "prompt": "¿Para qué sirve if en un step?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Para ejecutarlo solo si se cumple una condición"
+        },
+        {
+          "id": "b",
+          "text": "Para repetirlo varias veces",
+          "why": "Para eso se usa una matrix."
+        },
+        {
+          "id": "c",
+          "text": "Para ponerle nombre",
+          "why": "Eso es name."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Si la condición es falsa, el step aparece como saltado y el job sigue.",
+      "tags": [
+        "if"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p1.q06",
+      "type": "true_false",
+      "prompt": "En if puedes escribir la condición sin ${{ }}.",
+      "answer": true,
+      "explanation": "GitHub evalúa if como expresión igualmente. Con o sin ${{ }} funciona.",
+      "tags": [
+        "if",
+        "expresiones"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p1.q07",
+      "type": "multiple_choice",
+      "prompt": "¿Qué hace env a nivel de job?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Define variables de entorno para todos sus steps"
+        },
+        {
+          "id": "b",
+          "text": "Guarda secretos cifrados",
+          "why": "Para eso están los secrets."
+        },
+        {
+          "id": "c",
+          "text": "Elige el runner",
+          "why": "Eso es runs-on."
+        }
+      ],
+      "answer": "a",
+      "explanation": "env puede ir en el workflow, en el job o en un step. Cuanto más abajo, menos alcance.",
+      "tags": [
+        "env"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p1.q08",
+      "type": "multiple_choice",
+      "prompt": "¿Cómo lees una variable de entorno dentro de un run en Linux?",
+      "options": [
+        {
+          "id": "a",
+          "text": "$NOMBRE"
+        },
+        {
+          "id": "b",
+          "text": "${{ NOMBRE }}",
+          "why": "Dentro de la shell se lee con $; con contexto sería ${{ env.NOMBRE }}."
+        },
+        {
+          "id": "c",
+          "text": "%NOMBRE%",
+          "why": "Esa sintaxis es de cmd de Windows."
+        }
+      ],
+      "answer": "a",
+      "explanation": "run es bash en ubuntu-latest: las variables se leen con $NOMBRE.",
+      "tags": [
+        "env",
+        "run"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p1.q09",
+      "type": "multiple_choice",
+      "prompt": "¿Qué valor tiene github.event_name en un workflow lanzado por un PR?",
+      "options": [
+        {
+          "id": "a",
+          "text": "pull_request"
+        },
+        {
+          "id": "b",
+          "text": "pr",
+          "why": "Se usa el nombre completo del evento."
+        },
+        {
+          "id": "c",
+          "text": "merge",
+          "why": "No es un evento."
+        }
+      ],
+      "answer": "a",
+      "explanation": "event_name es el evento que lanzó la ejecución. Sirve para comportarse distinto en PR y en push.",
+      "tags": [
+        "github",
+        "eventos"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p1.q10",
+      "type": "true_false",
+      "prompt": "success() es la condición por defecto de cada step.",
+      "answer": true,
+      "explanation": "Un step solo corre si los anteriores han ido bien, salvo que cambies su if.",
+      "tags": [
+        "if",
+        "funciones"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p1.q11",
+      "type": "multiple_choice",
+      "prompt": "¿Qué función hace que un step corra aunque algo anterior haya fallado?",
+      "options": [
+        {
+          "id": "a",
+          "text": "always()"
+        },
+        {
+          "id": "b",
+          "text": "success()",
+          "why": "Solo corre si todo ha ido bien."
+        },
+        {
+          "id": "c",
+          "text": "failure()",
+          "why": "Solo corre si algo ha fallado."
+        }
+      ],
+      "answer": "a",
+      "explanation": "always() es ideal para limpiar o guardar logs pase lo que pase.",
+      "tags": [
+        "if",
+        "funciones"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.contextos-y-expresiones.p1.q12",
+      "type": "multiple_choice",
+      "prompt": "¿Qué contexto te dice el sistema operativo del runner?",
+      "options": [
+        {
+          "id": "a",
+          "text": "runner.os"
+        },
+        {
+          "id": "b",
+          "text": "github.os",
+          "why": "No existe."
+        },
+        {
+          "id": "c",
+          "text": "env.OS",
+          "why": "Solo existiría si la defines tú."
+        }
+      ],
+      "answer": "a",
+      "explanation": "runner.os vale Linux, Windows o macOS.",
+      "tags": [
+        "runner",
+        "contextos"
+      ],
+      "difficulty": 1
+    }
+  ]
+}

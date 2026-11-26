@@ -1,0 +1,323 @@
+{
+  "level": "junior",
+  "unit": "actions",
+  "lesson": "usar-actions",
+  "test": 2,
+  "title": "Comprender",
+  "questions": [
+    {
+      "id": "actions.usar-actions.p2.q01",
+      "type": "match",
+      "prompt": "Empareja cada action con lo que hace.",
+      "pairs": [
+        {
+          "left": "actions/checkout",
+          "right": "Descarga el repo"
+        },
+        {
+          "left": "actions/setup-node",
+          "right": "Instala Node.js"
+        },
+        {
+          "left": "docker/login-action",
+          "right": "Login en un registro"
+        },
+        {
+          "left": "actions/upload-artifact",
+          "right": "Guarda archivos del job"
+        }
+      ],
+      "explanation": "Combinando unas pocas actions montas casi cualquier pipeline.",
+      "tags": [
+        "actions"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.usar-actions.p2.q02",
+      "type": "multiple_choice",
+      "prompt": "¿Por qué no usar @main en una action de terceros?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Puede cambiar sin avisar y romper o comprometer tu pipeline"
+        },
+        {
+          "id": "b",
+          "text": "Es más lento",
+          "why": "La velocidad es la misma."
+        },
+        {
+          "id": "c",
+          "text": "No existe esa opción",
+          "why": "Existe, pero es arriesgada."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Si el autor sube algo roto o malicioso a main, tu próxima ejecución lo usará.",
+      "tags": [
+        "versiones",
+        "seguridad"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.usar-actions.p2.q03",
+      "type": "multiple_choice",
+      "prompt": "¿Qué riesgo tiene una action de un autor desconocido?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Ejecuta código con acceso a tu código y a tus tokens"
+        },
+        {
+          "id": "b",
+          "text": "Ninguno",
+          "why": "Corre dentro de tu job, con sus permisos."
+        },
+        {
+          "id": "c",
+          "text": "Solo gasta más minutos",
+          "why": "El riesgo real es de seguridad."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Revisa quién la mantiene y fíjala a un SHA antes de usarla.",
+      "tags": [
+        "seguridad"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.usar-actions.p2.q04",
+      "type": "multiple_choice",
+      "prompt": "¿Qué pasa si le pasas a una action un input que no existe?",
+      "options": [
+        {
+          "id": "a",
+          "text": "GitHub muestra un aviso y la action lo ignora"
+        },
+        {
+          "id": "b",
+          "text": "El workflow se borra",
+          "why": "No toca el archivo."
+        },
+        {
+          "id": "c",
+          "text": "Falla siempre",
+          "why": "Normalmente solo avisa, y por eso pasa desapercibido."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Por eso un error de tecleo en un input es traicionero: no rompe, pero no hace lo que querías.",
+      "tags": [
+        "inputs"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.usar-actions.p2.q05",
+      "type": "multiple_choice",
+      "prompt": "¿Por qué setup-java pide distribution?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Hay varias distribuciones de JDK y debes elegir una"
+        },
+        {
+          "id": "b",
+          "text": "Para elegir el sistema operativo",
+          "why": "Eso es runs-on."
+        },
+        {
+          "id": "c",
+          "text": "Es opcional",
+          "why": "En setup-java v4 es obligatorio."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Temurin, Zulu, Corretto... son distintas builds del mismo Java. Temurin es la más habitual.",
+      "tags": [
+        "setup-java"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.usar-actions.p2.q06",
+      "type": "match",
+      "prompt": "Empareja cada forma de versionar una action con lo que significa.",
+      "pairs": [
+        {
+          "left": "@v4",
+          "right": "La última versión 4.x"
+        },
+        {
+          "left": "@v4.1.1",
+          "right": "Una versión exacta"
+        },
+        {
+          "left": "@<sha>",
+          "right": "Un commit exacto, la opción más segura"
+        },
+        {
+          "left": "@main",
+          "right": "La rama, puede cambiar cada día"
+        }
+      ],
+      "explanation": "Para actions oficiales @v4 es razonable; para terceros, mejor un SHA.",
+      "tags": [
+        "versiones"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.usar-actions.p2.q07",
+      "type": "multiple_choice",
+      "prompt": "¿Qué ventaja tiene usar una action frente a escribir tú el script?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Está probada y mantenida, y te ahorra código"
+        },
+        {
+          "id": "b",
+          "text": "Siempre es más rápida",
+          "why": "No necesariamente."
+        },
+        {
+          "id": "c",
+          "text": "No necesita runner",
+          "why": "Toda action corre en un runner."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Menos YAML propio que mantener. Eso sí, elige actions con buen mantenimiento.",
+      "tags": [
+        "actions"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.usar-actions.p2.q08",
+      "type": "multiple_choice",
+      "prompt": "¿Qué hace fetch-depth: 0 en actions/checkout?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Descarga todo el historial, no solo el último commit"
+        },
+        {
+          "id": "b",
+          "text": "No descarga ningún commit",
+          "why": "0 significa «sin límite»."
+        },
+        {
+          "id": "c",
+          "text": "Borra el historial",
+          "why": "checkout nunca borra el historial del repo."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Hace falta para herramientas que miran tags o commits antiguos, como git describe.",
+      "tags": [
+        "checkout"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.usar-actions.p2.q09",
+      "type": "true_false",
+      "prompt": "actions/checkout descarga por defecto solo el último commit.",
+      "answer": true,
+      "explanation": "Por defecto fetch-depth es 1: es más rápido y suele bastar para compilar.",
+      "tags": [
+        "checkout"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.usar-actions.p2.q10",
+      "type": "multiple_choice",
+      "prompt": "¿Qué tipos de action existen?",
+      "options": [
+        {
+          "id": "a",
+          "text": "JavaScript, contenedor Docker y compuestas"
+        },
+        {
+          "id": "b",
+          "text": "Solo Python",
+          "why": "Python no es un tipo de action."
+        },
+        {
+          "id": "c",
+          "text": "Solo scripts de shell",
+          "why": "Un script suelto se ejecuta con run."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Las de JavaScript son las más rápidas; las compuestas agrupan varios steps.",
+      "tags": [
+        "actions"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.usar-actions.p2.q11",
+      "type": "multiple_choice",
+      "prompt": "¿Qué hace setup-node con cache: 'npm'?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Guarda y restaura la caché de npm entre ejecuciones"
+        },
+        {
+          "id": "b",
+          "text": "Instala npm",
+          "why": "npm ya viene con Node."
+        },
+        {
+          "id": "c",
+          "text": "Borra node_modules",
+          "why": "No borra nada."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Las setup-* suelen traer caché integrada: menos tiempo instalando dependencias.",
+      "tags": [
+        "cache",
+        "setup-node"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.usar-actions.p2.q12",
+      "type": "match",
+      "prompt": "Empareja cada clave de un step con su función.",
+      "pairs": [
+        {
+          "left": "uses",
+          "right": "Qué action usar"
+        },
+        {
+          "left": "with",
+          "right": "Inputs de la action"
+        },
+        {
+          "left": "env",
+          "right": "Variables de entorno"
+        },
+        {
+          "left": "name",
+          "right": "Etiqueta en el log"
+        }
+      ],
+      "explanation": "with y env se confunden mucho: with es para la action, env para el proceso.",
+      "tags": [
+        "with",
+        "env"
+      ],
+      "difficulty": 2
+    }
+  ]
+}

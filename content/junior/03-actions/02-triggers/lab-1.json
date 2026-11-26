@@ -1,0 +1,55 @@
+{
+  "level": "junior",
+  "unit": "actions",
+  "lesson": "triggers",
+  "lab": 1,
+  "kind": "editor",
+  "title": "Elige cuándo se lanza",
+  "intro": "Este CI se lanza con cualquier push, a cualquier rama. Ajusta los triggers y pruébalos con eventos simulados: push, pull request y tags.",
+  "outro": "branches, tags y paths-ignore deciden qué eventos lanzan el workflow. Los filtros de paths no se aplican a los push de tags.",
+  "file": {
+    "path": ".github/workflows/ci.yml",
+    "lang": "yaml",
+    "starter": "name: CI\non: push\n\njobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - run: npm ci\n      - run: npm test\n"
+  },
+  "run": "workflow",
+  "solution": "name: CI\non:\n  push:\n    branches: [main]\n    tags: [\"v*\"]\n    paths-ignore: [\"**.md\"]\n  pull_request:\n    branches: [main]\n\njobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - run: npm ci\n      - run: npm test\n",
+  "objectives": [
+    {
+      "id": "o1",
+      "text": "Los push solo lo lanzan en la rama main.",
+      "hint": "Convierte on en un mapa: «push:» y, dentro, «branches: [main]».",
+      "check": { "type": "yaml_path", "path": "on.push.branches", "contains": "main" }
+    },
+    {
+      "id": "o2",
+      "text": "Lánzalo también en los pull requests hacia main.",
+      "hint": "Al mismo nivel que push: «pull_request:» con «branches: [main]».",
+      "check": { "type": "yaml_path", "path": "on.pull_request.branches", "contains": "main" }
+    },
+    {
+      "id": "o3",
+      "text": "Y al publicar un tag de versión que empiece por v.",
+      "hint": "Dentro de push: «tags: [\"v*\"]». El asterisco va entre comillas.",
+      "check": { "type": "yaml_path", "path": "on.push.tags", "contains": "v*" }
+    },
+    {
+      "id": "o4",
+      "text": "Prueba un push a feature/login: no debe lanzarse.",
+      "hint": "Elige el evento «push a feature/login» y pulsa ejecutar.",
+      "check": { "type": "run", "event": "push-feature", "expect": "not_triggered" }
+    },
+    {
+      "id": "o5",
+      "text": "Si un push solo cambia archivos .md, que no se lance.",
+      "hint": "Dentro de push: «paths-ignore: [\"**.md\"]». Pruébalo con «push a main (solo README.md)».",
+      "check": { "type": "run", "event": "docs", "expect": "not_triggered" }
+    },
+    {
+      "id": "o6",
+      "text": "Publica el tag v1.2.0: debe lanzarse y terminar en verde.",
+      "hint": "Elige «push del tag v1.2.0» y pulsa ejecutar.",
+      "check": { "type": "run", "event": "tag", "expect": "success" }
+    }
+  ]
+}

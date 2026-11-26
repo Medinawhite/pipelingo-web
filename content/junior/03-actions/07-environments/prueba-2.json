@@ -1,0 +1,307 @@
+{
+  "level": "junior",
+  "unit": "actions",
+  "lesson": "environments",
+  "test": 2,
+  "title": "Comprender",
+  "questions": [
+    {
+      "id": "actions.environments.p2.q01",
+      "type": "match",
+      "prompt": "Empareja cada regla con lo que hace.",
+      "pairs": [
+        {
+          "left": "environment",
+          "right": "Destino con reglas propias"
+        },
+        {
+          "left": "required reviewers",
+          "right": "Aprobación manual"
+        },
+        {
+          "left": "wait timer",
+          "right": "Espera antes de desplegar"
+        },
+        {
+          "left": "deployment branches",
+          "right": "Qué ramas pueden desplegar"
+        }
+      ],
+      "explanation": "Juntas convierten un despliegue en algo controlado y auditable.",
+      "tags": [
+        "environments",
+        "aprobaciones"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.environments.p2.q02",
+      "type": "multiple_choice",
+      "prompt": "¿Por qué pedir aprobación para producción y no para dev?",
+      "options": [
+        {
+          "id": "a",
+          "text": "En producción un error afecta a usuarios reales"
+        },
+        {
+          "id": "b",
+          "text": "Porque dev no tiene secrets",
+          "why": "Puede tenerlos."
+        },
+        {
+          "id": "c",
+          "text": "Porque es obligatorio",
+          "why": "Es una decisión del equipo."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Dev puede romperse sin drama; producción no. El control va donde está el riesgo.",
+      "tags": [
+        "aprobaciones"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.environments.p2.q03",
+      "type": "multiple_choice",
+      "prompt": "El secret DB_URL existe en dev y en prod con valores distintos. ¿Cuál recibe un job?",
+      "options": [
+        {
+          "id": "a",
+          "text": "El del environment que declara el job"
+        },
+        {
+          "id": "b",
+          "text": "Siempre el de prod",
+          "why": "Depende del environment del job."
+        },
+        {
+          "id": "c",
+          "text": "El del repo",
+          "why": "El del environment tiene prioridad."
+        }
+      ],
+      "answer": "a",
+      "explanation": "El mismo workflow despliega a cada entorno con sus credenciales, sin cambiar el código.",
+      "tags": [
+        "environments",
+        "secrets"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.environments.p2.q04",
+      "type": "multiple_choice",
+      "prompt": "¿Por qué usar un workflow reutilizable?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Para mantener una sola definición del despliegue para varios repos o entornos"
+        },
+        {
+          "id": "b",
+          "text": "Para que vaya más rápido",
+          "why": "La velocidad no cambia."
+        },
+        {
+          "id": "c",
+          "text": "Para ocultar secrets",
+          "why": "No oculta nada."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Si cambias el despliegue, lo cambias en un sitio y todos lo heredan.",
+      "tags": [
+        "reutilizables"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.environments.p2.q05",
+      "type": "multiple_choice",
+      "prompt": "¿Qué hace concurrency con cancel-in-progress: true?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Cancela la ejecución anterior del grupo cuando llega una nueva"
+        },
+        {
+          "id": "b",
+          "text": "Cancela la nueva",
+          "why": "Sin cancel-in-progress, la nueva espera a que termine la anterior."
+        },
+        {
+          "id": "c",
+          "text": "No hace nada",
+          "why": "Cambia qué ejecución sigue."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Ideal en PR: solo importa el último commit. En producción, mejor dejar terminar el despliegue.",
+      "tags": [
+        "concurrency"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.environments.p2.q06",
+      "type": "match",
+      "prompt": "Empareja cada pieza con su papel en un workflow reutilizable.",
+      "pairs": [
+        {
+          "left": "workflow_call",
+          "right": "Permite que lo llamen"
+        },
+        {
+          "left": "uses en un job",
+          "right": "Llama al workflow reutilizable"
+        },
+        {
+          "left": "with",
+          "right": "Le pasa inputs"
+        },
+        {
+          "left": "secrets: inherit",
+          "right": "Le pasa todos los secrets"
+        }
+      ],
+      "explanation": "El llamado declara qué recibe; el que llama se lo pasa.",
+      "tags": [
+        "reutilizables"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.environments.p2.q07",
+      "type": "multiple_choice",
+      "prompt": "¿Por qué usar concurrency en los despliegues?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Para que dos despliegues no pisen el mismo entorno a la vez"
+        },
+        {
+          "id": "b",
+          "text": "Para desplegar más rápido",
+          "why": "Lo hace más ordenado, no más rápido."
+        },
+        {
+          "id": "c",
+          "text": "Para saltarse la aprobación",
+          "why": "La aprobación sigue igual."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Dos merges seguidos podrían desplegar a la vez y dejar el entorno a medias.",
+      "tags": [
+        "concurrency"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.environments.p2.q08",
+      "type": "multiple_choice",
+      "prompt": "Un job con environment: production espera aprobación. ¿Gasta minutos mientras espera?",
+      "options": [
+        {
+          "id": "a",
+          "text": "No: el job no arranca hasta que se aprueba"
+        },
+        {
+          "id": "b",
+          "text": "Sí, todo el tiempo",
+          "why": "La espera no ocupa un runner."
+        },
+        {
+          "id": "c",
+          "text": "Solo la primera hora",
+          "why": "No gasta nada mientras espera."
+        }
+      ],
+      "answer": "a",
+      "explanation": "El runner se asigna después de la aprobación.",
+      "tags": [
+        "aprobaciones"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.environments.p2.q09",
+      "type": "true_false",
+      "prompt": "Un workflow reutilizable se llama desde un step con uses.",
+      "answer": false,
+      "explanation": "Se llama desde un job: jobs.<id>.uses. Los steps con uses son para actions.",
+      "tags": [
+        "reutilizables"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.environments.p2.q10",
+      "type": "multiple_choice",
+      "prompt": "Quieres dev automático tras el merge y prod tras aprobar. ¿Cómo lo montas?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Dos jobs: deploy-dev, y deploy-prod con needs: deploy-dev y environment production con aprobación"
+        },
+        {
+          "id": "b",
+          "text": "Un solo job",
+          "why": "No podrías aprobar solo la parte de prod."
+        },
+        {
+          "id": "c",
+          "text": "Dos repos",
+          "why": "No hace falta separar repos."
+        }
+      ],
+      "answer": "a",
+      "explanation": "El mismo artefacto pasa por dev y, si alguien lo aprueba, llega a producción.",
+      "tags": [
+        "environments",
+        "needs"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.environments.p2.q11",
+      "type": "multiple_choice",
+      "prompt": "¿Qué muestra la url de un environment?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Un enlace a la app desplegada en la página de la ejecución"
+        },
+        {
+          "id": "b",
+          "text": "La URL del repo",
+          "why": "Esa ya se conoce."
+        },
+        {
+          "id": "c",
+          "text": "Nada",
+          "why": "Aparece en la ejecución y en Deployments."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Con environment: { name: production, url: ... } llegas a la app con un clic.",
+      "tags": [
+        "environments"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.environments.p2.q12",
+      "type": "true_false",
+      "prompt": "Los inputs de un workflow reutilizable se declaran en on.workflow_call.inputs.",
+      "answer": true,
+      "explanation": "Cada input lleva su tipo y si es obligatorio. El que llama los pasa con with.",
+      "tags": [
+        "reutilizables",
+        "inputs"
+      ],
+      "difficulty": 2
+    }
+  ]
+}

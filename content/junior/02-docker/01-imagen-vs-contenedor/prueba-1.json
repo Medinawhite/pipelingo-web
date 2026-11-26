@@ -1,0 +1,167 @@
+{
+  "level": "junior",
+  "unit": "docker",
+  "lesson": "imagen-vs-contenedor",
+  "test": 1,
+  "title": "Reconocer",
+  "questions": [
+    {
+      "id": "docker.imagen-vs-contenedor.p1.q01",
+      "type": "multiple_choice",
+      "prompt": "¿Qué es un contenedor?",
+      "options": [
+        { "id": "a", "text": "Una instancia en ejecución de una imagen" },
+        { "id": "b", "text": "Un archivo con instrucciones de build", "why": "Eso es el Dockerfile." },
+        { "id": "c", "text": "Una máquina virtual completa", "why": "Comparte el kernel del host; no virtualiza hardware." }
+      ],
+      "answer": "a",
+      "explanation": "La imagen es la plantilla; el contenedor es esa plantilla ejecutándose.",
+      "tags": ["imagen", "contenedor"],
+      "difficulty": 1
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p1.q02",
+      "type": "multiple_choice",
+      "prompt": "¿Qué es una imagen de Docker?",
+      "options": [
+        { "id": "a", "text": "Un proceso en ejecución", "why": "Eso es un contenedor." },
+        { "id": "b", "text": "Una plantilla de solo lectura con la app y sus dependencias" },
+        { "id": "c", "text": "El disco virtual de una VM", "why": "Docker no usa máquinas virtuales para ejecutar contenedores." }
+      ],
+      "answer": "b",
+      "explanation": "Una imagen empaqueta la app, sus librerías y su configuración. No se ejecuta: de ella se crean contenedores.",
+      "tags": ["imagen"],
+      "difficulty": 1
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p1.q03",
+      "type": "true_false",
+      "prompt": "De una misma imagen se pueden arrancar varios contenedores a la vez.",
+      "answer": true,
+      "explanation": "Igual que de un plano salen muchas casas. Cada contenedor es independiente de los demás.",
+      "tags": ["imagen", "contenedor"],
+      "difficulty": 1
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p1.q04",
+      "type": "true_false",
+      "prompt": "Al borrar un contenedor también se borra la imagen de la que salió.",
+      "answer": false,
+      "explanation": "La imagen sigue en tu máquina. Se borra aparte, con docker rmi.",
+      "tags": ["rm", "rmi"],
+      "difficulty": 1
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p1.q05",
+      "type": "multiple_choice",
+      "prompt": "¿Qué comando crea y arranca un contenedor nuevo a partir de una imagen?",
+      "options": [
+        { "id": "a", "text": "docker start", "why": "start arranca un contenedor que ya existe y está parado." },
+        { "id": "b", "text": "docker build", "why": "build construye imágenes, no contenedores." },
+        { "id": "c", "text": "docker run" },
+        { "id": "d", "text": "docker exec", "why": "exec ejecuta un comando dentro de un contenedor que ya corre." }
+      ],
+      "answer": "c",
+      "explanation": "docker run crea un contenedor nuevo desde la imagen y lo arranca. Si la imagen no está en local, la descarga antes.",
+      "tags": ["run"],
+      "difficulty": 1
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p1.q06",
+      "type": "multiple_choice",
+      "prompt": "¿Qué muestra docker ps?",
+      "options": [
+        { "id": "a", "text": "Los contenedores en ejecución" },
+        { "id": "b", "text": "Las imágenes descargadas", "why": "Eso lo muestra docker images." },
+        { "id": "c", "text": "Todos los contenedores, también los parados", "why": "Para incluir los parados necesitas docker ps -a." }
+      ],
+      "answer": "a",
+      "explanation": "docker ps lista solo los contenedores que están corriendo ahora mismo.",
+      "tags": ["ps"],
+      "difficulty": 1
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p1.q07",
+      "type": "true_false",
+      "prompt": "docker ps -a muestra también los contenedores parados.",
+      "answer": true,
+      "explanation": "-a (all) lista todos: en ejecución, parados y creados sin arrancar.",
+      "tags": ["ps"],
+      "difficulty": 1
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p1.q08",
+      "type": "multiple_choice",
+      "prompt": "¿Para qué sirve docker logs?",
+      "options": [
+        { "id": "a", "text": "Para ver el historial de comandos de Docker", "why": "Docker no guarda tu historial de comandos." },
+        { "id": "b", "text": "Para ver lo que la app del contenedor escribe por pantalla" },
+        { "id": "c", "text": "Para ver las capas de una imagen", "why": "Eso lo hace docker history." }
+      ],
+      "answer": "b",
+      "explanation": "docker logs muestra la salida estándar (stdout y stderr) del proceso principal del contenedor.",
+      "tags": ["logs"],
+      "difficulty": 1
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p1.q09",
+      "type": "multiple_choice",
+      "prompt": "Haces docker pull nginx sin indicar registro. ¿De dónde se descarga?",
+      "options": [
+        { "id": "a", "text": "De Docker Hub" },
+        { "id": "b", "text": "De GHCR", "why": "Para GHCR hay que escribirlo en el nombre: ghcr.io/..." },
+        { "id": "c", "text": "No se descarga: se construye en local", "why": "pull siempre descarga; construir es docker build." }
+      ],
+      "answer": "a",
+      "explanation": "Si el nombre no lleva registro delante, Docker usa Docker Hub por defecto.",
+      "tags": ["pull", "registro"],
+      "difficulty": 1
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p1.q10",
+      "type": "true_false",
+      "prompt": "Cada contenedor arranca su propio kernel de sistema operativo.",
+      "answer": false,
+      "explanation": "Los contenedores comparten el kernel del host. Por eso arrancan en segundos y pesan mucho menos que una VM.",
+      "tags": ["contenedor", "kernel"],
+      "difficulty": 1
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p1.q11",
+      "type": "multiple_choice",
+      "prompt": "¿Qué comando detiene un contenedor en ejecución?",
+      "options": [
+        { "id": "a", "text": "docker rmi", "why": "rmi borra imágenes." },
+        { "id": "b", "text": "docker pause", "why": "pause congela el proceso, pero no lo detiene." },
+        { "id": "c", "text": "docker stop" }
+      ],
+      "answer": "c",
+      "explanation": "docker stop pide al proceso que termine de forma ordenada. El contenedor queda parado, pero sigue existiendo.",
+      "tags": ["stop"],
+      "difficulty": 1
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p1.q12",
+      "type": "true_false",
+      "prompt": "Si no indicas tag, docker run nginx usa la imagen nginx:latest.",
+      "answer": true,
+      "explanation": "Sin tag, Docker asume latest. Es cómodo para probar, pero no dice qué versión exacta estás usando.",
+      "tags": ["tags", "latest"],
+      "difficulty": 1
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p1.q13",
+      "type": "multiple_choice",
+      "prompt": "¿Qué identifica de forma única a un contenedor?",
+      "options": [
+        { "id": "a", "text": "El nombre de su imagen", "why": "Muchos contenedores pueden salir de la misma imagen." },
+        { "id": "b", "text": "Su ID o su nombre" },
+        { "id": "c", "text": "El puerto que usa", "why": "Varios contenedores pueden escuchar en el mismo puerto interno." }
+      ],
+      "answer": "b",
+      "explanation": "Cada contenedor tiene un ID único y un nombre. Si no le pones nombre con --name, Docker inventa uno.",
+      "tags": ["contenedor", "name"],
+      "difficulty": 1
+    }
+  ]
+}

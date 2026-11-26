@@ -1,0 +1,206 @@
+{
+  "level": "junior",
+  "unit": "actions",
+  "lesson": "environments",
+  "test": 3,
+  "title": "Aplicar",
+  "questions": [
+    {
+      "id": "actions.environments.p3.q01",
+      "type": "fill_command",
+      "prompt": "Asocia el job al environment production.",
+      "template": "environment: {{b1}}",
+      "blanks": {
+        "b1": [
+          "production"
+        ]
+      },
+      "explanation": "El job tendrá las reglas y los secrets de production.",
+      "tags": [
+        "environments"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.environments.p3.q02",
+      "type": "fill_command",
+      "prompt": "Haz que el workflow sea reutilizable.",
+      "template": "on: {{b1}}",
+      "blanks": {
+        "b1": [
+          "workflow_call",
+          "[workflow_call]"
+        ]
+      },
+      "explanation": "workflow_call permite que otros workflows lo llamen.",
+      "tags": [
+        "reutilizables"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.environments.p3.q03",
+      "type": "fill_command",
+      "prompt": "Desde un job, llama al workflow build.yml del mismo repo.",
+      "template": "uses: ./.github/workflows/{{b1}}",
+      "blanks": {
+        "b1": [
+          "build.yml"
+        ]
+      },
+      "explanation": "Ruta desde la raíz del repo, empezando por ./.",
+      "tags": [
+        "reutilizables"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.environments.p3.q04",
+      "type": "fill_command",
+      "prompt": "Pasa todos los secrets al workflow llamado.",
+      "template": "secrets: {{b1}}",
+      "blanks": {
+        "b1": [
+          "inherit"
+        ]
+      },
+      "explanation": "inherit pasa todos los secrets del que llama. También puedes pasarlos uno a uno.",
+      "tags": [
+        "reutilizables",
+        "secrets"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.environments.p3.q05",
+      "type": "fill_command",
+      "prompt": "Escribe la clave que evita ejecuciones simultáneas.",
+      "template": "{{b1}}:",
+      "blanks": {
+        "b1": [
+          "concurrency"
+        ]
+      },
+      "explanation": "Va en el workflow o en un job, con un group.",
+      "tags": [
+        "concurrency"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.environments.p3.q06",
+      "type": "fill_command",
+      "prompt": "Cancela la ejecución anterior del grupo cuando llega una nueva.",
+      "template": "cancel-in-progress: {{b1}}",
+      "blanks": {
+        "b1": [
+          "true"
+        ]
+      },
+      "explanation": "Con true gana la última ejecución.",
+      "tags": [
+        "concurrency"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.environments.p3.q07",
+      "type": "fill_command",
+      "prompt": "Agrupa las ejecuciones por rama.",
+      "template": "group: ci-${{ github.{{b1}} }}",
+      "blanks": {
+        "b1": [
+          "ref",
+          "ref_name"
+        ]
+      },
+      "explanation": "Cada rama tiene su propio grupo: no se cancelan entre ramas distintas.",
+      "tags": [
+        "concurrency"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.environments.p3.q08",
+      "type": "fill_command",
+      "prompt": "Escribe la clave para pasar inputs al workflow llamado.",
+      "template": "{{b1}}: { entorno: prod }",
+      "blanks": {
+        "b1": [
+          "with"
+        ]
+      },
+      "explanation": "Igual que con las actions, los inputs van en with.",
+      "tags": [
+        "reutilizables",
+        "inputs"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.environments.p3.q09",
+      "type": "fill_command",
+      "prompt": "Marca como obligatorio un input de workflow_call.",
+      "template": "required: {{b1}}",
+      "blanks": {
+        "b1": [
+          "true"
+        ]
+      },
+      "explanation": "Si un input es obligatorio y no se pasa, el workflow falla al llamarlo.",
+      "tags": [
+        "inputs"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.environments.p3.q10",
+      "type": "fill_command",
+      "prompt": "Indica que el input entorno es texto.",
+      "template": "type: {{b1}}",
+      "blanks": {
+        "b1": [
+          "string"
+        ]
+      },
+      "explanation": "Los inputs de workflow_call pueden ser string, boolean o number.",
+      "tags": [
+        "inputs"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.environments.p3.q11",
+      "type": "fill_command",
+      "prompt": "Lee el input entorno dentro del workflow reutilizable.",
+      "template": "${{ {{b1}}.entorno }}",
+      "blanks": {
+        "b1": [
+          "inputs"
+        ]
+      },
+      "explanation": "El contexto inputs tiene los valores que pasó el que llama.",
+      "tags": [
+        "inputs"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.environments.p3.q12",
+      "type": "fill_command",
+      "prompt": "Llama a un workflow de otro repo en su versión v1.",
+      "template": "uses: mi-org/plantillas/.github/workflows/deploy.yml@{{b1}}",
+      "blanks": {
+        "b1": [
+          "v1"
+        ]
+      },
+      "explanation": "Como con las actions, fija una versión para que no te cambie sin avisar.",
+      "tags": [
+        "reutilizables",
+        "versiones"
+      ],
+      "difficulty": 2
+    }
+  ]
+}

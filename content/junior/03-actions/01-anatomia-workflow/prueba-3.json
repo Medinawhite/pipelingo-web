@@ -1,0 +1,209 @@
+{
+  "level": "junior",
+  "unit": "actions",
+  "lesson": "anatomia-workflow",
+  "test": 3,
+  "title": "Aplicar",
+  "questions": [
+    {
+      "id": "actions.anatomia-workflow.p3.q01",
+      "type": "fill_command",
+      "prompt": "Completa la ruta del archivo del workflow.",
+      "template": "{{b1}}/workflows/ci.yml",
+      "blanks": {
+        "b1": [
+          ".github"
+        ]
+      },
+      "explanation": "La carpeta empieza por punto: .github. Dentro, workflows en plural.",
+      "tags": [
+        "workflow",
+        "estructura"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.anatomia-workflow.p3.q02",
+      "type": "fill_command",
+      "prompt": "Haz que el workflow se ejecute en cada push.",
+      "template": "on: {{b1}}",
+      "blanks": {
+        "b1": [
+          "push",
+          "[push]"
+        ]
+      },
+      "explanation": "on: push lanza el workflow cada vez que alguien sube commits.",
+      "tags": [
+        "on",
+        "push"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.anatomia-workflow.p3.q03",
+      "type": "fill_command",
+      "prompt": "Ejecuta el job en la última versión de Ubuntu que pone GitHub.",
+      "template": "runs-on: {{b1}}",
+      "blanks": {
+        "b1": [
+          "ubuntu-latest"
+        ]
+      },
+      "explanation": "ubuntu-latest es el runner más usado: Linux, rápido y con Docker instalado.",
+      "tags": [
+        "runs-on"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.anatomia-workflow.p3.q04",
+      "type": "fill_command",
+      "prompt": "Descarga el código del repo con la action oficial.",
+      "template": "- uses: actions/{{b1}}@v4",
+      "blanks": {
+        "b1": [
+          "checkout"
+        ]
+      },
+      "explanation": "actions/checkout clona tu repo en el runner. Casi siempre es el primer step.",
+      "tags": [
+        "checkout"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.anatomia-workflow.p3.q05",
+      "type": "fill_command",
+      "prompt": "Ejecuta npm test en un step.",
+      "template": "- {{b1}}: npm test",
+      "blanks": {
+        "b1": [
+          "run"
+        ]
+      },
+      "explanation": "run ejecuta el comando en la shell del runner.",
+      "tags": [
+        "run"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.anatomia-workflow.p3.q06",
+      "type": "fill_command",
+      "prompt": "Ponle nombre al workflow para verlo así en la pestaña Actions.",
+      "template": "{{b1}}: CI",
+      "blanks": {
+        "b1": [
+          "name"
+        ]
+      },
+      "explanation": "name aparece en la lista de workflows. Si falta, GitHub usa el nombre del archivo.",
+      "tags": [
+        "name"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.anatomia-workflow.p3.q07",
+      "type": "fill_command",
+      "prompt": "Escribe la clave que agrupa los trabajos del workflow.",
+      "template": "{{b1}}:",
+      "blanks": {
+        "b1": [
+          "jobs"
+        ]
+      },
+      "explanation": "Debajo de jobs va cada job con su id, su runs-on y sus steps.",
+      "tags": [
+        "jobs"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.anatomia-workflow.p3.q08",
+      "type": "fill_command",
+      "prompt": "Escribe la clave que contiene la lista de pasos de un job.",
+      "template": "{{b1}}:",
+      "blanks": {
+        "b1": [
+          "steps"
+        ]
+      },
+      "explanation": "steps es una lista: cada elemento empieza con un guion.",
+      "tags": [
+        "steps"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.anatomia-workflow.p3.q09",
+      "type": "fill_command",
+      "prompt": "Usa la action de Node.js en su versión 4.",
+      "template": "- uses: actions/setup-node@{{b1}}",
+      "blanks": {
+        "b1": [
+          "v4"
+        ]
+      },
+      "explanation": "Después de @ va la versión de la action. Sin ella GitHub no sabe cuál usar.",
+      "tags": [
+        "uses",
+        "versiones"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.anatomia-workflow.p3.q10",
+      "type": "fill_command",
+      "prompt": "Pide la versión 20 de Node.js a setup-node.",
+      "template": "node-version: {{b1}}",
+      "blanks": {
+        "b1": [
+          "20",
+          "'20'",
+          "\"20\""
+        ]
+      },
+      "explanation": "node-version va dentro de with. Cada action documenta sus inputs en su README.",
+      "tags": [
+        "with",
+        "setup-node"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.anatomia-workflow.p3.q11",
+      "type": "fill_command",
+      "prompt": "Ejecuta el job en el runner de Windows que pone GitHub.",
+      "template": "runs-on: {{b1}}",
+      "blanks": {
+        "b1": [
+          "windows-latest"
+        ]
+      },
+      "explanation": "También existen windows-latest y macos-latest, para apps que lo necesiten.",
+      "tags": [
+        "runs-on"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.anatomia-workflow.p3.q12",
+      "type": "fill_command",
+      "prompt": "Dale un nombre legible a un step.",
+      "template": "- {{b1}}: Instalar dependencias",
+      "blanks": {
+        "b1": [
+          "name"
+        ]
+      },
+      "explanation": "Con name el log es más fácil de leer: ves «Instalar dependencias» en vez del comando.",
+      "tags": [
+        "name",
+        "step"
+      ],
+      "difficulty": 1
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "level": "junior",
+  "unit": "docker",
+  "lesson": "imagen-vs-contenedor",
+  "lab": 1,
+  "kind": "terminal",
+  "title": "Tu primer servidor web",
+  "intro": "Solo tienes Docker instalado. Levanta nginx, publica su puerto, comprueba que responde y limpia al terminar. Cada objetivo se marca en cuanto el estado es el correcto.",
+  "outro": "Has hecho el ciclo completo de un contenedor: descargar, arrancar, probar, leer logs, parar y borrar. Es lo mismo que hará el pipeline, pero a mano.",
+  "objectives": [
+    {
+      "id": "o1",
+      "text": "Descarga la imagen nginx del registro.",
+      "hint": "docker pull nginx",
+      "check": { "type": "image_exists", "image": "nginx" }
+    },
+    {
+      "id": "o2",
+      "text": "Arranca en segundo plano un contenedor llamado web que publique el puerto 8080 del host en el 80 del contenedor.",
+      "hint": "docker run -d --name web -p 8080:80 nginx",
+      "check": { "type": "container", "name": "web", "state": "running", "image": "nginx", "port": "8080:80" }
+    },
+    {
+      "id": "o3",
+      "text": "Comprueba que responde: haz una petición a localhost:8080.",
+      "hint": "curl http://localhost:8080",
+      "check": { "type": "http_ok", "port": 8080 }
+    },
+    {
+      "id": "o4",
+      "text": "Lee los logs del contenedor: tu petición aparece ahí.",
+      "hint": "docker logs web",
+      "check": { "type": "command_ran", "pattern": "^docker (container )?logs\\b.*\\bweb\\b" }
+    },
+    {
+      "id": "o5",
+      "text": "Para el contenedor.",
+      "hint": "docker stop web",
+      "check": { "type": "container", "name": "web", "state": "exited" }
+    },
+    {
+      "id": "o6",
+      "text": "Bórralo. La imagen se queda para la próxima vez.",
+      "hint": "docker rm web",
+      "check": { "type": "container", "name": "web", "state": "absent" }
+    }
+  ]
+}

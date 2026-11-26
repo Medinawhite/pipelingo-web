@@ -1,0 +1,206 @@
+{
+  "level": "junior",
+  "unit": "actions",
+  "lesson": "jobs-encadenados",
+  "test": 3,
+  "title": "Aplicar",
+  "questions": [
+    {
+      "id": "actions.jobs-encadenados.p3.q01",
+      "type": "fill_command",
+      "prompt": "Haz que test espere a build.",
+      "template": "needs: {{b1}}",
+      "blanks": {
+        "b1": [
+          "build",
+          "[build]"
+        ]
+      },
+      "explanation": "needs acepta un job o una lista de jobs.",
+      "tags": [
+        "needs"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.jobs-encadenados.p3.q02",
+      "type": "fill_command",
+      "prompt": "Haz que deploy espere a build y a test.",
+      "template": "needs: [build, {{b1}}]",
+      "blanks": {
+        "b1": [
+          "test"
+        ]
+      },
+      "explanation": "Con una lista, deploy espera a que terminen todos.",
+      "tags": [
+        "needs"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.jobs-encadenados.p3.q03",
+      "type": "fill_command",
+      "prompt": "Lanza el job con Node 18 y 20.",
+      "template": "node: [18, {{b1}}]",
+      "blanks": {
+        "b1": [
+          "20"
+        ]
+      },
+      "explanation": "Cada valor de la lista crea una copia del job.",
+      "tags": [
+        "matrix"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.jobs-encadenados.p3.q04",
+      "type": "fill_command",
+      "prompt": "Lee el valor node de la matrix.",
+      "template": "node-version: ${{ {{b1}}.node }}",
+      "blanks": {
+        "b1": [
+          "matrix"
+        ]
+      },
+      "explanation": "Cada copia del job recibe su valor en matrix.",
+      "tags": [
+        "matrix"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.jobs-encadenados.p3.q05",
+      "type": "fill_command",
+      "prompt": "Escribe la clave que contiene la matrix.",
+      "template": "{{b1}}:",
+      "blanks": {
+        "b1": [
+          "strategy"
+        ]
+      },
+      "explanation": "matrix va dentro de strategy, junto a fail-fast y max-parallel.",
+      "tags": [
+        "matrix"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.jobs-encadenados.p3.q06",
+      "type": "fill_command",
+      "prompt": "Sigue con las demás combinaciones aunque falle una.",
+      "template": "fail-fast: {{b1}}",
+      "blanks": {
+        "b1": [
+          "false"
+        ]
+      },
+      "explanation": "Con false ves el resultado de todas las combinaciones.",
+      "tags": [
+        "matrix"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.jobs-encadenados.p3.q07",
+      "type": "fill_command",
+      "prompt": "Usa la action oficial de caché.",
+      "template": "- uses: actions/{{b1}}@v4",
+      "blanks": {
+        "b1": [
+          "cache"
+        ]
+      },
+      "explanation": "Necesita path (qué guardar) y key (con qué nombre).",
+      "tags": [
+        "cache"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.jobs-encadenados.p3.q08",
+      "type": "fill_command",
+      "prompt": "Haz que la key cambie con el lockfile.",
+      "template": "key: npm-${{ {{b1}}('**/package-lock.json') }}",
+      "blanks": {
+        "b1": [
+          "hashFiles"
+        ]
+      },
+      "explanation": "hashFiles calcula un resumen de los archivos: si cambian, cambia la key.",
+      "tags": [
+        "cache",
+        "funciones"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.jobs-encadenados.p3.q09",
+      "type": "fill_command",
+      "prompt": "Descarga el artefacto apk en otro job.",
+      "template": "- uses: actions/{{b1}}@v4",
+      "blanks": {
+        "b1": [
+          "download-artifact"
+        ]
+      },
+      "explanation": "Indica en with el mismo name con el que se subió.",
+      "tags": [
+        "artefactos"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.jobs-encadenados.p3.q10",
+      "type": "fill_command",
+      "prompt": "Lee la salida tag del job build.",
+      "template": "${{ needs.build.{{b1}}.tag }}",
+      "blanks": {
+        "b1": [
+          "outputs"
+        ]
+      },
+      "explanation": "needs.<job>.outputs.<nombre>, siempre que el job lo declare en outputs.",
+      "tags": [
+        "needs",
+        "outputs"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.jobs-encadenados.p3.q11",
+      "type": "fill_command",
+      "prompt": "Ejecuta el job notify aunque fallen los jobs de los que depende.",
+      "template": "if: {{b1}}",
+      "blanks": {
+        "b1": [
+          "always()",
+          "${{ always() }}"
+        ]
+      },
+      "explanation": "always() también vale para jobs: corre pase lo que pase con sus needs.",
+      "tags": [
+        "needs",
+        "funciones"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.jobs-encadenados.p3.q12",
+      "type": "fill_command",
+      "prompt": "Limita a 2 los jobs de la matrix que corren a la vez.",
+      "template": "max-parallel: {{b1}}",
+      "blanks": {
+        "b1": [
+          "2"
+        ]
+      },
+      "explanation": "Útil si la matrix es grande o si los jobs usan un recurso compartido.",
+      "tags": [
+        "matrix"
+      ],
+      "difficulty": 2
+    }
+  ]
+}

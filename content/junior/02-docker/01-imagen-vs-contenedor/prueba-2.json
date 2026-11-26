@@ -1,0 +1,191 @@
+{
+  "level": "junior",
+  "unit": "docker",
+  "lesson": "imagen-vs-contenedor",
+  "test": 2,
+  "title": "Comprender",
+  "questions": [
+    {
+      "id": "docker.imagen-vs-contenedor.p2.q01",
+      "type": "match",
+      "prompt": "Empareja cada comando con lo que hace.",
+      "pairs": [
+        { "left": "docker run", "right": "Crea y arranca un contenedor" },
+        { "left": "docker ps", "right": "Lista los contenedores en ejecución" },
+        { "left": "docker logs", "right": "Muestra la salida de la app" },
+        { "left": "docker stop", "right": "Detiene un contenedor" }
+      ],
+      "explanation": "Estos cuatro comandos cubren casi todo el día a día con un contenedor: crearlo, verlo, leerlo y pararlo.",
+      "tags": ["run", "ps", "logs", "stop"],
+      "difficulty": 1
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p2.q02",
+      "type": "multiple_choice",
+      "prompt": "Ejecutas docker run -d nginx dos veces seguidas. ¿Cuántos contenedores tienes?",
+      "options": [
+        { "id": "a", "text": "1", "why": "Cada docker run crea un contenedor nuevo, aunque la imagen sea la misma." },
+        { "id": "b", "text": "2" },
+        { "id": "c", "text": "0", "why": "Con -d los contenedores siguen corriendo en segundo plano." }
+      ],
+      "answer": "b",
+      "explanation": "run siempre crea un contenedor nuevo. Para reutilizar uno parado se usa docker start.",
+      "tags": ["run"],
+      "difficulty": 1
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p2.q03",
+      "type": "multiple_choice",
+      "prompt": "Paras un contenedor con docker stop. ¿Qué pasa con él?",
+      "options": [
+        { "id": "a", "text": "Sigue existiendo, parado, y puedes volver a arrancarlo" },
+        { "id": "b", "text": "Se borra", "why": "Borrarlo es otro paso: docker rm." },
+        { "id": "c", "text": "Se convierte en imagen", "why": "Un contenedor parado sigue siendo un contenedor." }
+      ],
+      "answer": "a",
+      "explanation": "stop solo lo detiene. Aparece en docker ps -a como Exited y vuelve con docker start.",
+      "tags": ["stop", "start"],
+      "difficulty": 1
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p2.q04",
+      "type": "multiple_choice",
+      "prompt": "Cambias un archivo dentro de un contenedor y después lo borras con docker rm. ¿Qué pasa con el cambio?",
+      "options": [
+        { "id": "a", "text": "Se guarda en la imagen", "why": "La imagen es de solo lectura; el contenedor nunca la modifica." },
+        { "id": "b", "text": "Se pierde" },
+        { "id": "c", "text": "Se sube a Docker Hub", "why": "Nada se sube a un registro sin un docker push." }
+      ],
+      "answer": "b",
+      "explanation": "Cada contenedor escribe en su propia capa, que desaparece al borrarlo. Por eso los contenedores se tratan como desechables.",
+      "tags": ["contenedor", "capas"],
+      "difficulty": 2
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p2.q05",
+      "type": "match",
+      "prompt": "Empareja cada concepto con su papel.",
+      "pairs": [
+        { "left": "Dockerfile", "right": "Instrucciones para construir la imagen" },
+        { "left": "Imagen", "right": "Plantilla de solo lectura" },
+        { "left": "Contenedor", "right": "Instancia en ejecución" },
+        { "left": "Registro", "right": "Almacén de imágenes" }
+      ],
+      "explanation": "Del Dockerfile sale la imagen, la imagen se guarda en un registro y de ella se arrancan contenedores.",
+      "tags": ["dockerfile", "imagen", "contenedor", "registro"],
+      "difficulty": 1
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p2.q06",
+      "type": "multiple_choice",
+      "prompt": "¿Por qué un contenedor arranca mucho más rápido que una máquina virtual?",
+      "options": [
+        { "id": "a", "text": "Porque comparte el kernel del host y no arranca un sistema operativo" },
+        { "id": "b", "text": "Porque ocupa menos disco", "why": "Ayuda, pero la razón principal es no arrancar un sistema operativo." },
+        { "id": "c", "text": "Porque se ejecuta en la nube", "why": "Corre igual en tu portátil que en un servidor." }
+      ],
+      "answer": "a",
+      "explanation": "Una VM arranca un sistema operativo entero. Un contenedor es solo un proceso aislado sobre el kernel que ya está en marcha.",
+      "tags": ["contenedor", "kernel"],
+      "difficulty": 2
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p2.q07",
+      "type": "multiple_choice",
+      "prompt": "¿Qué hace la opción -d en docker run -d nginx?",
+      "options": [
+        { "id": "a", "text": "Borra el contenedor al terminar", "why": "Eso es --rm." },
+        { "id": "b", "text": "Descarga la imagen", "why": "run ya descarga la imagen si falta, con o sin -d." },
+        { "id": "c", "text": "Ejecuta el contenedor en segundo plano" }
+      ],
+      "answer": "c",
+      "explanation": "-d (detached) te devuelve la terminal y deja el contenedor corriendo. Sus mensajes los ves con docker logs.",
+      "tags": ["run", "detach"],
+      "difficulty": 1
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p2.q08",
+      "type": "multiple_choice",
+      "prompt": "En docker ps -a ves un contenedor con estado Exited (1). ¿Qué significa?",
+      "options": [
+        { "id": "a", "text": "Está en pausa", "why": "En pausa aparecería como Paused." },
+        { "id": "b", "text": "Terminó con un error" },
+        { "id": "c", "text": "Está arrancando", "why": "Uno que está arrancando aparece como Up o Created." }
+      ],
+      "answer": "b",
+      "explanation": "El número es el código de salida del proceso: 0 es que terminó bien; cualquier otro, que falló. Mira docker logs.",
+      "tags": ["ps", "estados"],
+      "difficulty": 2
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p2.q09",
+      "type": "multiple_choice",
+      "prompt": "¿Qué hace --rm en docker run --rm alpine echo hola?",
+      "options": [
+        { "id": "a", "text": "Borra el contenedor automáticamente al terminar" },
+        { "id": "b", "text": "Borra la imagen alpine al terminar", "why": "--rm afecta al contenedor; la imagen se queda." },
+        { "id": "c", "text": "Reinicia el contenedor si falla", "why": "Eso se configura con --restart." }
+      ],
+      "answer": "a",
+      "explanation": "--rm es ideal para comandos puntuales: el contenedor hace su tarea y desaparece sin dejar restos en docker ps -a.",
+      "tags": ["run", "rm"],
+      "difficulty": 2
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p2.q10",
+      "type": "multiple_choice",
+      "prompt": "Tienes tres contenedores de hello-devops:1.0. Construyes hello-devops:1.1. ¿Qué pasa con los tres contenedores?",
+      "options": [
+        { "id": "a", "text": "Se actualizan solos a la 1.1", "why": "Un contenedor nunca cambia de imagen: hay que recrearlo." },
+        { "id": "b", "text": "Se paran", "why": "Construir una imagen no afecta a los contenedores que ya corren." },
+        { "id": "c", "text": "Siguen corriendo con la 1.0" }
+      ],
+      "answer": "c",
+      "explanation": "Para usar la 1.1 hay que borrar los contenedores viejos y crear otros nuevos. Eso es justo lo que automatizarán Helm y OpenShift.",
+      "tags": ["imagen", "contenedor", "tags"],
+      "difficulty": 2
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p2.q11",
+      "type": "match",
+      "prompt": "Empareja cada estado de docker ps -a con su significado.",
+      "pairs": [
+        { "left": "Up", "right": "En ejecución" },
+        { "left": "Exited", "right": "Detenido" },
+        { "left": "Created", "right": "Creado pero nunca arrancado" },
+        { "left": "Paused", "right": "Congelado temporalmente" }
+      ],
+      "explanation": "El estado es lo primero que miras cuando algo falla: Exited te dice que revises los logs.",
+      "tags": ["ps", "estados"],
+      "difficulty": 2
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p2.q12",
+      "type": "multiple_choice",
+      "prompt": "¿Qué diferencia hay entre docker stop y docker rm?",
+      "options": [
+        { "id": "a", "text": "Son lo mismo", "why": "Uno detiene y el otro elimina: son pasos distintos." },
+        { "id": "b", "text": "stop detiene el contenedor; rm lo elimina" },
+        { "id": "c", "text": "stop elimina el contenedor; rm lo detiene", "why": "Es al revés." }
+      ],
+      "answer": "b",
+      "explanation": "Primero se detiene y después se elimina. rm no borra un contenedor en marcha salvo que lo fuerces con -f.",
+      "tags": ["stop", "rm"],
+      "difficulty": 1
+    },
+    {
+      "id": "docker.imagen-vs-contenedor.p2.q13",
+      "type": "multiple_choice",
+      "prompt": "docker logs no muestra nada de tu app, aunque el contenedor está en marcha. ¿Qué es lo más probable?",
+      "options": [
+        { "id": "a", "text": "La app escribe sus mensajes en un archivo en vez de por pantalla" },
+        { "id": "b", "text": "El contenedor no tiene red", "why": "La red no influye en lo que muestra docker logs." },
+        { "id": "c", "text": "Falta hacer docker login", "why": "login solo hace falta para registros, no para ver logs." }
+      ],
+      "answer": "a",
+      "explanation": "docker logs solo recoge stdout y stderr. Por eso en contenedores las apps deben escribir sus logs por pantalla.",
+      "tags": ["logs"],
+      "difficulty": 2
+    }
+  ]
+}

@@ -1,0 +1,294 @@
+{
+  "level": "junior",
+  "unit": "actions",
+  "lesson": "environments",
+  "test": 5,
+  "title": "Dominar",
+  "questions": [
+    {
+      "id": "actions.environments.p5.q01",
+      "type": "order_steps",
+      "prompt": "Ordena un despliegue a producción con aprobación.",
+      "steps": [
+        {
+          "id": "s1",
+          "text": "Fusionas a main"
+        },
+        {
+          "id": "s2",
+          "text": "Build y tests pasan"
+        },
+        {
+          "id": "s3",
+          "text": "El job deploy-prod espera aprobación"
+        },
+        {
+          "id": "s4",
+          "text": "Una persona revisora lo aprueba"
+        },
+        {
+          "id": "s5",
+          "text": "Se despliega y queda en Deployments"
+        }
+      ],
+      "answer": [
+        "s1",
+        "s2",
+        "s3",
+        "s4",
+        "s5"
+      ],
+      "explanation": "Todo es automático salvo una decisión: cuándo llega a producción.",
+      "tags": [
+        "aprobaciones",
+        "environments"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.environments.p5.q02",
+      "type": "order_steps",
+      "prompt": "Ordena cómo creas y usas un workflow reutilizable.",
+      "steps": [
+        {
+          "id": "s1",
+          "text": "Crear build.yml con on: workflow_call"
+        },
+        {
+          "id": "s2",
+          "text": "Declarar sus inputs"
+        },
+        {
+          "id": "s3",
+          "text": "En ci.yml, un job con uses: ./.github/workflows/build.yml"
+        },
+        {
+          "id": "s4",
+          "text": "Pasarle with y secrets: inherit"
+        }
+      ],
+      "answer": [
+        "s1",
+        "s2",
+        "s3",
+        "s4"
+      ],
+      "explanation": "Primero se define qué recibe y después se llama pasándoselo.",
+      "tags": [
+        "reutilizables"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.environments.p5.q03",
+      "type": "multiple_choice",
+      "prompt": "Dos merges seguidos lanzan dos despliegues a la vez. ¿Qué añades?",
+      "options": [
+        {
+          "id": "a",
+          "text": "concurrency con un grupo para el despliegue"
+        },
+        {
+          "id": "b",
+          "text": "needs",
+          "why": "needs ordena jobs dentro de una ejecución, no entre ejecuciones."
+        },
+        {
+          "id": "c",
+          "text": "Una matrix",
+          "why": "La matrix multiplica jobs."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Con un mismo group, las ejecuciones de despliegue se ponen en fila.",
+      "tags": [
+        "concurrency"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.environments.p5.q04",
+      "type": "fill_command",
+      "prompt": "Asocia el job al entorno de desarrollo.",
+      "template": "environment: {{b1}}",
+      "blanks": {
+        "b1": [
+          "dev"
+        ]
+      },
+      "explanation": "Dev suele desplegarse sin aprobación, en cada merge.",
+      "tags": [
+        "environments"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.environments.p5.q05",
+      "type": "find_error",
+      "prompt": "Producción debe desplegarse tras un push a main, pero solo se lanza en los PR. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "jobs:\n  deploy-prod:\n    needs: test\n    environment: production\n    if: github.event_name == 'pull_request'\n    runs-on: ubuntu-latest"
+      },
+      "answer": [
+        5
+      ],
+      "fix": "    if: github.ref == 'refs/heads/main'",
+      "explanation": "La condición limita el despliegue a los PR. Debe limitarlo a main.",
+      "tags": [
+        "if",
+        "environments"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.environments.p5.q06",
+      "type": "true_false",
+      "prompt": "Un job que espera la aprobación de un environment no consume minutos mientras espera.",
+      "answer": true,
+      "explanation": "El runner no se asigna hasta que alguien aprueba.",
+      "tags": [
+        "aprobaciones"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.environments.p5.q07",
+      "type": "match",
+      "prompt": "Empareja cada pieza con su papel en el flujo.",
+      "pairs": [
+        {
+          "left": "dev",
+          "right": "Despliegue automático"
+        },
+        {
+          "left": "production",
+          "right": "Despliegue con aprobación"
+        },
+        {
+          "left": "workflow_call",
+          "right": "Plantilla reutilizable"
+        },
+        {
+          "left": "concurrency",
+          "right": "Un despliegue cada vez"
+        }
+      ],
+      "explanation": "Con esto cierras la unidad: ya sabes montar un pipeline de principio a fin.",
+      "tags": [
+        "environments",
+        "reutilizables"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.environments.p5.q08",
+      "type": "true_false",
+      "prompt": "Un workflow reutilizable puede recibir inputs y secrets.",
+      "answer": true,
+      "explanation": "Inputs con with, y secrets uno a uno o todos con inherit.",
+      "tags": [
+        "reutilizables"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.environments.p5.q09",
+      "type": "multiple_choice",
+      "prompt": "¿Por qué guardar las credenciales de producción como secrets del environment?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Así solo las usan los jobs de producción, y tras la aprobación"
+        },
+        {
+          "id": "b",
+          "text": "Porque los del repo caducan",
+          "why": "No caducan."
+        },
+        {
+          "id": "c",
+          "text": "Porque es más rápido",
+          "why": "No cambia la velocidad."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Un job de un PR o de dev nunca verá esas credenciales.",
+      "tags": [
+        "environments",
+        "secrets"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.environments.p5.q10",
+      "type": "multiple_choice",
+      "prompt": "Cinco repos despliegan igual. ¿Qué haces?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Un workflow reutilizable en un repo compartido, fijado a una versión"
+        },
+        {
+          "id": "b",
+          "text": "Copiar el YAML en los cinco",
+          "why": "Tendrás que cambiarlo cinco veces."
+        },
+        {
+          "id": "c",
+          "text": "Una action de terceros cualquiera",
+          "why": "Lo que controlas tú es más seguro."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Una sola definición del despliegue, versionada y probada.",
+      "tags": [
+        "reutilizables"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.environments.p5.q11",
+      "type": "fill_command",
+      "prompt": "En producción no quieres cortar un despliegue a medias. ¿Qué valor das a cancel-in-progress?",
+      "template": "cancel-in-progress: {{b1}}",
+      "blanks": {
+        "b1": [
+          "false"
+        ]
+      },
+      "explanation": "Con false, el nuevo despliegue espera a que termine el que está en marcha.",
+      "tags": [
+        "concurrency"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.environments.p5.q12",
+      "type": "multiple_choice",
+      "prompt": "¿Qué ventaja tiene ver los despliegues en Deployments?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Saber qué versión hay en cada entorno y cuándo se desplegó"
+        },
+        {
+          "id": "b",
+          "text": "Que el despliegue sea más rápido",
+          "why": "No cambia la velocidad."
+        },
+        {
+          "id": "c",
+          "text": "Que no haga falta aprobar",
+          "why": "Las reglas siguen igual."
+        }
+      ],
+      "answer": "a",
+      "explanation": "Cuando algo falla en producción, lo primero es saber qué se desplegó y cuándo.",
+      "tags": [
+        "environments"
+      ],
+      "difficulty": 2
+    }
+  ]
+}

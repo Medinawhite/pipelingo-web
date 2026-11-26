@@ -1,0 +1,231 @@
+{
+  "level": "junior",
+  "unit": "actions",
+  "lesson": "triggers",
+  "test": 4,
+  "title": "Depurar",
+  "questions": [
+    {
+      "id": "actions.triggers.p4.q01",
+      "type": "find_error",
+      "prompt": "El workflow se lanza en todas las ramas, no solo en main. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "on:\n  push:\n    branch: [main]"
+      },
+      "answer": [
+        3
+      ],
+      "fix": "    branches: [main]",
+      "explanation": "El filtro se llama branches, en plural. Con otro nombre GitHub no lo aplica.",
+      "tags": [
+        "branches"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.triggers.p4.q02",
+      "type": "find_error",
+      "prompt": "El workflow no se lanza con los PR. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "on:\n  push:\n    tags: ['v*']\n  pull-request:\n    branches: [main]"
+      },
+      "answer": [
+        4
+      ],
+      "fix": "  pull_request:",
+      "explanation": "El evento lleva guion bajo: pull_request. Con guion medio no existe.",
+      "tags": [
+        "pull_request"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "actions.triggers.p4.q03",
+      "type": "find_error",
+      "prompt": "El despliegue debería lanzarse con el tag v1.0.0, pero nunca se lanza. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "on:\n  push:\n    branches: ['v*']"
+      },
+      "answer": [
+        3
+      ],
+      "fix": "    tags: ['v*']",
+      "explanation": "Los tags no son ramas. Para filtrar tags se usa tags.",
+      "tags": [
+        "tags",
+        "branches"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.triggers.p4.q04",
+      "type": "find_error",
+      "prompt": "Debería ejecutarse una vez al día a las 6:00 UTC, pero lo hace cada minuto de esa hora. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "on:\n  schedule:\n    - cron: '* 6 * * *'"
+      },
+      "answer": [
+        3
+      ],
+      "fix": "    - cron: '0 6 * * *'",
+      "explanation": "El primer campo es el minuto. Con * se lanza en cada minuto de las 6; con 0, solo a las 6:00.",
+      "tags": [
+        "cron"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.triggers.p4.q05",
+      "type": "find_error",
+      "prompt": "Quieres que corra a las 9:00 de Madrid en invierno (UTC+1), pero lo hace a las 10:00. ¿Qué línea cambiarías?",
+      "code": {
+        "lang": "yaml",
+        "content": "on:\n  schedule:\n    - cron: '0 9 * * *'"
+      },
+      "answer": [
+        3
+      ],
+      "fix": "    - cron: '0 8 * * *'",
+      "explanation": "cron va en UTC. Las 9:00 en Madrid en invierno son las 8:00 UTC.",
+      "tags": [
+        "cron",
+        "schedule"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.triggers.p4.q06",
+      "type": "find_error",
+      "prompt": "GitHub dice que el YAML no es válido. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "on:\n  push:\n  workflow_dispatch"
+      },
+      "answer": [
+        3
+      ],
+      "fix": "  workflow_dispatch:",
+      "explanation": "Cada evento es una clave y lleva dos puntos, aunque no tenga nada debajo.",
+      "tags": [
+        "yaml",
+        "workflow_dispatch"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.triggers.p4.q07",
+      "type": "find_error",
+      "prompt": "El CI no se lanza al cambiar app/src/Main.kt. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "on:\n  push:\n    paths: ['src/*']"
+      },
+      "answer": [
+        3
+      ],
+      "fix": "    paths: ['app/src/**']",
+      "explanation": "La ruta se cuenta desde la raíz del repo, y * no entra en subcarpetas. Usa app/src/**.",
+      "tags": [
+        "paths"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "actions.triggers.p4.q08",
+      "type": "find_error",
+      "prompt": "GitHub rechaza el horario. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "on:\n  schedule:\n    cron: '0 0 * * *'"
+      },
+      "answer": [
+        3
+      ],
+      "fix": "    - cron: '0 0 * * *'",
+      "explanation": "schedule es una lista: cada cron va con su guion, aunque solo haya uno.",
+      "tags": [
+        "schedule",
+        "yaml"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.triggers.p4.q09",
+      "type": "find_error",
+      "prompt": "El formulario de Run workflow no muestra el campo entorno. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "on:\n  workflow_dispatch:\n    input:\n      entorno:\n        type: choice\n        options: [dev, prod]"
+      },
+      "answer": [
+        3
+      ],
+      "fix": "    inputs:",
+      "explanation": "La clave es inputs, en plural. Debajo va cada campo del formulario.",
+      "tags": [
+        "workflow_dispatch",
+        "inputs"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.triggers.p4.q10",
+      "type": "find_error",
+      "prompt": "Quieres que los tests frenen un PR antes de fusionar, pero solo corren después. ¿Qué línea cambiarías?",
+      "code": {
+        "lang": "yaml",
+        "content": "on:\n  push:\n    branches: [main]"
+      },
+      "answer": [
+        2
+      ],
+      "fix": "  pull_request:",
+      "explanation": "push a main llega cuando el código ya está fusionado. pull_request lo comprueba antes.",
+      "tags": [
+        "pull_request",
+        "push"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.triggers.p4.q11",
+      "type": "find_error",
+      "prompt": "El workflow se lanza con todas las acciones del PR, no solo al abrirlo. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "on:\n  pull_request:\n    type: [opened]"
+      },
+      "answer": [
+        3
+      ],
+      "fix": "    types: [opened]",
+      "explanation": "El filtro se llama types, en plural. Con otro nombre se ignora y se usan los tipos por defecto.",
+      "tags": [
+        "types"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "actions.triggers.p4.q12",
+      "type": "find_error",
+      "prompt": "El workflow no se lanza nunca. ¿Qué línea está mal?",
+      "code": {
+        "lang": "yaml",
+        "content": "name: CI\ntrigger: push\njobs:"
+      },
+      "answer": [
+        2
+      ],
+      "fix": "on: push",
+      "explanation": "Los eventos se declaran en on. trigger no es una clave de GitHub Actions.",
+      "tags": [
+        "on"
+      ],
+      "difficulty": 1
+    }
+  ]
+}
